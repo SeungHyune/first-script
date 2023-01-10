@@ -20,6 +20,7 @@
         "Tim Cook",
         "Lloyd Blankfein",
         ];
+        let namess = ["Steven", "Paul", "Jobs"]
 
         // 모든 이름을 대문자로 바꾸어서 출력하시오.
         // 성을제외한 이름만 출력하시오. (예-[“Steven”,“Bill”,“Mark”,“Elon”…])
@@ -38,7 +39,7 @@
 
         // console.log(mapResult1)
         // console.log(mapResult2)
-        console.log(mapResult3)
+        //console.log(mapResult3)
 
 
         // 이름에 a를 포함한 사람들을 출력하시오.
@@ -47,21 +48,24 @@
             return a.indexOf("a") > -1;
         })
 
-        let filterResult2 = names.filter((a)=>{
-            return a
+        let filterResult2 = names.filter((a) =>{
+           let name = a.split("");
+           return name.some((letter, index)=> letter == name[index + 1])
         })
 
         
         // console.log(filterResult1);
         // console.log(filterResult2);
 
-        let test = "Steven Paul Jobs";
-        let test2 = test.split(" ");
-        let result = test2.forEach((a, i)=>{
-            return console.log(a.slice(0, 1))
-            console.log(a.concat(a))
+        // let someResult1 = names.some((data, index)=>{
+        //     return data.length >= 20;
+        // })
+        // console.log(someResult1);
+
+        let someResult2 = names.some((data, index)=>{
+            return data.split(" ").shift().indexOf("p") > -1;
         })
-        console.log(result)
+        console.log(someResult2)
     </script>
 </body>
 </html>
