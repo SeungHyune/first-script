@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> 
+    <title>2022-01-22</title>
+</head>
+<body>
+    <button id="btn">테스트</button>
+    <script>
+        //Promise 어려워서 싫으면 async/await을사용합시다
+
+        async function plus(){
+            return 1 + 1;
+        }
+
+        plus().then(function(결과){
+            console.log(결과);
+        })
+
+        async function 더하기(){
+            // await 프로미스 구문
+            let promise = new Promise(function(resolved, rejected){
+                document.querySelector('#btn').addEventListener('click', function(){
+                    resolved('성공');
+                })
+            })
+
+            try {
+                let result = await promise
+                console.log(result);
+             } catch {
+                console.log('실패')
+            }
+
+
+            // 프로미스 구문
+
+            // let promise = new Promise(function(resolved, rejected){
+            //     let btn = document.querySelector('#btn');
+            //     btn.addEventListener('click', function(){
+            //         resolved('성공');
+            //     })
+            // })
+
+            // promise.then(function(결과){
+            //     console.log(결과)
+            // }).catch(function(){
+            //     console.log('실패')
+            // })
+            
+            
+        }
+
+        더하기();
+    </script>
+
+    <script>
+        /*복습*/
+        // 틀린그림 찾기능력이 향상되는 Destructuring 문법
+        var array = [2,3,4];
+        let [a,b,c] = array;
+        console.log(a,b,c);
+
+        let obj2 = {
+            name : 'kim',
+            age : 30
+        }
+
+        let {name : obja = "5", age : objb, job : objj = 'police'} = obj2;
+        console.log(obja, objb, objj);
+
+        let name = "kim";
+        let age = 30;
+
+        let object = { name , age }
+        console.log(object)
+
+        function 함수([abc, bbc]){
+            console.log(abc);
+            console.log(bbc);
+        }
+
+        var obj = { name : 'kim', age : 20 }
+        var aray = ['kim', 30];
+        함수(aray);
+
+        var [number, address] = [30, 'seoul'];
+        var {address : aa, number = 20} = {address, number};
+
+        let 신체정보 = {
+            body: {
+                height: 190,
+                weight: 70
+            },
+            size: ["상의 Large", "바지 30인치"],
+        };
+
+        let {
+            body: {
+                height,
+                weight
+            },
+            size : [상의, 바지],
+        } = 신체정보
+
+        console.log(height, weight, 상의, 바지)
+    </script>
+</body>
+</html>
