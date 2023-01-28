@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <title>Promise 연습</title>
+</head>
+<body>
+    <img id="test" src="https://codingapple1.github.io/kona.jpg">
+
+    <br><br>
+    <button class="btn">Ajax 요청 버튼</button>
+    
+    <script>
+        let PromiseF = new Promise(function(resolved, rejected){
+            setTimeout(function(){
+                resolved();
+            }, 1000)
+        });
+
+
+        PromiseF.then(function(){
+            console.log('실습 성공')
+        }).catch(function(){
+            console.log('실습 실패')
+        })
+
+        let imgLoad = new Promise(function(resolved, rejected){
+            $('#test').on('load', function(){
+                resolved();
+            })
+
+            $('#test').on('error', function(){
+                rejected();
+            })
+        });
+
+        imgLoad.then(()=>{
+            console.log('1번 문제 성공')
+        }).catch(()=>{
+            console.log('1번 문제 실패')
+        })
+
+        let dataPromise = new Promise(function(resolved, rejected){
+            $('.btn').on('click', function(){
+                $.ajax('https://codingapple1.github.io/hello.txt').done((data)=>{
+                    resolved(data);
+                }).fail(function(){
+                    rejected('실패다옹');
+                })
+            })
+            
+        })
+
+        dataPromise.then(function(data){
+            console.log(data);
+            let dataPromise2 = new Promise((resolved, rejected)=>{
+                $.ajax('https://codingapple1.github.io/hello2.txt').done((a)=>{
+                    resolved(a);
+                })
+            })
+
+            return dataPromise2
+        }).then((a)=>{
+            console.log(a)
+        }).catch(function(data){
+            console.log(data)
+        })
+
+    </script>
+</body>
+</html>
