@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>closure</title>
+</head>
+<body>
+    <button class="toggle">toggle</button>
+    <div class="box" style="width: 100px; height: 100px; background: red;"></div>
+
+    <div style="margin-top:50px;">
+        <button id="inclease">+</button>
+        <p id="count">0</p>
+    </div>
+
+    <script>
+        var box = document.querySelector('.box');
+        var toggleBtn = document.querySelector('.toggle');
+
+        var toggle = (function () {
+        var isShow = false;
+
+        // ① 클로저를 반환
+        return function(){
+            console.log(isShow)
+            box.style.display = isShow ? 'block' : 'none';
+            // ③ 상태 변경
+            isShow = !isShow;
+        }
+        })()
+
+        // ② 이벤트 프로퍼티에 클로저를 할당
+        toggleBtn.onclick = toggle;
+
+        function outerFunc(){
+            let x = 10;
+            let innerFunc = function(){
+                console.log(x);
+            }
+            innerFunc();
+        }
+
+        outerFunc();
+
+        let inclease = document.getElementById('inclease');
+        let count = document.getElementById('count');
+
+        let counter = 0;
+
+        inclease.addEventListener('click', function(){
+            ++counter;
+            count.innerHTML = counter;
+        })
+        console.log(counter)
+
+
+        // Generator
+
+        // iterable
+        // - Symbol.iterator 메서드가 있다.
+        // - Symbol.iterator 는 iterator 를 반환해야 한다.
+
+        // iterator
+        // - next 메서드를 가진다.
+        // - next 메서드는 value와 done 속성을 가진 객체를 반환한다.
+        // - 작업이 끝나면 done은 true가 된다.
+
+        function* fn(){
+            console.log(1);
+            yield 1;
+            console.log(2);
+            yield 2;
+            console.log(3);
+            console.log(4);
+            yield 3;
+            return "finish";
+        }
+
+        const a = fn();
+
+
+
+        // 1. 변수 x가 10보다 크고 20보다 작을 때 변수 X를 출력하는 조건식을 완성하라
+        let x = 11;
+
+        if(x > 10 && x < 20){
+            console.log('문제1', x)
+        }
+
+        // 2. for문을 사용하여 0부터 10미만의 정수 중에서 짝수만을 작은 수부터 출력하시오.
+        for(let i=1 ; i < 10 ; i++){
+            if(i % 2 == 0){
+                console.log(i)
+            }
+        }
+
+        // 3. for문을 사용하여 0부터 10미만의 정수 중에서 짝수만을 작은 수부터 문자열로 출력하시오.
+        let str = ""
+        for(let i=1;i<10;i++){
+            if(i % 2 === 0){
+                str = str + ' ' + i
+            }
+        }
+        console.log('문제3',str)
+
+        // 4. for문을 사용하여 0부터 10미만의 정수 중에서 홀수만을 큰수부터 출력하시오.
+        for(let i=9;i>=0;i--){
+            if(i % 2 === 1){
+                console.log('문제4', i)
+            }
+        }
+
+        // 5. while문을 사용하여 0 부터 10 미만의 정수 중에서 짝수만을 작은 수부터 출력하시오.
+        let i = 1;
+        while(i < 10){
+            if(i % 2 === 0){
+                console.log('문제5', i)
+            }
+            i++
+        }
+
+        // 6. while문을 사용하여 0 부터 10 미만의 정수 중에서 홀수만을 큰수부터 출력하시오.
+        let i2 = 9;
+        while(i2 > 0){
+            if(i2 % 2 === 1){
+                console.log('문제6', i2)
+            }
+            i2--
+        }
+
+        // 7. for 문을 사용하여 0부터 10미만의 정수의 합을 출력하시오.
+        let add = 0;
+        for(let i=0 ; i<10 ; i++){
+            add+=i
+        }
+        console.log('문제7', add)
+
+        // 8. 1부터 20 미만의 정수 중에서 2 또는 3의 배수가 아닌 수의 총합을 구하시오.
+        let add2 = 0;
+        for(let i=1; i<20; i++){
+
+            //if문처리
+            // if(i % 2 === 0 || i % 3 === 0){
+            //     console.log(i)
+            // } else {
+            //     add2+=i
+            // }
+
+            //삼항연산자
+            i % 2 === 0 || i % 3 ===0 ? console.log('2또는 3의 배수', i) : add2+=i  
+        }
+        console.log('문제8', add2)
+
+        // 9. 1부터 20 미만의 정수 중에서 2 또는 3의 배수인 수의 총합을 구하시오.
+        let add3 = 0;
+        for(let i=1;i<20;i++){
+            i % 2 === 0 || i % 3 === 0 ? add3+=i : console.log('2또는 3배수가 아닌 값', i)
+        }
+        console.log(add3);
+
+        // 10. 두 개의 주사위를 던졌을 때, 눈의 합이 6이 되는 모든 경우의 수를 출력하시오.
+        for(let i=1;i<=6;i++){
+            for(let x=1;x<=6;x++){
+                if(i + x === 6){
+                    console.log('10번', i, x)
+                }
+            }
+        }
+    </script>
+</body>
+</html>
