@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>쪽지 보내기 - 회원 검색해서(추가 및 삭제) 기능</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <style>
+        .tr{display:flex;}
+        .tr .th{width:20%;background-color:#fafafa;}
+        .tr .td{width:80%;}
+
+        .namebox{display:none;}
+    </style>
+</head>
+<body>
+    <form>
+        <div class="tr">
+            <div class="th">받는 사람</div>
+            <div class="td">
+                <input name="search" id="search" class="search" type="text" />
+                <button class="search-btn">찾기</button>
+                <p class="namebox"></p>
+            </div>
+        </div>
+        
+        <table class="search-table" style="display:none;">
+            <thead>
+                <tr>
+                    <th>이름</th>
+                    <th>아이디</th>
+                    <th>의료기관명 <button class="close">닫기</button></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <div class="tr">
+            <div class="th">제목</div>
+            <div class="td">
+                <input type="text" name="title" id="title" />
+            </div>
+        </div>
+        <div class="tr">
+            <div class="th">내용</div>
+            <div class="td">
+                <input type="text" name="content" id="content" />
+            </div>
+        </div>
+
+        <button type="submit" id="submit">보내기</button>
+    </form>
+
+    <script>
+        let member = [
+            { name : '김메드', id : 'medtest1', affiliation: '메드소프트'},
+            { name : '홍길동', id : 'medtest2', affiliation: '메드소프트 의원'},
+            { name : '이메드', id : 'medtest3', affiliation: '메드소프트'},
+            { name : '박메드', id : 'medtest11', affiliation: 'test'},
+            { name : '최메드', id : 'medtest12', affiliation: 'test2'},
+            { name : '정메드', id : 'medtest14', affiliation: 'test'},
+            { name : '메드소프트', id : 'medtest15', affiliation: '메드'}
+        ]
+        let title = $('#title').val();
+        let content = $('#content').val();
+
+        $('.close').on('click', function(e){
+            e.preventDefault();
+            $('.search-table').css('display', 'none')
+        })
+
+       
+        let searchTable = [];
+        $('.search-btn').on('click', function(e){
+            e.preventDefault();
+            let searchBox = $('.search').val();
+
+            if(searchBox == ""){
+                alert('빈칸은 안됌')
+            } else{
+                searchTable = member.filter((a, b)=>{
+                    if(a.id.includes(searchBox) && searchBox != ""){
+                        return a
+                    };
+                })
+                
+                search();
+            }
+        })
+
+        function search(){
+            $('.search-table').css('display', 'table');
+            $('.search-table tbody').html('');
+            searchTable.forEach((a, i)=>{
+                let serachList = `<tr><td>${a.name}</td><td>${a.id}</td><td>${a.affiliation}</td><td><button class="search-add" data-seq="${i}">추가</button></td></tr>`;
+                $('.search-table tbody').append(serachList);
+            })
+        }
+
+        let nameBox = []
+        $(document).on('click', '.search-add', function(e){
+            e.preventDefault();
+            let addNumber = Number($(this).data('seq'));
+            let addName = Object.assign(searchTable[addNumber], { index : addNumber});
+            let result = nameBox.find((a, i)=>{
+                    return nameBox[i].id == searchTable[addNumber].id;
+                })
+             
+            if(nameBox.length > 0){
+                if(result === undefined){
+                    nameBox.push(addName);
+                } else if(result != undefined){
+                    alert('중복 데이터 임')
+                }
+            }else{
+                $('.namebox').css('display', 'block')
+                nameBox.push(addName);
+            }
+
+            $('.namebox').html('');
+            nameBox.forEach((a)=>{
+                $('.namebox').append(`<span>${a.name} <button id="${a.index}" class="inquiry-del">삭제</button></span> `);
+            })
+            console.log(nameBox);
+        })
+
+        $(document).on('click', '.inquiry-del', function(e){
+            e.preventDefault();
+            let click = Number(e.target.id);
+            let resultIndex = nameBox.findIndex((a)=>{
+                return click === a.index;
+            })
+
+            nameBox.splice(resultIndex, 1);
+            $('.namebox').html('');
+            nameBox.forEach((a)=>{
+                $('.namebox').append(`<span>${a.name} <button id="${a.index}" class="inquiry-del">삭제</button></span> `);
+            })
+        });
+
+        let letterData = []
+        $('#submit').on('click', function(e){
+            letterData = [];
+            e.preventDefault();
+            let title = { title : $('#title').val()};
+            let content = {content : $('#content').val()}
+
+            if($('#title').val() === ''){
+                alert('제목을 입력해주세요.')
+            } else if($('#content').val() === ''){
+                alert('내용을 입력해주세요.')
+            } else{
+                nameBox.forEach((a)=>{
+                    letterData.push(Object.assign({}, a, title, content))
+                })
+                console.log(letterData);
+                $('#title').val('');
+                $('#content').val('');
+            }
+        })
+    </script>
+</body>
+</html>
