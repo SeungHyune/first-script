@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Document</title>
+ </head>
+ <style>
+	 .box1{
+		padding:10px; 
+		border:5px solid red; 
+		width:250px; 
+		height:300px; 
+		background:skyblue; 
+		overflow:auto; 
+		color:#fff;
+	  }
+	p{
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		word-wrap: break-word;
+		word-break:break-all;
+	}
+	.btn{
+		display:none;
+	}
+ </style>
+ <body>
+	<div class="box1">
+	  <p>console.log(box.offsetWidth, box.offsetHeight);cco</p>
+	  <button class="btn">더보기</button>
+	</div>
+
+	<script>
+	  const box = document.querySelector('p');
+	  const btn = document.querySelector('.btn');
+	  let click = 0;
+
+	  console.log(box.offsetWidth, box.offsetHeight);
+	  if(box.offsetWidth > 248 && box.offsetHeight == 63){
+		btn.style.display = 'block';
+	  }
+
+	  btn.addEventListener('click', function(){
+		if(click == 0){
+			box.addClass = 'on'
+		}
+	  })
+	  // 280 330 출력
+	</script>
+ </body>
+</html>
