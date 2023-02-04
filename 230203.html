@@ -1,58 +1,67 @@
-<!doctype html>
-<html lang="en">
- <head>
-  <meta charset="UTF-8">
-  <meta name="Generator" content="EditPlus®">
-  <meta name="Author" content="">
-  <meta name="Keywords" content="">
-  <meta name="Description" content="">
-  <title>Document</title>
- </head>
- <style>
-	 .box1{
-		padding:10px; 
-		border:5px solid red; 
-		width:250px; 
-		height:300px; 
-		background:skyblue; 
-		overflow:auto; 
-		color:#fff;
-	  }
-	p{
-		overflow: hidden;
-		text-overflow: ellipsis;
-		display: -webkit-box;
-		-webkit-line-clamp: 3;
-		-webkit-box-orient: vertical;
-		word-wrap: break-word;
-		word-break:break-all;
-	}
-	.btn{
-		display:none;
-	}
- </style>
- <body>
-	<div class="box1">
-	  <p>console.log(box.offsetWidth, box.offsetHeight);cco</p>
-	  <button class="btn">더보기</button>
-	</div>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>더보기 기능 연습</title>
+    <style>
+        .box{
+           padding:10px; 
+           border:2px solid #000; 
+           width:900px; 
+           height:300px; 
+           background:#fafafa; 
+           overflow:auto; 
+           color:#000;
+         }
+         .box p{
+           overflow: hidden;
+           text-overflow: ellipsis;
+           display: -webkit-box;
+           -webkit-line-clamp: 3;
+           -webkit-box-orient: vertical;
+           word-wrap: break-word;
+           word-break:break-all;
+       }
+       .box p.on{
+        overflow:visible;
+        -webkit-line-clamp:inherit;
+       }
+       .btn{
+           display:none;
+       }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <p>이벤트 차단 이벤트 버블링은 target요소에서 상위로 올라가 html 태그와 document, window까지 전달된다. 이를 막기 위해서는 단순히 event.stopPropagation() 메소드를 사용해 원하는 곳에서 이벤트 전파를 차단시키면 된다.이벤트 차단 이벤트 버블링은 target요소에서 상위로 올라가 html 태그와 document, window까지 전달된다. 이를 막기 위해서는 단순히 event.stopPropagation() 메소드를 사용해 원하는 곳에서 이벤트 전파를 차단시키면 된다.이벤트 차단 이벤트 버블링은 target요소에서 상위로 올라가 html 태그와 document, window까지 전달된다. 이를 막기 위해서는 단순히 event.stopPropagation() 메소드를 사용해 원하는 곳에서 이벤트 전파를 차단시키면 된다.이벤트 차단 이벤트 버블링은 target요소에서 상위로 올라가 html 태그와 document, window까지 전달된다. 이를 막기 위해서는 단순히 event.stopPropagation() 메소드를 사용해 원하는 곳에서 이벤트 전파를 차단시키면 된다.이벤트 차단 이벤트 버블링은 target요소에서 상위로 올라가 html 태그와 document, window까지 전달된다. 이를 막기 위해서는 단순히 event.stopPropagation() 메소드를 사용해 원하는 곳에서 이벤트 전파를 차단시키면 된다.</p>
+        <button class="btn" id="btn">더보기</button>
+    </div>
+    
 
-	<script>
-	  const box = document.querySelector('p');
-	  const btn = document.querySelector('.btn');
-	  let click = 0;
-
-	  console.log(box.offsetWidth, box.offsetHeight);
-	  if(box.offsetWidth > 248 && box.offsetHeight == 63){
-		btn.style.display = 'block';
-	  }
-
-	  btn.addEventListener('click', function(){
-		if(click == 0){
-			box.addClass = 'on'
-		}
-	  })
-	  // 280 330 출력
-	</script>
- </body>
+    <script>
+        const box = document.querySelector('p');
+        const btn = document.getElementById('btn');
+        let click = 0;
+  
+        console.log(box.offsetWidth, box.offsetHeight);
+        if(box.offsetWidth > 248 && box.offsetHeight == 63){
+          btn.style.display = 'block';
+        }
+  
+        btn.addEventListener('click', function(){
+          if(click == 0){
+              box.classList.add('on');
+              btn.innerText = '닫기';
+              click++;
+          }else if(click == 1){
+            box.classList.remove('on');
+            btn.innerText = '더보기';
+            click = 0
+          }
+        })
+        // 280 330 출력
+      </script>
+</body>
 </html>
