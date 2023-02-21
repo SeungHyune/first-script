@@ -22,7 +22,6 @@
                 minNumber--
             }
         }
-
         solution(9, 2, 1, 3)
 
 
@@ -35,6 +34,33 @@
             return result
             
         }
+        solution2([3,6,9,12])
+
+
+        function solution3(spell, dic) {
+            let str
+            dic.filter((data)=>{
+                let num = 0;
+                
+                for(let i=0; i<spell.length; i++){
+                    if(data.indexOf(spell[i]) > -1){
+                        num = num + 1;
+                    }
+                }
+
+                if(num === spell.length){
+                    str = true
+                }
+            })
+
+            if(str){
+                return 1
+            } else {
+                return 2
+            }
+        }
+
+        solution3(["z", "d", "x"], ["def", "dww", "dzx", "loveaw"])
     </script>
 </body>
 </html>
