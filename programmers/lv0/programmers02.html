@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv0</title>
+</head>
+<body>
+    <script>
+        // 중앙값 구하기
+        // 중앙값은 어떤 주어진 값들을 크기의 순서대로 정렬했을 때 가장 중앙에 위치하는 값을 의미합니다. 예를 들어 1, 2, 7, 10, 11의 중앙값은 7입니다. 정수 배열 array가 매개변수로 주어질 때, 중앙값을 return 하도록 solution 함수를 완성해보세요.
+        function solution(array) {
+            array.sort((a, b)=>{
+                return a - b
+            })
+            let center = Math.floor(array.length / 2)
+            
+            //console.log(array[center])
+            return array[center]
+        }
+        solution([1, 2, 7, 10, 11])
+
+        // 최빈값 구하기
+        // 최빈값은 주어진 값 중에서 가장 자주 나오는 값을 의미합니다. 정수 배열 array가 매개변수로 주어질 때, 최빈값을 return 하도록 solution 함수를 완성해보세요. 최빈값이 여러 개면 -1을 return 합니다.
+        function solution2(array) {
+            let maxNum = Math.max(...array)
+            let arr = []
+            for(let i=0; i<=maxNum;i++){
+                arr.push(0);
+            }
+            console.log(arr)
+
+            for(let i=0; i<=maxNum; i++){
+                for(let a=0;a<array.length;a++){
+                    if(i === array[a]){
+                        arr[i] += 1;
+                    }
+                }
+                console.log('중단')
+            }
+
+            let maxNum2 = Math.max(...arr)
+            let result = arr.filter((a)=>{
+                return a === maxNum2
+            })
+            
+            if(result.length > 1){
+                return console.log(-1)
+            } else {
+                let findResult = arr.findIndex((a)=>{
+                    return maxNum2 === a
+                })
+                console.log(findResult)
+            }
+        }
+        solution2([1, 2, 3, 3, 3, 4, 4, 4, 4])
+
+        // 짝수는 싫어요
+        // 정수 n이 매개변수로 주어질 때, n 이하의 홀수가 오름차순으로 담긴 배열을 return하도록 solution 함수를 완성해주세요.
+        function solution3(n) {
+            let answer = [];
+            for(let i=0;i<=n;i++){
+                if(i % 2 === 1){
+                    answer.push(i)
+                }
+            }
+            console.log(answer)
+            return answer;
+        }
+        solution3(90)
+
+
+        // 피자 나눠 먹기 (1)
+        // 머쓱이네 피자가게는 피자를 일곱 조각으로 잘라 줍니다. 피자를 나눠먹을 사람의 수 n이 주어질 때, 모든 사람이 피자를 한 조각 이상 먹기 위해 필요한 피자의 수를 return 하는 solution 함수를 완성해보세요.
+        function solution4(n) {
+            let pizza = 7;
+            let pizzaNum = Math.ceil(n / pizza)
+            console.log(pizzaNum)
+            return pizzaNum
+        }
+        solution4(10)
+
+
+        // 피자 나눠 먹기 (2)
+        // 머쓱이네 피자가게는 피자를 여섯 조각으로 잘라 줍니다. 피자를 나눠먹을 사람의 수 n이 매개변수로 주어질 때, n명이 주문한 피자를 남기지 않고 모두 같은 수의 피자 조각을 먹어야 한다면 최소 몇 판을 시켜야 하는지를 return 하도록 solution 함수를 완성해보세요.
+        function solution5(n) {
+            let num = 1;
+            while(true){
+                if(6*num % n === 0){
+                    console.log(num)
+                    return num
+                }
+                num++
+            }
+        }
+        solution5(10)
+
+        // 피자 나눠 먹기 (3)
+        // 머쓱이네 피자가게는 피자를 두 조각에서 열 조각까지 원하는 조각 수로 잘라줍니다. 피자 조각 수 slice와 피자를 먹는 사람의 수 n이 매개변수로 주어질 때, n명의 사람이 최소 한 조각 이상 피자를 먹으려면 최소 몇 판의 피자를 시켜야 하는지를 return 하도록 solution 함수를 완성해보세요.
+        function solution6(slice, n) {
+            let pizza = 1;
+            while(true){
+                if(slice*pizza / n >= 1){
+                    console.log(pizza)
+                    return pizza
+                }
+                pizza++
+            }
+        }
+        solution6(6, 18)
+
+        // 배열의 평균값
+        // 정수 배열 numbers가 매개변수로 주어집니다. numbers의 원소의 평균값을 return하도록 solution 함수를 완성해주세요.
+        function solution7(numbers) {
+            let num = 0;
+            for(let i=0; i<numbers.length; i++){
+                num = num + numbers[i]
+            }
+            
+            let average = num / numbers.length
+            console.log(average)
+            return average
+        }
+
+        solution7([89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99])
+    </script>
+</body>
+</html>
