@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv0</title>
+</head>
+<body>
+    <script>
+        // 옷가게 할인 받기
+        // 머쓱이네 옷가게는 10만 원 이상 사면 5%, 30만 원 이상 사면 10%, 50만 원 이상 사면 20%를 할인해줍니다. 구매한 옷의 가격 price가 주어질 때, 지불해야 할 금액을 return 하도록 solution 함수를 완성해보세요.
+        function solution(price) {
+            if(price >= 100000 && price < 300000){
+                return Math.floor(price * 0.95)
+            } else if(price >= 300000 && price < 500000){
+                return Math.floor(price * 0.9)
+            } else if(price >= 500000){
+                return Math.floor(price * 0.8)
+            }
+            return price
+        }
+        solution(285110)
+
+
+        // 아이스 아메리카노
+        // 머쓱이는 추운 날에도 아이스 아메리카노만 마십니다. 아이스 아메리카노는 한잔에 5,500원입니다. 머쓱이가 가지고 있는 돈 money가 매개변수로 주어질 때, 머쓱이가 최대로 마실 수 있는 아메리카노의 잔 수와 남는 돈을 순서대로 담은 배열을 return 하도록 solution 함수를 완성해보세요.
+        function solution2(money) {
+            let coffee = 0
+            let resultMoney = money
+
+            while(true){
+                if(resultMoney / 5500 < 1){
+                    return [coffee, resultMoney]
+                }
+                coffee++
+                resultMoney = resultMoney - 5500 
+            }
+        }
+       solution2(15000)
+
+       // 배열 뒤집기
+       // 정수가 들어 있는 배열 num_list가 매개변수로 주어집니다. num_list의 원소의 순서를 거꾸로 뒤집은 배열을 return하도록 solution 함수를 완성해주세요.
+       function solution3(num_list) {
+            let newNumList = []
+            for(let i=num_list.length - 1;i>=0;i--){
+                newNumList.push(num_list[i])
+            }
+            return newNumList
+        }
+        solution3([1, 2, 3, 4, 5])
+
+        // 문자열 뒤집기
+        // 문자열 my_string이 매개변수로 주어집니다. my_string을 거꾸로 뒤집은 문자열을 return하도록 solution 함수를 완성해주세요.
+        function solution4(my_string) {
+            //1
+            //[...my_string].reverse().join('')
+            let newStringList = []
+            my_string.split('').reverse().forEach((str)=>{
+                newStringList.push(str)
+            })
+            return newStringList.join('')
+        }
+        solution4("jaron")
+
+        // 직각삼각형 출력하기
+        // "*"의 높이와 너비를 1이라고 했을 때, "*"을 이용해 직각 이등변 삼각형을 그리려고합니다. 정수 n 이 주어지면 높이와 너비가 n 인 직각 이등변 삼각형을 출력하도록 코드를 작성해보세요.
+
+        function solution4(triangle) {
+            let star = "*"
+
+        }
+        solution4(3)
+
+        // 짝수 홀수 개수
+        // 정수가 담긴 리스트 num_list가 주어질 때, num_list의 원소 중 짝수와 홀수의 개수를 담은 배열을 return 하도록 solution 함수를 완성해보세요.
+        function solution5(num_list) {
+            let even = [] // 짝수
+            let odd = [] // 홀수
+            num_list.forEach((num)=>{
+                if(num % 2 === 0){
+                    even.push(num)
+                } else {
+                    odd.push(num)
+                }
+            })
+            return [even.length, odd.length]
+        }
+        solution5([1, 2, 3, 4, 5])
+
+        // 문자 반복 출력하기
+        // 문자열 my_string과 정수 n이 매개변수로 주어질 때, my_string에 들어있는 각 문자를 n만큼 반복한 문자열을 return 하도록 solution 함수를 완성해보세요.
+        function solution6(my_string, n) {
+            let newStr = ''
+            for(let i=0;i<my_string.length;i++){
+                for(let a=0;a<n;a++){
+                    newStr = newStr + my_string[i]
+                }
+            }
+            console.log(newStr)
+
+
+            // 2
+            // let newStr = [...my_string]
+            // let newString = ""
+            // console.log(newStr)
+            // newStr.forEach((str)=>{
+            //     for(let i=0;i<n;i++){
+            //         newString = newString + str
+            //     }
+            // })
+            // console.log(newString)
+        }
+        solution6("ara", 3)
+
+
+    </script>
+</body>
+</html>
