@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv0</title>
+</head>
+<body>
+    <script>
+        // 특정 문자 제거하기
+        // 문자열 my_string과 문자 letter이 매개변수로 주어집니다. my_string에서 letter를 제거한 문자열을 return하도록 solution 함수를 완성해주세요.
+        function solution(my_string, letter) {
+            let str = [...my_string]
+            
+            let strLength = 0
+            for(let i=0;i<str.length;i++){
+                if(str[i] === letter){
+                    strLength += 1
+                }
+            }
+
+            let newStr = str.join("")
+            console.log(newStr)
+
+            for(let i=0;i<strLength;i++){
+                newStr = newStr.replace(letter, "")
+            }
+
+            console.log(newStr)
+            return newStr
+            
+        }
+        solution("BCBdbe", "B")
+
+        // 양꼬치
+        // 머쓱이네 양꼬치 가게는 10인분을 먹으면 음료수 하나를 서비스로 줍니다. 양꼬치는 1인분에 12,000원, 음료수는 2,000원입니다. 정수 n과 k가 매개변수로 주어졌을 때, 양꼬치 n인분과 음료수 k개를 먹었다면 총얼마를 지불해야 하는지 return 하도록 solution 함수를 완성해보세요.
+
+        solution2 = function(n, k){
+            let sheep = 12000 * n
+            let drink = 2000 * k
+            let service = Math.floor(sheep / 120000) * 2000
+            let add = sheep + drink - service
+            console.log(add)
+            return add
+
+        }
+        solution2(64, 6)
+
+        // 짝수의 합
+        function solution3(n){
+            let sum = 0
+            for(let i=n;i>=0;i--){
+                console.log(i)
+                if(i % 2 === 0){
+                    sum = sum + i
+                }
+            }
+            console.log(sum)
+            return sum
+        }
+        solution3(10)
+
+        // 점의 위치 구하기
+        // 사분면은 한 평면을 x축과 y축을 기준으로 나눈 네 부분입니다. 사분면은 아래와 같이 1부터 4까지 번호를매깁니다.
+        function solution4(dot){
+            
+            let [x, y] = dot
+            if(x > 0 && y > 0){
+                return 1
+            } else if(x > 0 && y < 0){
+                return 4
+            } else if(x < 0 && y < 0){
+                return 3
+            } else if(x < 0 && y > 0){
+                return 2
+            }
+        }
+        solution4([2, -1])
+
+        // 배열 자르기
+        // 정수 배열 numbers와 정수 num1, num2가 매개변수로 주어질 때, numbers의 num1번 째 인덱스부터 num2번째 인덱스까지 자른 정수 배열을 return 하도록 solution 함수를 완성해보세요.
+        function solution5(numbers, num1, num2){
+            let location = (num2 - num1) + 1
+            console.log(numbers.splice(num1, location))
+            
+
+            //console.log(numbers.slice(num1, num2 + 1))
+        }
+        solution5([1, 2, 3], 0, 2)
+    </script>
+</body>
+</html>
