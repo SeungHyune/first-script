@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv0</title>
+</head>
+<body>
+    <script>
+        // 외계행성의 나이
+        // 우주여행을 하던 머쓱이는 엔진 고장으로 PROGRAMMERS-962 행성에 불시착하게 됐습니다. 입국심사에서 나이를 말해야 하는데, PROGRAMMERS-962 행성에서는 나이를 알파벳으로 말하고 있습니다. a는 0, b는 1, c는 2, ..., j는 9입니다. 예를 들어 23살은 cd, 51살은 fb로 표현합니다. 나이 age가 매개변수로 주어질 때 PROGRAMMER-962식 나이를 return하도록 solution 함수를 완성해주세요.
+        function solution(age) {
+            let strAge = ['a','b','c','d','e','f','g','h','i','j']
+            let koreaAge = String(age)
+            let newAge = ''
+
+            for(let i=0; i<koreaAge.length; i++){
+                newAge = newAge + strAge[koreaAge[i]]
+            }
+
+            console.log(newAge)
+        }
+        solution(100)
+
+        // 진료 순서 정하기
+        // 외과의사 머쓱이는 응급실에 온 환자의 응급도를 기준으로 진료 순서를 정하려고 합니다. 정수 배열 emergency가 매개변수로 주어질 때 응급도가 높은 순서대로 진료 순서를 정한 배열을 return하도록 solution 함수를 완성해주세요.
+        function solution2(emergency) {
+
+
+        }
+        solution2([3, 76, 24])
+
+        // 순서쌍의 개수
+        // 순서쌍이란 두 개의 숫자를 순서를 정하여 짝지어 나타낸 쌍으로 (a, b)로 표기합니다. 자연수 n이 매개변수로 주어질 때 두 숫자의 곱이 n인 자연수 순서쌍의 개수를 return하도록 solution 함수를 완성해주세요.
+        function solution3(n) {
+            let numArr = []
+
+            for(let i=1;i<=n;i++){
+                for(let a=n;a>=1;a--){
+                    if(i * a === n){
+                        numArr.push([i, a])
+                    }
+                }
+            }
+
+            console.log(numArr)
+            return numArr.length
+        }
+        solution3(20)
+
+
+        // 개미 군단
+        // 개미 군단이 사냥을 나가려고 합니다. 개미군단은 사냥감의 체력에 딱 맞는 병력을 데리고 나가려고 합니다. 장군개미는 5의 공격력을, 병정개미는 3의 공격력을 일개미는 1의 공격력을 가지고 있습니다. 예를 들어 체력 23의 여치를 사냥하려고 할 때, 일개미 23마리를 데리고 가도 되지만, 장군개미 네 마리와 병정개미 한 마리를 데리고 간다면 더 적은 병력으로 사냥할 수 있습니다. 사냥감의 체력 hp가 매개변수로 주어질 때, 사냥감의 체력에 딱 맞게 최소한의 병력을 구성하려면 몇 마리의 개미가 필요한지를 return하도록 solution 함수를 완성해주세요.
+        function solution4(hp) {
+            let ant = [5,3,1]
+            let hunting = [0,0,0]
+            let fullHp = hp
+            for(let i=0;i<3;i++){
+                hunting[i] = Math.floor(fullHp / ant[i])
+                fullHp = fullHp - hunting[i] * ant[i]
+            }
+            
+            // let Hunting1 = Math.floor(fullHp / ant1)
+            // fullHp = hp - ant1 * Hunting1
+            // let Hunting2 = Math.floor(fullHp / ant2)
+            // fullHp = fullHp - Hunting2 * ant2
+            // let Hunting3 = Math.floor(fullHp / ant3)
+            // fullHp = fullHp - Hunting3 * ant3
+
+            return hunting[0] + hunting[1] + hunting[2]
+
+        }
+        solution4(999)
+
+        function solution5(letter) {
+            let morse = { 
+                '.-':'a','-...':'b','-.-.':'c','-..':'d','.':'e','..-.':'f',
+                '--.':'g','....':'h','..':'i','.---':'j','-.-':'k','.-..':'l',
+                '--':'m','-.':'n','---':'o','.--.':'p','--.-':'q','.-.':'r',
+                '...':'s','-':'t','..-':'u','...-':'v','.--':'w','-..-':'x',
+                '-.--':'y','--..':'z'
+            }
+            let str = ''
+            
+            letter.split(' ').forEach((a)=>{
+                for(let key in morse){
+                    if(key === a){
+                    str = str + morse[key]
+                    }
+                }
+            })
+            
+            console.log(str)
+        }
+
+        solution5(".... . .-.. .-.. ---")
+    </script>
+</body>
+</html>
