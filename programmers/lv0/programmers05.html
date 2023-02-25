@@ -23,14 +23,6 @@
         }
         solution(100)
 
-        // 진료 순서 정하기
-        // 외과의사 머쓱이는 응급실에 온 환자의 응급도를 기준으로 진료 순서를 정하려고 합니다. 정수 배열 emergency가 매개변수로 주어질 때 응급도가 높은 순서대로 진료 순서를 정한 배열을 return하도록 solution 함수를 완성해주세요.
-        function solution2(emergency) {
-
-
-        }
-        solution2([3, 76, 24])
-
         // 순서쌍의 개수
         // 순서쌍이란 두 개의 숫자를 순서를 정하여 짝지어 나타낸 쌍으로 (a, b)로 표기합니다. 자연수 n이 매개변수로 주어질 때 두 숫자의 곱이 n인 자연수 순서쌍의 개수를 return하도록 solution 함수를 완성해주세요.
         function solution3(n) {
@@ -95,6 +87,26 @@
         }
 
         solution5(".... . .-.. .-.. ---")
+
+        // 가위 바위 보
+        // 가위는 2 바위는 0 보는 5로 표현합니다. 가위 바위 보를 내는 순서대로 나타낸 문자열 rsp가 매개변수로 주어질 때, rsp에 저장된 가위 바위 보를 모두 이기는 경우를 순서대로 나타낸 문자열을 return하도록 solution 함수를 완성해보세요.
+        function solution6(rsp) {
+            let rock = String(rsp).split('')
+            
+            rock.forEach((data, index)=>{
+                if(data === '2'){
+                    rock[index] = 0 
+                } else if(data === '0'){
+                    rock[index] = 5
+                } else if(data === '5'){
+                    rock[index] = 2
+                }
+            })
+        
+            let result = rock.join('')
+            return result
+        }
+        solution6(205)
     </script>
 </body>
 </html>
