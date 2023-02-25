@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 배열 원소의 길이
+        // 문자열 배열 strlist가 매개변수로 주어집니다. strlist 각 원소의 길이를 담은 배열을 retrun하도록 solution 함수를 완성해주세요.
+        function solution(strlist) {
+            let newArray = []
+            strlist.forEach((a)=>{
+                newArray.push(a.length)
+            })
+
+            console.log(newArray)
+            return newArray
+        }
+
+        solution(["We", "are", "the", "world!"])
+
+
+        // 최댓값 만들기 (1)
+        // 정수 배열 numbers가 매개변수로 주어집니다. numbers의 원소 중 두 개를 곱해 만들 수 있는 최댓값을 return하도록 solution 함수를 완성해주세요.
+        function solution2(numbers) {
+            let newNum = []
+            
+            for(let i=0; i < 2; i++){
+                let maxNum = Math.max.apply(null, numbers)
+                newNum[i] = maxNum
+                let result = numbers.findIndex((num)=>{
+                    return maxNum === num
+                })
+                numbers.splice(result, 1)
+            }
+
+            return newNum[0] * newNum[1]
+        }
+        solution2([1, 2, 3, 4, 5])
+
+        // 머쓱이보다 키 큰 사람
+        // 머쓱이는 학교에서 키 순으로 줄을 설 때 몇 번째로 서야 하는지 궁금해졌습니다. 머쓱이네 반 친구들의 키가 담긴 정수 배열 array와 머쓱이의 키 height가 매개변수로 주어질 때, 머쓱이보다 키 큰 사람 수를 return 하도록 solution 함수를 완성해보세요.
+        function solution3(array, height) {
+            let result = array.filter((num)=>{
+                return num > height
+            })
+
+            console.log(result.length)
+            return result.length
+        }
+        solution3([149, 180, 192, 170], 167)
+
+        // 편지
+        // 머쓱이는 할머니께 생신 축하 편지를 쓰려고 합니다. 할머니가 보시기 편하도록 글자 한 자 한 자를 가로 2cm 크기로 적으려고 하며, 편지를 가로로만 적을 때, 축하 문구 message를 적기 위해 필요한 편지지의 최소 가로길이를 return 하도록 solution 함수를 완성해주세요.
+        function solution4(message) {
+            return message.split('').length * 2
+        }
+        solution4("happy birthday!")
+
+        // 중복된 숫자 개수
+        // 정수가 담긴 배열 array와 정수 n이 매개변수로 주어질 때, array에 n이 몇 개 있는 지를 return 하도록 solution 함수를 완성해보세요.
+        function solution5(array, n) {
+            let result = array.filter((a)=>{
+                return a === n
+            })
+
+            return result.length
+        }
+        solution5([1, 1, 2, 3, 4, 5], 1)
+    </script>
+</body>
+</html>
