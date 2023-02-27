@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv0</title>
+</head>
+<body>
+    <script>
+        function solution(n, t) {
+            let add = n
+            for(let i=0;i<t;i++){
+                add = add * 2
+            }
+            console.log(add)
+        }
+        solution(7,15)
+
+
+        function solution2(emergency) {
+            let numCompare = []
+            for(let i=0;i<emergency.length;i++){
+                numCompare.push(0)
+            }
+            emergency.forEach((element, i) => {
+                let maxNum = Math.max.apply(null, emergency)
+                let result = emergency.findIndex((num)=>{
+                    return num === maxNum
+                })
+                console.log(result)
+                numCompare[result] = i+1;
+                emergency[result] = 0;
+            });
+
+            console.log(numCompare)
+
+        }
+        solution2([30, 10, 23, 6, 100])
+
+        function solution3(my_string) {
+            let str = [...my_string]
+            str.forEach((st, i)=>{
+                if(st >= 'a'){
+                    str[i] = str[i].toUpperCase()
+                } else {
+                    str[i] = str[i].toLowerCase()
+                }
+            })
+            console.log(str.join(''))
+            return str.join('')
+        }
+        solution3("abCdEfghIJ")
+
+        function solution4(cipher, code) {
+            let newString = []
+            cipher.split('').forEach((str, index)=>{
+                if((index+1) % code === 0){
+                    newString.push(str)
+                }
+            })
+            return newString.join('')
+        }
+        solution4("pfqallllabwaoclk", 2)
+
+        function solution5(my_string) {
+            let string = [...my_string]
+            let result = string.filter(str=> !isNaN(str) )
+            let number = []
+            result.forEach((num)=>{
+                number.push(Number(num))
+            })
+            number.sort((a, b)=>{
+                return Number(a) - Number(b)
+            })
+            console.log(number)
+        }
+        solution5("hi12392")
+
+        function solution6(n, numlist) {
+            return numlist.filter(num => num % n === 0)
+        }
+        solution6(3, [4, 5, 6, 7, 8, 9, 10, 11, 12])
+
+        function solution7(box, n) {
+            let boxLength = 1
+            box.forEach((length)=>{
+                boxLength = boxLength * Math.floor(length / n)
+            })
+            return boxLength
+        }
+        solution7([10, 8, 6], 3)
+
+        function solution8(numbers) {
+            let copy = [...numbers]
+            let newNum = []
+            numbers.forEach((num, i)=>{
+                if(num === copy[i]){
+                    copy[i] = 0;
+                    copy.forEach((a)=>{
+                        console.log(num, 'X', a)
+                        newNum.push(num * a)
+                    })
+                    copy[i] = num
+                } else {
+                    newNum.push(num * a)
+                }
+            })
+            
+            console.log(newNum)
+            console.log(Math.max.apply(null, newNum))
+           return Math.max.apply(null, newNum)
+        }
+        solution8([-10000,10000])
+    </script>
+</body>
+</html>
