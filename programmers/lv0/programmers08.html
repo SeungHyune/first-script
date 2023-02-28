@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv0</title>
+</head>
+<body>
+    <script>
+        // 최댓값 만들기 (2)
+        // 정수 배열 numbers가 매개변수로 주어집니다. numbers의 원소 중 두 개를 곱해 만들 수 있는 최댓값을 return하도록 solution 함수를 완성해주세요.
+        function solution(numbers) {
+            let copy = [...numbers]
+            let newArr = []
+            numbers.forEach((num, i)=>{
+                copy.splice(i, 1)
+                copy.forEach((num2)=>{
+                    if(num !== copy[i]){
+                        newArr.push(num * num2);
+                    }
+                })
+                copy.splice(i, 0, num)
+                console.log(copy)
+            })
+            console.log(newArr)
+            console.log(Math.max.apply(null, newArr))
+        }
+        solution([10, 20, 30, 5, 5, 20, 5])
+
+
+        // 가장 큰 수 찾기
+        // 정수 배열 array가 매개변수로 주어질 때, 가장 큰 수와 그 수의 인덱스를 담은 배열을 return 하도록 solution 함수를 완성해보세요.
+        function solution1(array) {
+            let maxNum = Math.max.apply(null, array)
+            let index = array.findIndex((num)=>{
+                return num === maxNum
+            })
+
+            console.log(maxNum, index)
+            return [maxNum, index]
+        }
+        solution1([9, 10, 11, 8])
+
+        // 배열 회전시키기
+        // 정수가 담긴 배열 numbers와 문자열 direction가 매개변수로 주어집니다. 배열 numbers의 원소를 direction방향으로 한 칸씩 회전시킨 배열을 return하도록 solution 함수를 완성해주세요.
+        function solution2(numbers, direction) {
+            let number = numbers[numbers.length - 1]
+            if(direction === 'right'){
+                numbers.unshift(number)
+                numbers.splice(numbers.length - 1, 1)
+            } else {
+                numbers.push(numbers[0])
+                numbers.splice(0, 1)
+            }
+            console.log(numbers)
+            return numbers
+        }
+        solution2([1, 2, 3], "left")
+
+        // 인덱스 바꾸기
+        // 문자열 my_string과 정수 num1, num2가 매개변수로 주어질 때, my_string에서 인덱스 num1과 인덱스 num2에 해당하는 문자를 바꾼 문자열을 return 하도록 solution 함수를 완성해보세요.
+        function solution3(my_string, num1, num2) {
+            let str = my_string.split('');
+            let [num3, num4] = [str[num2], str[num1]]
+            str[num1] = num3
+            str[num2] = num4
+            console.log(str.join(''))
+            return str.join('')
+        }
+        solution3("hello", 1, 2)
+
+        // 약수 구하기
+        // 정수 n이 매개변수로 주어질 때, n의 약수를 오름차순으로 담은 배열을 return하도록 solution 함수를 완성해주세요.
+        function solution4(n) {
+            let numArr = []
+            for(let i=1;i<=n;i++){
+                if(n % i === 0){
+                    numArr.push(i)
+                }
+            }
+            console.log(numArr)
+        }
+        solution4(10000)
+
+        // 369게임
+        // 머쓱이는 친구들과 369게임을 하고 있습니다. 369게임은 1부터 숫자를 하나씩 대며 3, 6, 9가 들어가는 숫자는 숫자 대신 3, 6, 9의 개수만큼 박수를 치는 게임입니다. 머쓱이가 말해야하는 숫자 order가 매개변수로 주어질 때, 머쓱이가 쳐야할 박수 횟수를 return 하도록 solution 함수를 완성해보세요.
+        function solution5(order) {
+            console.log(String(order).split('').filter(num => Number(num) === 3 || Number(num) === 6 || Number(num) === 9).length)
+        }
+        solution5(29423)
+
+        // 숫자 찾기
+        // 정수 num과 k가 매개변수로 주어질 때, num을 이루는 숫자 중에 k가 있으면 num의 그 숫자가 있는 자리 수를 return하고 없으면 -1을 return 하도록 solution 함수를 완성해보세요.
+        function solution6(num, k) {
+            let result  = String(num).split('').findIndex(num => Number(num) === k)
+            return result > -1 ? result + 1 : result
+        }
+        solution6(232443, 4)
+
+
+        // 문자열 정렬하기 (2)
+        // 영어 대소문자로 이루어진 문자열 my_string이 매개변수로 주어질 때, my_string을 모두 소문자로 바꾸고 알파벳 순서대로 정렬한 문자열을 return 하도록 solution 함수를 완성해보세요.
+        function solution7(my_string) {
+            console.log(my_string.toLowerCase().split('').sort().join(''))
+        }
+        solution7("Bcad")
+
+        // 합성수 찾기
+        // 약수의 개수가 세 개 이상인 수를 합성수라고 합니다. 자연수 n이 매개변수로 주어질 때 n이하의 합성수의 개수를 return하도록 solution 함수를 완성해주세요.
+        function solution8(n) {
+            let check = 0
+            let newNum = []
+            for(let i=n;i>0;i--){
+                for(let a=1;a<=n;a++){
+                    if(i % a === 0){
+                        check += 1
+                        if(check >= 3){
+                            check = 0;
+                            newNum.push(i)
+                        }
+                    }
+                }
+                check = 0;
+            }
+            const set = new Set(newNum);
+            let copyNewNum = [...set]
+            console.log(copyNewNum)
+            return copyNewNum.length
+        }
+        solution8(15)
+
+        // 중복된 문자 제거
+        // 문자열 my_string이 매개변수로 주어집니다. my_string에서 중복된 문자를 제거하고 하나의 문자만 남긴 문자열을 return하도록 solution 함수를 완성해주세요.
+        function solution9(my_string) {
+            
+            let set = new Set(my_string.split(''))
+            let arr = [...set]
+            return arr.join('')
+        }
+        solution9("people")
+    </script>
+</body>
+</html>
