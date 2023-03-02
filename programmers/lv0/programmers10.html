@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv0</title>
+</head>
+<body>
+    <script>
+        // k의 개수
+        // 1부터 13까지의 수에서, 1은 1, 10, 11, 12, 13 이렇게 총 6번 등장합니다. 정수 i, j, k가 매개변수로 주어질 때, i부터 j까지 k가 몇 번 등장하는지 return 하도록 solution 함수를 완성해주세요.
+        function solution2(i,j,k){
+            let numArray = []
+            for(let a=i;a<=j;a++){
+                numArray.push(a)
+            }
+
+            console.log(numArray.join('').split(k).length - 1)
+            let add = 0
+            for(let key of numArray.join('')){
+                if(Number(key) === k){
+                    add += 1
+                }
+           }
+           console.log(add)
+
+
+            // let result = numArray.filter((num)=>{
+            //     return String(num).includes(k)
+            // })
+
+            // console.log(result)
+        }
+        solution2(10,50,5)
+
+        // 한 번만 등장한 문자
+        // 문자열 s가 매개변수로 주어집니다. s에서 한 번만 등장하는 문자를 사전 순으로 정렬한 문자열을 return 하도록 solution 함수를 완성해보세요. 한 번만 등장하는 문자가 없을 경우 빈 문자열을 return 합니다.
+        function solution3(s) {
+            let copy = [...s]
+            let newArr = []
+            copy.filter((str)=>{
+                let num = 0;
+                s.split('').forEach((str2)=>{
+                    if(str === str2){
+                        num += 1
+                    }
+                })
+                if(num === 1){
+                    newArr.push(str)
+                }
+                num = 0;
+            })
+            return newArr.sort().join('')
+        }
+        solution3('hello')
+
+        // 숨어있는 숫자의 덧셈 (2)
+        // 문자열 my_string이 매개변수로 주어집니다. my_string은 소문자, 대문자, 자연수로만 구성되어있습니다. my_string안의 자연수들의 합을 return하도록 solution 함수를 완성해주세요.
+        function solution4(my_string){
+            let num = []
+            let count = 0
+            let check = 0
+            for(let key of my_string){
+                if(!isNaN(key)){
+                    check += 1
+                    count = count + key
+                    if(check > 1){
+                        num.pop()
+                        num.push(Number(count))
+                    } else if(check === 1){
+                        num.push(Number(key))
+                    }
+                }else{
+                    check = 0
+                    count = 0
+                }
+            }
+        
+            console.log(num)
+
+            let sum = 0;
+            if(num.length === 0){
+                return 0
+            } else {
+                num.forEach((n)=>{
+                    sum = sum + n
+                })
+            }
+
+            console.log(sum)
+        }
+        solution4("1a2b3c4d123Z")
+
+        // 7의 개수
+        // 머쓱이는 행운의 숫자 7을 가장 좋아합니다. 정수 배열 array가 매개변수로 주어질 때, 7이 총 몇 개 있는지 return 하도록 solution 함수를 완성해보세요.
+        function solution5(array){
+            //console.log(array.join('').split('7').length - 1)
+            let num = 0
+            for(let key of array.join('')){
+                if(Number(key) === 7){
+                    num += 1
+                }
+            }
+
+            return num
+        }
+        solution5([7, 77, 17])
+    </script>
+</body>
+</html>
