@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv0</title>
+</head>
+<body>
+    <script>
+        function solution(bin1, bin2) {
+            //console.log(parseInt(bin1, 2) + parseInt(bin2, 2).toString(2))
+        }
+        solution("10", "11")
+
+        // 공 던지기
+        // 머쓱이는 친구들과 동그랗게 서서 공 던지기 게임을 하고 있습니다. 공은 1번부터 던지며 오른쪽으로 한 명을 건너뛰고 그다음 사람에게만 던질 수 있습니다. 친구들의 번호가 들어있는 정수 배열 numbers와 정수 K가 주어질 때, k번째로 공을 던지는 사람의 번호는 무엇인지 return 하도록 solution 함수를 완성해보세요.
+        function solution2(numbers, k){
+            let ball = k * 2 - 1 - 1
+            console.log(ball)
+            if(numbers.length > ball){
+                return numbers[ball]
+            } else if(ball > numbers.length) {
+                return numbers[Math.abs(numbers.length - ball)]
+            }
+        }
+        solution2([1, 2, 3], 3)
+
+        // 영어가 싫어요
+        // 영어가 싫은 머쓱이는 영어로 표기되어있는 숫자를 수로 바꾸려고 합니다. 문자열 numbers가 매개변수로 주어질 때, numbers를 정수로 바꿔 return 하도록 solution 함수를 완성해 주세요.
+        function solution3(numbers){
+            let num = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
+            let result = num.filter((str)=>{
+                return numbers.includes(str)
+            })
+            //console.log(result)
+        }
+        solution3("onetwothreefourfivesixseveneightnine")
+
+        // 잘라서 배열로 저장하기
+        // 문자열 my_str과 n이 매개변수로 주어질 때, my_str을 길이 n씩 잘라서 저장한 배열을 return하도록 solution 함수를 완성해주세요.
+        function solution4(my_str, n){
+            let newArr = []
+            let arrLength = my_str.length / n
+            let num = 0
+            let str = ""
+            //console.log(my_str.lastIndexOf(my_str[my_str.length - 1]))
+
+            for(let key of my_str){
+                if(num < n){
+                    num++
+                    str = str + String(key)
+                    //console.log(str)
+                } else if(my_str[my_str.length - 1] === key){
+                    //console.log('??')
+                    newArr.push(str)
+                } else {
+                    num = 1
+                    newArr.push(str)
+                    str = String(key)
+                }
+            }
+            //console.log(newArr)
+        }
+        solution4("abcdef123", 3)
+        let sum = 0
+        function solution5(my_string) {
+            let arr = my_string.split(' ');
+            //console.log(my_string.split(' '))
+            arr.forEach((add)=>{
+                if(add === "+"){
+                    let result = arr.findIndex((str)=>{
+                        return str === "+"
+                    })
+                    arr.splice(result, 1)
+                    sum = sum + Number(add)
+                }else {
+
+                }
+            })
+            //console.log(arr, sum)
+        }
+        solution5("3 + 4")
+    </script>
+</body>
+</html>
