@@ -8,79 +8,204 @@
 </head>
 <body>
     <script>
-        function solution(bin1, bin2) {
-            //console.log(parseInt(bin1, 2) + parseInt(bin2, 2).toString(2))
-        }
-        solution("10", "11")
-
-        // 공 던지기
-        // 머쓱이는 친구들과 동그랗게 서서 공 던지기 게임을 하고 있습니다. 공은 1번부터 던지며 오른쪽으로 한 명을 건너뛰고 그다음 사람에게만 던질 수 있습니다. 친구들의 번호가 들어있는 정수 배열 numbers와 정수 K가 주어질 때, k번째로 공을 던지는 사람의 번호는 무엇인지 return 하도록 solution 함수를 완성해보세요.
-        function solution2(numbers, k){
-            let ball = k * 2 - 1 - 1
-            console.log(ball)
-            if(numbers.length > ball){
-                return numbers[ball]
-            } else if(ball > numbers.length) {
-                return numbers[Math.abs(numbers.length - ball)]
+        function solution(numbers, k){
+            let copy = [...numbers]
+            let location = 2 * k - 2
+            if(numbers.length < location){
+                while(numbers.length < location){
+                    numbers = [...numbers, ...copy]
+                }
+                console.log(numbers)
+                console.log(numbers[location])
+            }else {
+                console.log(numbers[location])
             }
-        }
-        solution2([1, 2, 3], 3)
 
-        // 영어가 싫어요
-        // 영어가 싫은 머쓱이는 영어로 표기되어있는 숫자를 수로 바꾸려고 합니다. 문자열 numbers가 매개변수로 주어질 때, numbers를 정수로 바꿔 return 하도록 solution 함수를 완성해 주세요.
-        function solution3(numbers){
-            let num = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
-            let result = num.filter((str)=>{
-                return numbers.includes(str)
+            console.log()
+        }
+        solution([1, 2, 3, 4, 5, 6], 3)
+
+        function solution3(hp) {
+            let ant = [5,3,1]
+            let count = 0
+            ant.forEach((a, i)=>{
+                if(hp > 0 && hp / a >= 1){
+                    count = count + Math.floor(hp / a)
+                    hp = hp % a
+                }
             })
-            //console.log(result)
+            console.log(count)
         }
-        solution3("onetwothreefourfivesixseveneightnine")
 
-        // 잘라서 배열로 저장하기
-        // 문자열 my_str과 n이 매개변수로 주어질 때, my_str을 길이 n씩 잘라서 저장한 배열을 return하도록 solution 함수를 완성해주세요.
-        function solution4(my_str, n){
-            let newArr = []
-            let arrLength = my_str.length / n
-            let num = 0
-            let str = ""
-            //console.log(my_str.lastIndexOf(my_str[my_str.length - 1]))
+        function solution4(letter){
+            const morse = { 
+                '.-':'a','-...':'b','-.-.':'c','-..':'d','.':'e','..-.':'f',
+                '--.':'g','....':'h','..':'i','.---':'j','-.-':'k','.-..':'l',
+                '--':'m','-.':'n','---':'o','.--.':'p','--.-':'q','.-.':'r',
+                '...':'s','-':'t','..-':'u','...-':'v','.--':'w','-..-':'x',
+                '-.--':'y','--..':'z'
+            }
 
-            for(let key of my_str){
-                if(num < n){
-                    num++
-                    str = str + String(key)
-                    //console.log(str)
-                } else if(my_str[my_str.length - 1] === key){
-                    //console.log('??')
-                    newArr.push(str)
+            // let result = ""
+            // let str = "";
+
+            // for(let i=0;i<letter.length;i++){
+            //     const item = letter[i];
+
+            //     if(item === " "){
+            //         console.log(str)
+            //         result += morse[str]
+            //         str = ""
+            //     } else{
+            //         str = str + item
+            //     }
+            // }
+            // result += morse[str]
+            // console.log(result)
+            let strr = ""
+            letter.split(' ').forEach((str)=>{
+                // console.log(morse[str])
+                strr = strr + morse[str]
+            })
+            return strr
+
+        }
+        solution4(".--. -.-- - .... --- -.")
+
+        function solution5(rsp){
+            // 2 , 0
+            // 0 , 5
+            // 5 , 2
+            let result = ""
+
+            for(let i=0;i<rsp.length;i++){
+                const item = rsp[i];
+                if(item === 2){
+                    result += 0
+                } else if(item === 0){
+                    result += 5
                 } else {
-                    num = 1
-                    newArr.push(str)
-                    str = String(key)
+                    result += 2
                 }
             }
-            //console.log(newArr)
+            // console.log(result)
+            return result
         }
-        solution4("abcdef123", 3)
-        let sum = 0
-        function solution5(my_string) {
-            let arr = my_string.split(' ');
-            //console.log(my_string.split(' '))
-            arr.forEach((add)=>{
-                if(add === "+"){
-                    let result = arr.findIndex((str)=>{
-                        return str === "+"
-                    })
-                    arr.splice(result, 1)
-                    sum = sum + Number(add)
-                }else {
+        solution5("2")
 
+        function solution6(balls, share){
+            let arr = [balls, balls - share, share]
+            let multip = 1;
+
+            for(let a=0;a<arr.length;a++){
+                for(let i=arr[a];i>0;i--){
+                    multip = multip * i
                 }
-            })
-            //console.log(arr, sum)
+                arr[a] = multip
+                multip = 1;
+            }
+            
+            console.log(arr[0] / (arr[1] * arr[2]))
         }
-        solution5("3 + 4")
+        solution6(5,5)
+
+        function solution7(num_list, n){
+            let cnt = 0
+            let str = []
+            let strArr = []
+            for(let i=0; i<num_list.length;i++){
+                const item = num_list[i]
+                if(cnt < n){
+                    str.push(item)
+                    cnt += 1
+                } else {
+                    strArr.push(str)
+                    cnt = 1
+                    str = []
+                    str.push(item)
+                }
+            }
+            strArr.push(str)
+            console.log(strArr)
+        }
+        solution7([100, 95, 2, 4, 5, 6, 18, 33, 948], 3)
+
+        function solution8(numbers, k){
+            let cnt = 1
+            for(let i=0; ;i+=2){
+                i %= numbers.length
+                // console.log(i)
+                if(cnt === k){
+                    console.log(numbers[i])
+                    return numbers[i]
+                }
+                cnt += 1
+                console.log(i)
+            }
+            // let turn = k * 2 - 1
+            // for(let i=0;i<k;i++){
+            //     if(numbers.length > turn){
+            //         return numbers[turn - 1]
+            //     } else {
+            //         numbers = [...numbers, ...numbers]
+            //         if(numbers.length > turn){
+            //             console.log(numbers[turn - 1])
+            //             return numbers[turn - 1]
+            //         }
+            //     }
+            // }
+        }
+        solution8([1,2,3], 10)
+
+        function solution9(numbers, direction){
+            // if(direction === 'right'){
+            //     numbers.unshift(numbers[numbers.length-1])
+            //     numbers.pop()
+            //     console.log(numbers)
+            //     return numbers
+            // } else {
+            //     numbers.push(numbers[0])
+            //     numbers.shift()
+            //     console.log(numbers)
+            //     return numbers
+            // }
+            let arr = []
+            if(direction === 'right'){
+                arr.push(numbers[numbers.length - 1])
+                for(let i=0;i<numbers.length-1;i++){
+                    arr.push(numbers[i])
+                }
+                console.log(arr)
+                return arr
+            } else {
+                for(let i=1;i<numbers.length;i++){
+                    arr.push(numbers[i])
+                }
+                arr.push(numbers[0])
+                console.log(arr)
+                return arr
+            }
+        }
+        solution9([1,2,3], "right")
+
+        function solution10(numbers){
+            let numList = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
+            let str = "";
+            let num = ""
+            for(let i=0;i<numbers.length;i++){
+                const item = numbers[i]
+                str += item
+                for(let a=0;a<numList.length;a++){
+                    if(numList[a] === str){
+                        num += a
+                        str = ""
+                    }
+                }
+            }
+
+            console.log(num)
+        }
+        solution10("onefourzerosixseven")
     </script>
 </body>
 </html>
