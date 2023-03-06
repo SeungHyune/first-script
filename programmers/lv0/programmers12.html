@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv0</title>
+</head>
+<body>
+    <script>
+        function solution(box, n){
+            let sum = 1;
+            for(let i=0;i<3;i++){
+                sum *= Math.floor(box[i] / n)
+            }
+            //console.log(sum)
+        }
+        solution([10, 6, 6], 3)
+
+        function solution2(n){
+            let count = 0
+            for(let i=n;i>=1;i--){
+                let isCount = false;
+                for(let a=2;a<i-1;a++){
+                    if(i % a === 0){
+                        isCount = true
+                    }
+                }
+                if(isCount){
+                    count+=1;
+                }
+
+            }
+            // console.log(count)
+        }
+        solution2(15)
+
+        function solution3(numbers){
+            let newArr = []
+            for(let i=0;i<numbers.length;i++){
+                for(let a= numbers.length - 1;a>=i+1;a--){
+                        newArr.push(numbers[i] * numbers[a])
+                }
+            }
+            return newArr
+        }
+        solution3([0, 31, 24, 10, 1, 9])
+
+        function solution4(n){
+            let sum = 1;
+            let num = 1;
+            let check = 0;
+
+            for(let i = 1 ; sum <= n;i++){
+                sum = sum * i;
+                check += 1;
+                if(sum > n){
+                    check-=1
+                }
+            }
+            console.log(check)
+        }
+        solution4(7)
+
+        function solution5(s){
+            let minus = 0;
+            let add = 0;
+            let arr = s.split(' ');
+
+            for(let i=0;i<arr.length;i++){
+                const item = arr[i]
+                console.log(item)
+                if(item === "Z"){
+                    minus += Number(arr[i-1])
+                } else if(!isNaN(item)){
+                    add += Number(item)
+                }
+            }
+            console.log(minus, add, 'result :', add - minus)
+            return add - minus
+
+        }
+        solution5("-1 -2 -3 Z")
+    </script>
+</body>
+</html>
