@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv0</title>
+</head>
+<body>
+    <script>
+        function solution(sides){
+            const maxNum = Math.max.apply(null, sides);
+            const minNum = Math.min.apply(null, sides);
+            let num = 1;
+            let numArr = []
+            while(num < maxNum + minNum){
+                if(num > maxNum && num < maxNum + minNum){
+                    numArr.push(num)
+                } else if(maxNum < minNum + num && maxNum >= num){
+                    numArr.push(num)
+                }
+                num+=1
+            }
+            console.log(numArr)
+        }
+        solution([5, 10])
+
+        function solution2(keyinput, board){
+            let location = [0,0];
+            const  maxWidth = [Math.floor(board[0] / 2), Math.floor(board[1] / 2)]
+            let num = 0;
+
+            for(let i=0;i<keyinput.length;i++){
+                const item = keyinput[i];
+                if(item === "right"){
+                    location[0] += 1;
+                    num = 0;
+                } else if(item === "left"){
+                    location[0] -= 1;
+                    num = 0;
+                } else if(item === "up"){
+                    location[1] += 1;
+                    num = 1;
+                } else if(item === "down"){
+                    location[1] -= 1;
+                    num = 1;
+                } 
+
+                if(location[num] > maxWidth[num]){
+                    location[num] = maxWidth[num]
+                } else if(location[num] < -maxWidth[num]){
+                    location[num] = -maxWidth[num]
+                }
+            }
+            console.log(location)
+        }
+        solution2(["down", "down", "down", "down", "down"]	, [7, 9])
+
+        function solution3(M,N){
+            const maxNum = Math.max(M, N) - 1
+            const minNum = Math.min(M, N)
+            if(M === 0 && N === 0){
+                return 0
+            } else {
+                return (maxNum * minNum) + (minNum - 1)
+            }
+        }
+        solution3(2,5)
+    </script>
+</body>
+</html>
