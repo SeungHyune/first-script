@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv0</title>
+</head>
+<body>
+    <script>
+        function solution(chicken){
+            let chicken1 = chicken;
+            let chickenNum = 0;
+            let secend = chicken1 % 10;
+            let total = 0;
+            while(true){
+                if(chicken1 >= 10){
+                    chicken1 = Math.floor(chicken1 / 10);
+                    chickenNum += chicken1;
+                    secend += chicken1 % 10;
+                    console.log(chickenNum, chicken1, secend, total)
+                } else{
+                    console.log(secend)
+                    chickenNum += Math.floor(secend /= 10)
+                    if(!Number.isInteger(secend)){
+                        secend = String(secend)
+                        secend = Number(secend[0]) + Number(secend[2])
+                        console.log(secend)
+                    }
+                    secend = (secend / 10)
+                    total = chickenNum + secend;
+
+                    console.log(total)
+                    return Math.floor(total)
+                }
+            }
+        }
+        solution(1999);
+
+
+        // 실패 코드..
+        function solution2(numlist, n){
+            // n과 가까운 수 찾기
+            let arr = []
+            for(let i=0;i<numlist.length;i++){
+                arr.push(numlist[i] - n)
+            }
+            
+            // 가까운 수 정렬
+            let newArr = [];
+            arr.forEach((num)=>{
+                return newArr.push(Math.abs(num))
+            })
+            newArr.sort((a,b)=>{return a-b})
+            console.log(newArr, arr)
+
+            // 정렬 후 기존 정렬 값
+            let newArr2 = []
+            newArr.forEach((num)=>{
+                newArr2.push(num + n)
+            })
+            console.log(newArr2)
+
+            let check = 0;
+            let newArr3 = []
+            newArr2.forEach((num)=>{
+                for(let i=0;i<newArr2.length;i++){
+                    const item = newArr2[i]
+                    if(num === item){
+                        check += 1;
+                        
+                        if(check === 2){
+                            console.log(i)
+                           newArr2[i] = -(newArr2[i] - n) + n;
+                           newArr3.push(-(newArr2[i] - n) + n)
+                        } else if(-(newArr2[i] - n) + n) {
+                            newArr3.push(item)
+                        } else {
+                            newArr3.push(item)
+                        }
+                    }
+                }
+                check = 0;
+            })
+            console.log(newArr2)
+            console.log('result', newArr2)
+            
+        }
+        solution2([1, 2, 3, 4, 5, 6], 4)
+    </script>
+</body>
+</html>
