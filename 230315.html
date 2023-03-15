@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원 검색 및 추가 삭제 기능</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <style>
+        .addbox span{display:inline-block;margin-right:5px;}
+        .search-memberbox table{border-collapse:collapse;display:none;margin-top:30px;}
+        .search-memberbox table tr td, .search-memberbox table tr th{border:1px solid #000;padding:10px 8px;}
+    </style>
+</head>
+<body>
+    <p><input type="text" name="search"  /><button id="btn" value="검색">검색</button></p>
+    <div class="addbox"></div>
+
+    <div class="search-memberbox">
+        <table>
+            <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>이름</th>
+                    <th>아이디</th>
+                    <th>소속</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        let members = [
+            { name : '김메드', id : 'medtest1', affiliation: '메드소프트', idx : 0},
+            { name : '홍길동', id : 'medtest2', affiliation: '메드소프트 의원', idx : 1},
+            { name : '이메드', id : 'medtest3', affiliation: '메드소프트', idx : 2},
+            { name : '박메드', id : 'medtest11', affiliation: 'test', idx : 3},
+            { name : '최메드', id : 'medtest12', affiliation: 'test2', idx : 4},
+            { name : '정메드', id : 'medtest14', affiliation: 'test', idx : 5},
+            { name : '메드소프트', id : 'medtest15', affiliation: '메드', idx : 6}
+        ]
+
+        $('#btn').on('click', function(e){
+            let search = $('input[name=search]').val();
+            let tbody = $('.search-memberbox table tbody');
+            tbody.html('');
+
+            for(let i=0;i<members.length;i++){
+                const item = members[i];
+                let memberList = `<tr>
+                <td>${i+1}</td>
+                <td>${item.name}</td>
+                <td>${item.id}</td>
+                <td>${item.affiliation}</td>
+                <td><button data-seq="${item.idx}" class="btnadd">추가</button></td>
+                </tr>`;
+
+                if(item.name.includes(search)){
+                    $('.search-memberbox table').css('display', 'table');
+                    tbody.append(memberList);
+                }
+            }
+        })
+
+        let searchMember = [];
+        $(document).on('click', '.btnadd', function(e){
+            let memberIdx = $(this).data('seq');
+            for(let i=0;i<members.length;i++){
+                const mem = members[i];
+                if(memberIdx === mem.idx){
+                    if(searchMember.length > 0){
+                        let result = searchMember.filter((num)=>{
+                            return num.idx === memberIdx;
+                        });
+                        if(result.length > 0){
+                            alert('이미 등록 하셨습니다.')
+                        } else {
+                            searchMember.push(mem);
+                            addbox();
+                        }
+                    } else {
+                        searchMember.push(mem);
+                        addbox();
+                    }
+                    
+                }
+            }
+        })
+
+        function addbox(){
+            $('.addbox').html('');
+
+            for(let i=0;i<searchMember.length;i++){
+                const mem = searchMember[i];
+                let memberList = `<span>${mem.name}<button data-del="${mem.idx}" class="btndel">삭제</button></span>`
+                $('.addbox').append(memberList)
+            }
+        }
+
+        $(document).on('click', '.btndel', function(){
+            let del = $(this).data('del');
+            let result = searchMember.findIndex((mem)=>{
+                return del === mem.idx;
+            })
+            
+            searchMember.splice(result, 1);
+            addbox();
+        })
+    </script>
+</body>
+</html>
