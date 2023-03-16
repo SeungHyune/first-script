@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>document</title>
+    <link
+      href="https://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
+
+  <body>
+    <h1>Welcome</h1>
+    <h2>World</h2>
+    <h3>A</h3>
+    <p id="first">nodelist parent children parentNode</p>
+    <p id="second">nodelist parent children parentNode</p>
+    <h3>B</h3>
+    <p>nodelist parent children parentNode</p>
+    <h3>C</h3>
+    <p>nodelist parent children parentNode</p>
+    <ul id="color">
+      <li id="red">Red</li>
+      <li id="blue">Blue</li>
+      <li id="green">Green</li>
+    </ul>
+
+    <script>
+      // 부모 & 형제 노드 접근
+      const ul = document.getElementById('color');
+      const blue = document.getElementById('blue');
+
+      blue.previousSibling // 이전(Node List)
+      blue.previousElementSibling // 이전(HTMLCollection)
+      blue.nextSibling // 이후(Node List)
+      blue.nextElementSibling // 이후(HTMLCollection)
+
+      blue.parentNode // 부모 모든 노드
+      blue.parentElement // 부모 요소(태그) 노드만
+
+      ul.childNodes // 자식의 모든 노드
+      ul.children // 자식의 요소 노드만
+
+      blue.firstChild.nodeValue = '파랑';
+      console.log(blue.firstChild.nodevalue = '파랑')
+      console.log(blue.previousSibling, blue.previousElementSibling)
+
+      const newLi = document.createElement('li');
+      newLi.innerHTML = 'green';
+      ul.appendChild(newLi);
+
+      const newLi2 = document.createElement('li');
+      const newText = document.createTextNode('pink');
+      newLi2.appendChild(newText);
+      console.log(newLi2)
+      ul.appendChild(newLi2)
+      console.log(ul)
+
+    </script>
+  </body>
+</html>
