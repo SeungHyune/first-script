@@ -60,6 +60,98 @@
 
         }
         solution([10000,20,36,47,40,6,10,7000], 30)
+
+        console.log('---------------------------------------------------------------')
+
+        function solution2(polynomial){
+            // 1. X값은 X값 끼리 더해서 변수에 저장한다.
+            // 2. 숫자는 숫자끼리 더해서 변수에 저장한다.
+            // 3. X가 X 하나면 X로 출력(retuen)한다.
+            
+            const arr = polynomial.split(' ');
+
+            let str = [];
+            let num = [];
+            let xNum = 0;
+            for(let i=0;i<arr.length;i++){
+                const item = arr[i];
+                if(!isNaN(item)){
+                    num.push(item)
+                } else {
+                    str.push(item)
+                }
+            }
+            console.log(num, str)
+
+            str.forEach((xStr)=>{
+                if(xStr.includes('x')){
+                    let idxResult = xStr.indexOf('x');
+                    if(xStr.slice(0, idxResult) === ""){
+                        xNum += 1;
+                    } else {
+                        xNum += Number(xStr.slice(0, idxResult))
+                    }
+                }
+            })
+
+            let result = []
+            console.log(num, xNum, str)
+            if(xNum >= 1){
+               if(xNum > 1){
+                result.push(xNum + 'x');
+                } else {
+                    result.push('x')
+                }
+            }
+
+            if(num.length > 0){
+                for(let i=0;i<num.length;i++){
+                    const item = num[i];
+                    if(item === '0'){
+                        console.log(0)
+                    } else {
+                        result.push(item)
+                    }
+                }
+            }
+
+            console.log(result)
+
+            if(result.length === 2){
+                console.log(result[0] + ' + ' + result[1])
+                return result[0] + ' + ' + result[1]
+            } else {
+                console.log(result[0])
+                return result[0]
+            }
+        }
+        solution2("1 + 2x + 0 + x")
+
+        function solution3(array, n){
+            let newArr = []
+            for(let i=0;i<array.length;i++){
+                const item = array[i];
+                newArr.push(Math.abs(item - n))
+            }
+
+            let minNum = Math.min.apply(null, newArr)
+            let checkArr = newArr.filter((num)=>{
+                return minNum === num
+            })
+
+            let result = newArr.indexOf(minNum)
+            let lastResult = newArr.lastIndexOf(minNum)
+            console.log(result, lastResult)
+            
+            if(checkArr.length === 2){
+                console.log(Math.min(array[result],array[lastResult]))
+            } else {
+                console.log(array[result])
+                return array[result]
+            }
+            
+        }
+        solution3([12, 3, 4, 10, 13], 11)
     </script>
 </body>
 </html>
