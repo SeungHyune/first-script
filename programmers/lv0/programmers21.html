@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv0</title>
+</head>
+<body>
+    <script>
+        function solution(message){
+            return message.length * 2
+        }
+        solution("happy birthday!")
+
+        function solution2(array){
+            // 배열에서 큰수, 작은 수 찾는 방법
+            // let maxNum = Math.max.apply(null, array);
+            let maxNum = Math.max(...array)
+            let indexResult = array.findIndex((num)=>{
+                return num === maxNum
+            })
+            return [maxNum, indexResult]
+        }
+        solution2([9, 10, 11, 8], [11,2])
+
+        function solution3(my_string){
+            // 글자 공백 제거 (배열 함수 사용 x)
+            let my_str = ""
+            for(let i=0;i<my_string.length;i++){
+                let str = my_string[i];
+                if(str !== ' '){
+                    my_str += str
+                }
+            }
+            console.log(my_str)
+            
+            let sum = 0;
+            let num = "";
+            let arr = [];
+            for(let i=0;i<=my_str.length;i++){
+                const item = my_str[i];
+                if(!isNaN(item)){
+                    num += item
+                } else{
+                    arr.push(num);
+                    num = ""
+                    if(item !== undefined){
+                        arr.push(item)
+                    }
+                }
+
+            }
+            
+
+            for(let i=0;i<arr.length;i++){
+                const item = arr[i];
+                if(i === 0){
+                    sum = Number(arr[0])
+                } else if(isNaN(item)){
+                    if(item === '+'){
+                        sum += Number(arr[i+1])
+                    } else {
+                        sum -= Number(arr[i+1])
+                    }
+                }
+                console.log(sum)
+            }
+            console.log(sum)
+        }
+        solution3("0 + 4 - 5")
+
+        function solution4(s1, s2){
+            let chk = 0;
+            let newArr = [];
+            for(let i=0;i<s1.length;i++){
+                const sitem1 = s1[i];
+                for(let a=0;a<s2.length;a++){
+                    const sitem2 = s2[a];
+                    if(sitem1 === sitem2){
+                        chk += 1;
+                        newArr.push(sitem1)
+                    }
+                }
+            }
+            console.log(chk, newArr)
+        }
+        solution4(["a", "b", "c"], ["com", "b", "d", "p", "c"]	)
+    </script>
+</body>
+</html>
