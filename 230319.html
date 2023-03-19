@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        .box{
+            position:relative;
+            width:100px;
+            height:100px;
+            border:3px solid skyBlue;
+            margin-bottom:20px;
+        }
+        .box-focus{
+            position:absolute;
+            width:10px;
+            height:10px;
+            border-radius:50%;
+            background-color:aqua;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="box-focus"></div>
+    </div>
+    <button onclick="alert('click!')">클릭1</button>
+    <button onclick="click2()">클릭2</button>
+    <button id="btn">버튼3</button>
+    <button id="btn2">클릭4</button>
+
+    <p><input id="txt" type="text" /><button>전송</button></p>
+
+    <p id="size"></p>
+    <script>
+        function click2(){
+            alert('Hi!');        
+        }
+        const el = document.getElementById('btn')
+        el.onclick = click2
+        const el2 = document.getElementById('btn2')
+        el2.addEventListener('dblclick', click2)
+
+        const txt = document.getElementById('txt')
+        let name = "";
+        txt.addEventListener('keyup', function(e){
+            name = e.target.value;
+            console.log(e.key)
+        })
+        txt.nextElementSibling.addEventListener('click', function(){
+            console.log(name)
+        })
+
+        txt.addEventListener('focus', ()=>{
+            txt.style.backgroundColor = 'pink';
+        })
+        txt.addEventListener('blur', ()=>{
+            txt.style.backgroundColor = null;
+        })
+
+        const mouseFouse = document.querySelector('.box');
+        const mouseFouse2 = document.querySelector('.box-focus');
+        mouseFouse.addEventListener('mousemove', (e)=>{
+            console.log(e.clientY, e.clientX, e)
+            mouseFouse2.style.top = `${e.clientY}px`;
+            mouseFouse2.style.left = `${e.clientX}px`;
+        })
+
+        window.addEventListener('resize', ()=>{
+            document.getElementById('size').innerText = `현재 창 크기는 ${window.innerWidth} x ${window.innerHeight}`
+        });
+    </script>
+</body>
+</html>
