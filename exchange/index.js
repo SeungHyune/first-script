@@ -18,18 +18,24 @@ document.addEventListener("DOMContentLoaded", function(){
         if(i === 0){
             if(country[i+1] === 'kor'){
                 moneyTxt[i+1].firstElementChild.innerText = krw;
+                moneyBox[i+1].value = krw;
             } else if(country[i+1] === 'usa'){
                 moneyTxt[i+1].firstElementChild.innerText = usd;
+                moneyBox[i+1].value = usd;
             } else if(country[i+1] === 'vit'){
                 moneyTxt[i+1].firstElementChild.innerText = vnd;
+                moneyBox[i+1].value = vnd;
             }
         } else if(i === 1){
             if(country[i-1] === 'kor'){
                 moneyTxt[i-1].firstElementChild.innerText = krw;
+                moneyBox[i-1].value = krw;
             } else if(country[i-1] === 'usa'){
-                moneyTxt[i+1].firstElementChild.innerText = usd;
+                moneyTxt[i-1].firstElementChild.innerText = usd;
+                moneyBox[i-1].value = usd;
             } else if(country[i-1] === 'vit'){
                 moneyTxt[i-1].firstElementChild.innerText = vnd;
+                moneyBox[i-1].value = vnd;
             }
         }
     }
