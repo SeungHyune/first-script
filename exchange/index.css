@@ -13,7 +13,7 @@ ul{
 .exchange{
     width:400px;
     border:1px solid #ccc;
-    margin:0 auto;
+    margin:50px auto;
 }
 .exchange .exchange-top{
     position:relative;
@@ -35,8 +35,10 @@ ul{
 .exchange.on .exchange-top button{
     border-bottom:0;
 }
-.exchange .exchange-top button span{
+.exchange .exchange-top button span:first-child{
     position:relative;
+}
+.exchange .exchange-top button span.btntit{
     padding-left:40px;
     font-weight:600;
 }
