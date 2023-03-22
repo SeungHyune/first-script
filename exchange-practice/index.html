@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="exchange">
+        <div class="exchange-top">
+            <button id="from-btn"><span class="krw"></span><span class="btntit">KRW</span></button>
+            <ul class="exchange-lang">
+                <li data-seq="krw" class="krw">KRW</li>
+                <li data-seq="usd" class="usd">USD</li>
+                <li data-seq="vnd" class="vnd">VND</li>
+            </ul>
+        </div>
+        <p><input id="from-money" type="text" /></p>
+        <p class="money-txt"><span></span>원</p>
+    </div>
+
+    <div class="exchange">
+        <div class="exchange-top">
+            <button id="to-btn"><span class="krw"></span><span class="btntit">KRW</span></button>
+            <ul class="exchange-lang">
+                <li data-seq="krw" class="krw">KRW</li>
+                <li data-seq="usd" class="usd">USD</li>
+                <li data-seq="vnd" class="vnd">VND</li>
+            </ul>
+        </div>
+        <p><input id="to-money" type="text" /></p>
+        <p class="money-txt"><span></span>원</p>
+    </div>
+    <script type="text/javascript" src="/main.js"></script>
+</body>
+
+</html>
