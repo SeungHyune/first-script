@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv0</title>
+</head>
+<body>
+    <script>
+        function solution(dots){
+            let widthNum = dots.map(num=>num[0])
+            let heightNum = dots.map(num=>num[1])
+
+            let width = Math.max(...widthNum) - Math.min(...widthNum);
+            let height = Math.max(...heightNum) - Math.min(...heightNum);
+
+            console.log(width * height)
+        }
+        solution([[-1, -1], [-1, 1], [1, -1], [1, 1]])
+
+        function solution2(common){
+            let result = 0;
+            if(common[1] - common[0] ===  common[2] - common[1]){
+                // 등차수열
+                result = common[common.length - 1] + common[1] - common[0];
+            } else {
+                // 등비수열
+                let share = common[2] / common[1];
+                result = common[common.length - 1] * share;
+            }
+            console.log(result)
+            return result
+        }
+        solution2([24, 12 , 6])
+
+        function solution3(polynomial){
+            let fnsArr = polynomial.split(' ');
+            let xArr = [];
+            let numArr = [];
+            console.log(fnsArr)
+            fnsArr.map(x=>{
+                if(x.includes('x')){
+                    xArr.push(x)
+                } else if(!isNaN(x)){
+                    numArr.push(x)
+                };
+            })
+
+            console.log(xArr, numArr)
+
+            let nNum;
+            if(numArr[0] !== undefined){
+                nNum = 0;
+                numArr.forEach(num=>nNum+=Number(num))
+            } else {
+                nNum = null;
+            }
+
+            let xNum = 0;
+            xArr.forEach((x)=>{
+                if(x[0] === 'x'){
+                    xNum += 1;
+                } else {
+                    xNum += Number(x[0])
+                }
+            })
+            
+            // x 변수 더하기
+            if(xNum === 0){
+                xNum = ''
+            } else if(xNum === 1){
+                xNum = 'x'
+            } else{
+                xNum = xNum + 'x'
+            }
+
+
+            if(nNum === null){
+                console.log(xNum)
+                return xNum
+            } else if(xNum === ''){
+                console.log(nNum)
+                return nNum
+            } else {
+                console.log(xNum + '+' + nNum)
+                return xNum + ' + ' + nNum
+            }
+        }
+
+        solution3("2 + 3")
+    </script>
+</body>
+</html>
