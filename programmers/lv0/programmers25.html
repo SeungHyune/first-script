@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv0</title>
+</head>
+
+<body>
+    <script>
+        function solution(lines) {
+            // 각 선분을 배열로 담기
+            let line = [[], [], []];
+            for (let i = 0; i <= 2; i++) {
+                for (let a = lines[i][0]; a <= lines[i][1]; a++) {
+                    line[i].push(a)
+                }
+            }
+            console.log(line)
+
+            // 가장 길이가 큰 선분 구하기
+            let lineWidth = Math.max(line[0].length, line[1].length, line[2].length)
+            console.log(lineWidth)
+
+            let maxLine;
+            line.forEach((num, i) => {
+                if (num.length === lineWidth) {
+                    maxLine = i;
+                }
+            })
+
+            // 작은 두 선분 구하기
+            console.log(maxLine)
+            let lineCopy = [...line];
+            let maxlines = lineCopy.splice(maxLine, 1);
+            console.log(Array.isArray(maxlines), maxlines)
+
+            // 작은 두 선분의 중복 배열 제거 (set 함수 활용)
+
+            // 작은 두 선분의 합친 배열과 가장 길이가 큰 선분 비교하기
+            let chk = 0;
+            let cnt = 0;
+            let chk2 = 0;
+            let cnt2 = 0;
+            let result = 0;
+            for (let i = 0; i < maxlines[0].length; i++) {
+            
+                line[0].forEach((num1) => {    
+                    console.log(num1, maxlines[0][i], num1 === maxlines[0][i])
+                    if (num1 === maxlines[0][i]) {
+                        console.log(num1)
+                        chk += 1;
+                    }
+                })
+
+                line[1].forEach((num2) => {    
+                    console.log(num2, maxlines[0][i], num2 === maxlines[0][i])
+                    if (num2 === maxlines[0][i]) {
+                        console.log(num2)
+                        chk2 += 1;
+                    }
+                })
+
+                if (chk === 1) {
+                    cnt += 1;
+                } else if (chk === 0) {
+                    cnt = 0;
+                }
+
+                if (chk2 === 1) {
+                    cnt2 += 1;
+                } else if (chk2 === 0) {
+                    cnt2 = 0;
+                }
+
+                if (cnt >= 2) {
+                    result += 1;
+                }
+
+                if (cnt2 >= 2) {
+                    result += 1;
+                }
+
+                chk = 0;
+                chk2 = 0;
+            }
+
+            let newLine = [];
+            line[0].forEach((num1)=>{
+                line[1].forEach((num2)=>{
+                    if(num1 === num2){
+                        newLine.push(num1)
+                    }
+                })
+            })
+
+            console.log(newLine)
+            
+
+            console.log(result - (newLine.length - 1))
+            return result - (newLine.length - 1);
+
+        }
+        solution([[0, 2], [-3, -1], [-2, 1]])     
+    </script>
+</body>
+
+</html>
