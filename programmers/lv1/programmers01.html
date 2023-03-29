@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv1</title>
+</head>
+<body>
+    <script>
+        function solution(num){
+            return num % 2 === 0 ?  "Even" : "Odd"
+        }
+        solution(0)
+
+        function solution2(arr){
+            let result = arr.reduce((prev, cur)=>{
+                return prev + cur
+            }, 0)
+
+            return result / arr.length
+        }
+        solution2([1,2,3,5])
+
+        function solution3(x, n){
+            let arr = [];
+            let num = 0;
+            for(let i=0;i<n;i++){
+                num += x
+                arr.push(num)
+            }
+            console.log(arr)
+        }
+        solution3(-4, 2)
+
+        function solution4(s){
+            const upperStr = s.toUpperCase();
+            let pLength = 0;
+            let yLength = 0;
+
+            console.log(upperStr[Symbol.iterator])
+            for(const a of upperStr){
+                a === "P" ? pLength+=1 : pLength+=0;
+                a === "Y" ? yLength+=1 : yLength+=0;
+            }
+
+            console.log(pLength, yLength)
+        }
+        solution4("pPoooyY")
+    </script>
+</body>
+</html>
