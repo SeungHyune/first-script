@@ -64,6 +64,28 @@
         }
         solution4(118372)
 
+        function solution5(n) {
+            let sum = 0;
+            for(let i=1;i<=n;i++){
+                if(n % i === 0){
+                    sum += i;
+                }
+            }
+            return sum
+        }
+        solution5(12)
+
+        function solution6(n) {
+            let strNum = String(n)
+            let sum = 0;
+            for(let i=0;i<strNum.length;i++){
+                const num = strNum[i];
+                sum += Number(num)
+            }
+
+            return sum;
+        }
+        solution6(123)
     </script>
 </body>
 </html>
