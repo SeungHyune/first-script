@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv1</title>
+</head>
+<body>
+    <script>
+        function solution(n){
+            let num = 2;
+            // while(num < n){
+            //     if(n % num === 1){
+            //         console.log(num)
+            //         return num
+            //     }
+            //     num += 1;
+            // }
+
+            for(let i=num;i < n ; i++){
+                if(n % i === 1){
+                    return i
+                }
+            }
+        }
+        solution(10)
+
+        function solution2(n){
+            // Math.pow로 제곱근 확인 후 정수로 떨어지지 않으면 -1 리턴하도록 작업
+            if(Number.isInteger(Math.pow(n, 0.5))){
+                return Math.pow(Math.pow(n, 0.5) + 1, 2)
+            } else {
+                return -1
+            }
+
+            // 삼항 연산자 처리 방법
+            return Number.isInteger(Math.pow(n, 0.5)) ? Math.pow(Math.pow(n, 0.5) + 1, 2) : -1
+        }
+        solution2(-1)
+
+        function solution3(n){
+            // 매개변수 n을 먼저 문자열로 만들어준다.
+            // 문자열로 만드는 이유는, string.split() 메서드를 쓸 수 있고, 또한 문자열.length를 활용하여 for문 iterator인 for...of문도 활용 가능함.
+
+            let strNum = String(n);
+            let arr = [];
+            for(const a of strNum){
+                arr.unshift(Number(a))
+            }
+            return arr
+            
+        }
+        solution3(12345)
+
+        function solution4(n){
+            let strNum = String(n)
+            let result = strNum.split('').sort((a,b)=>{return b - a});
+            console.log(result)
+            let str = "";
+            result.forEach(num => str += num)
+            console.log(Number(str))
+            return Number(str)
+        }
+        solution4(118372)
+
+    </script>
+</body>
+</html>
