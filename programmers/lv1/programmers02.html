@@ -108,6 +108,32 @@
             }
         }
         solution7("12345")
+
+        function solution8(x){
+            let result = String(x).split('').reduce((prev, cur)=>{
+                return prev +   Number(cur)
+            }, 0)
+
+            if(x % result === 0){
+                return true
+            }
+            return false
+
+        }
+        solution8(10)
+
+        function solution9(a,b){
+            let arr = [a,b]
+            let sum = 0;
+
+            arr.sort((a,b)=>{return a-b})
+            for(let i=arr[0];i<=arr[1];i++){
+                sum += i;
+            }
+            console.log(sum)
+            return sum
+        }
+        solution9(5,3)
     </script>
 </body>
 </html>
