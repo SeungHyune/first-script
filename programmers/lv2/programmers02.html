@@ -75,15 +75,15 @@
 
         function solution4(s) {
             let arr = [];
-            for(const a of s){
+            for (const a of s) {
                 arr.push(a);
-                console.log(arr[arr.length - 1], arr[arr.length - 2])
-                if(arr[arr.length - 1] === arr[arr.length - 2]){
+                // console.log(arr[arr.length - 1], arr[arr.length - 2])
+                if (arr[arr.length - 1] === arr[arr.length - 2]) {
                     arr.pop();
                     arr.pop();
                 }
             }
-            return arr.length === 0 ? 1 : 0 
+            return arr.length === 0 ? 1 : 0
 
 
             // 수가 큰 경우 효율성 문제가 있음..
@@ -105,7 +105,7 @@
 
             //     return strArr;
             // }
-            
+
             // while(true){
             //     let result = strDel(str);
             //     console.log(result)
@@ -120,8 +120,115 @@
             //     }
             // }
         }
-            
+
         solution4("abcdefggfedcba");
+
+        function solution5(n, words) {
+            let result = [];
+            let cnt = 1;
+            
+            for(let i=0;i<words.length;i++){
+                if(words.slice(0, i).includes(words[i])){
+                    break;
+                }
+
+                if(cnt < words.length - 1){
+                    if(words[i][words[i].length - 1] !== words[i+1][0]){
+                        cnt += 1;
+                        break;
+                    }
+                }
+
+                cnt += 1;
+            }
+
+            console.log(cnt)
+            if(cnt > words.length){
+                result = [0,0]
+            } else {
+                result[0] = cnt % n === 0 ? n : cnt%n;
+                result[1] = Math.ceil(cnt / n) 
+            }
+
+            console.log(result)
+
+            // let cnt = 0;
+            // let loutine = 1;
+            // let wordsArr = [];
+
+            // function findWords(item, words){
+            //     return words.some(word => {
+            //         return word === item;
+            //     })
+            // }
+
+            // for(let i=0;i<words.length;i++){
+            //     const item = words[i];
+            //     if(words[i+1] !== undefined ){
+            //         if(item[item.length - 1] === words[i+1]?.[0]){
+            //             cnt += 1;
+            //             if(cnt === n+1){
+            //                 cnt = 1;
+            //                 loutine += 1;
+            //             }
+
+            //             console.log(wordsArr)
+            //             let result = findWords(item, wordsArr);
+                        
+
+            //             if(result){
+            //                 console.log(cnt, loutine)
+            //                 return [cnt, loutine]
+            //             } else {
+            //                 wordsArr.push(item)
+            //             }
+            //         } else{
+            //             let result = findWords(item, wordsArr);
+
+            //             if(result){
+            //                 cnt += 1;
+                            
+            //                 if(cnt === n+1){
+            //                     loutine += 1;
+            //                     cnt = 1;
+            //                 }
+            //                 return [cnt, loutine]
+            //             } else {
+            //                 cnt += 2;
+            //                 if(cnt >= n+1){
+            //                     if(cnt % n === 0){
+            //                         cnt = 1;
+            //                         loutine += 1;
+            //                     } else {
+            //                         cnt = cnt % n;
+            //                         loutine += 1;
+            //                     }
+            //                 }
+            //                 console.log(cnt, loutine)
+            //                 return [cnt, loutine]
+            //             }
+            //         }
+            //     } else {
+            //         cnt += 1;
+            //         if(cnt === n+1){
+            //             loutine += 1;
+            //             cnt = 1;
+            //         }
+
+            //         let result = findWords(item, wordsArr);
+            //         if(result){
+            //             console.log(cnt, loutine)
+            //             return [cnt, loutine]
+            //         } else {
+            //             console.log(0,0)
+            //             return [0, 0]
+            //         }
+            //     }
+            // }
+        }
+        solution5(2,["hello", "one", "even", "never", "now", "world", "draw"])
+        // ['land', 'dream', 'mom', 'mom'] [2,2]
+        // ['land', 'dream', 'mom', 'mom', 'ror'] [2,2]
     </script>
 </body>
 
