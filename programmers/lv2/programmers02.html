@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv2</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        function solution(n) {
+            let sum = 0;
+            let way = 0;
+
+            for (let i = 1; i <= n; i++) {
+                for (let a = i; a <= n; a++) {
+                    sum += a
+                    if (sum === n) {
+                        way += 1;
+                        break;
+                    } else if (sum > n) {
+                        break;
+                    }
+                }
+                console.log('way:', way, 'sum:', sum, 'i:', i)
+                sum = 0;
+
+                if (i === n) {
+                    console.log(way)
+                    return way;
+                }
+            }
+        }
+        solution(15)
+
+        function solution2(n) {
+            let cnt = n + 1;
+            let cntType = n.toString(2);
+
+            function findOne(num) {
+                let oneStr = 0;
+                for (let i = 0; i < num.length; i++) {
+                    if (num[i] === '1') {
+                        oneStr += 1;
+                    }
+                }
+                return oneStr
+            }
+
+            while (true) {
+                let type = cnt.toString(2);
+                if (findOne(cntType) === findOne(type)) {
+                    console.log(cnt);
+                    return cnt;
+                }
+                cnt += 1
+            }
+        }
+        solution2(78)
+
+        function solution3(n) {
+            let numlist = [0, 1];
+            for (let i = 2; i <= n; i++) {
+                numlist.push((numlist[i - 1] + numlist[i - 2]) % 1234567);
+
+                if (i === n) {
+                    console.log(numlist[n])
+                    return numlist[n]
+                }
+            }
+        }
+        solution3(100)
+
+        function solution4(s) {
+            let arr = [];
+            for(const a of s){
+                arr.push(a);
+                console.log(arr[arr.length - 1], arr[arr.length - 2])
+                if(arr[arr.length - 1] === arr[arr.length - 2]){
+                    arr.pop();
+                    arr.pop();
+                }
+            }
+            return arr.length === 0 ? 1 : 0 
+
+
+            // 수가 큰 경우 효율성 문제가 있음..
+
+            // let str = s.split('');
+
+            // function strDel(string){
+            //     let strArr = [];
+            //     for(let i=0;i<string.length;i++){
+            //         if(string[i] === string[i+1] || string[i] === string[i-1]){
+            //             if(string[i] === string[i+1] && string[i] === string[i-1]){
+            //                 strArr.push(string[i+1])
+            //             }
+            //             continue;
+            //         } else {
+            //             strArr.push(string[i])
+            //         }
+            //     }
+
+            //     return strArr;
+            // }
+            
+            // while(true){
+            //     let result = strDel(str);
+            //     console.log(result)
+            //     if(result.length === str.length){
+            //         console.log(0)
+            //         return 0
+            //     } else if(result.length === 0){
+            //         console.log(1)
+            //         return 1
+            //     } else {
+            //         str = [...strDel(str)];
+            //     }
+            // }
+        }
+            
+        solution4("abcdefggfedcba");
+    </script>
+</body>
+
+</html>
