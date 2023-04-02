@@ -86,6 +86,28 @@
             return sum;
         }
         solution6(123)
+
+        function solution7(s){
+            let Symbol = "";
+            let number = "";
+            
+            s.split('').forEach(num => {
+                if(isNaN(num)){
+                    Symbol = num
+                } else {
+                    number += num;
+                }
+            })
+            
+            if(Symbol === '-'){
+                console.log(-Number(number), typeof -Number(number))
+                return -Number(number)
+            } else if(Symbol === '+' || Symbol === ""){
+                console.log(Number(number), typeof Number(number))
+                return Number(number)
+            }
+        }
+        solution7("12345")
     </script>
 </body>
 </html>
