@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv1</title>
+</head>
+<body>
+    <script>
+        function solution(num){
+            for(let i = 1 ; i <= 500 ; i++){
+                // i가 1인 경우
+                if(i === 1 && num === 1){
+                    console.log(0)
+                    return 0
+                }
+
+                // 홀짝 여부에 따른 계산
+                if(num % 2 === 0){
+                    num = num / 2;
+                } else if(num % 2 === 1){
+                    num = (num * 3) + 1
+                }
+
+                // num === 1이되면 현재까지 반복된 i 값 반환 || i가 500번 반복 될 때 까지 num === 1이 아니면 -1 반환
+                if(num === 1){
+                    console.log(i)
+                    return i
+                } else if(i === 500){
+                    console.log(-1)
+                    return -1
+                }
+            }
+        }
+        solution(2)
+
+        function solution2(seoul){
+            const result = seoul.findIndex(name => name === "Kim")
+            return `김서방은 ${result}에 있다.`
+        }
+        solution2(["Jane", "Kim"])
+
+        function solution3(arr, divisor){
+            // num이 divisor로 나누었을 때 정수이면 numArr에 담기
+            let numArr = [];
+            for(const num of arr){
+                if(Number.isInteger(num / divisor)){
+                    numArr.push(num)
+                }
+            }
+
+            // 오름차순 정렬
+            numArr.sort((a, b)=> a - b)
+
+            return numArr.length === 0 ? -1 : numArr;
+        }
+        solution3([2, 36, 1, 3], 1)
+
+        function solution4(phone_number){
+            let phone = "";
+            for(let i=0;i<phone_number.length - 4; i++){
+                phone += "*"
+            }
+            for(let i = phone_number.length - 4; i < phone_number.length ; i++){
+                phone += phone_number[i];
+            }
+            console.log(phone)
+
+        }
+        solution4("4444")
+
+        function solution5(absolutes, signs){
+            let sum = 0;
+            for(let i=0;i<signs.length;i++){
+                const boolean = signs[i];
+                const num = absolutes[i];
+                if(boolean === true){
+                    sum += num;
+                } else if(boolean === false){
+                    sum = sum - num;
+                }
+            }
+            console.log(sum)
+        }
+        solution5([1,2,3], [false,false,true])
+
+        function solution6(arr){
+            // 배열의 최소값 찾기
+            let minArr = Math.min.apply(null, arr);
+
+            // 최소 값 index 찾기
+            let result = arr.findIndex(num => num === minArr);
+
+            // 찾은 위치로 배열 제거
+            arr.splice(result, 1);
+            
+            // arr의 길이가 1이면 -1을 그게 아니면 arr를 리턴
+            console.log(arr.length === 1 ? -1 : arr)
+            return arr.length === 1 ? -1 : arr
+        }
+        solution6([4,3,2,1])
+
+        function solution7(numbers){
+            let sum = 0;
+            let chk = false;
+
+            // 오름차순 정렬
+            numbers.sort((a,b)=> a-b);
+
+            for(let i=0;i<=9;i++){
+                numbers.forEach(num =>{
+                    if(i === num){
+                        chk = true   
+                    }
+                })
+                if(!chk){
+                    sum += i;
+                }
+                chk = false;
+            }
+            console.log(sum)
+        }
+        solution7([5,8,4,0,6,7,9])
+
+        function solution8(s){
+            // s 배열의 길이 홀짝 여부 체크
+            if(s.length % 2 === 0){
+                console.log(`${s[(s.length / 2) - 1]}${s[s.length / 2]}`)
+                return `${s[(s.length / 2) - 1]}${s[s.length / 2]}`;
+            } else{
+                console.log(s[Math.floor(s.length / 2)])
+                return s[Math.floor(s.length / 2)];
+            }
+
+            
+        }
+        solution8("qwer")
+
+        function solution9(n){
+            let str = "";
+            for(let i=1;i<=n;i++){
+                if(i % 2 === 1){
+                    str += '수'
+                } else {
+                    str += '박'
+                }
+            }
+            return str
+        }
+        solution9(3)
+
+        function solution10(a, b){
+            let sum = 0
+            for(let i=0;i<a.length ;i++){
+                const aItem = a[i];
+                const bItem = b[i];
+                sum += aItem * bItem;
+                if(i === a.length - 1){
+                    sum += a[a.length - 2] * b[b.length - 2]
+                }
+            }
+            console.log(sum)
+            return sum
+        }
+        solution10([1,2,3,4], [-3,-1,0,2])
+
+        function solution11(s){
+            let strArr = s.split('').sort((a,b)=>{
+                if(a > b){
+                    return  -1
+                } else if(b > a) {
+                    return 1
+                }
+            })
+            console.log(strArr.join(''))
+            return strArr.join('')
+        }
+        solution11("Zbcdefg")
+
+        function solution12(s){
+            let str = "";
+            let num = "";
+            let numArr = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
+            for(let i=0;i<s.length;i++){
+                const item = s[i]
+
+                // 텍스트 숫자 찾기
+                let result = numArr.findIndex(strNum => strNum === str)
+                
+                // 찾으면 해당 인덱스 숫자를 더하고 str 초기화
+                if(result > -1){
+                    num += result;
+                    str = "";
+                }
+
+                if(!isNaN(item)){
+                    num += item
+                } else {
+                    str += item;
+                }
+            }
+            
+            if(str !== ""){
+                let result = numArr.findIndex(strNum => strNum === str)
+                num += result;
+            }
+
+            return Number(num)
+        }
+        solution12("123")
+
+        function solution13(left, right){
+            // 약수를 찾을 수 배열에 담기
+            let arr = []
+            for(let i=left;i<=right;i++){
+                arr.push(i)
+            }
+
+            // 배열의 수를 돌면서 각 수의 약수의 개수의 홀,짝 여부 찾기
+            let sum = 0;
+            let cnt = 0;
+            for(let i=0;i<arr.length;i++){
+                for(let a=1;a<=arr[i];a++){
+                    if(arr[i] % a === 0){
+                        cnt += 1;
+                    }
+                }
+                if(cnt % 2 === 0){
+                    sum += arr[i];
+                } else {
+                    sum -= arr[i]
+                }
+                cnt = 0;
+            }
+            return sum
+        }
+        solution13(24,27)
+
+        function solution14(strings, n){
+            strings.sort((a,b)=>{
+                if(a[n] === b[n]){
+                    if(a > b){
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                } else {
+                    if(a[n] > b[n]){
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                }
+            })
+            return strings
+        }
+        solution14(["abce", "abcd", "cdx"], 2)
+    </script>
+</body>
+</html>
