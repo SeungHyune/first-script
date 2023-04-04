@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv1</title>
+</head>
+<body>
+    <script>
+        function solution(s){
+            let type = true;
+            if(s.length === 4 || s.length === 6){
+                for(let i=0;i<s.length;i++){
+                    const item = s[i];
+
+                    if(isNaN(item)){
+                        type = false
+                    }
+                }
+            } else {
+                type = false;
+            }
+            console.log(type);
+            return type
+        }
+        solution("123a")
+
+        function solution2(price, money, count){
+            let result = 0;
+            let spend = 0;
+            for(let i=1;i<=count;i++){
+                spend = spend + (price * i);
+            }
+            
+            if(money - spend > 0){
+                return 0;
+            } else {
+                return Math.abs(money - spend);
+            }
+        }
+        solution2(3, 20, 4)
+
+        function solution3(arr1, arr2){
+            let newArr = [];
+            for(let i = 0 ; i<arr1.length;i++){
+                newArr.push([]);
+                for(let a=0;a<arr1[i].length;a++){
+                    newArr[i].push(arr1[i][a] + arr2[i][a])
+                }
+            }
+            console.log(newArr)
+            
+        }
+        solution3([[1]], [[4]]);
+
+        let star = ""
+        for(let i=0;i<3;i++){
+            for(let a=0;a<5;a++){
+                star += "*"
+            }
+            star += '\n'
+        }
+        console.log(star)
+
+        function solution4(n,m){
+            // 최소공배수 두 수로 나타낼 수 있는 동일한 작은 배수의 값
+            // 최대공약수 두 수를 나누어 떨어지느 최대 값
+            let minNum = 0;
+            let result = [];
+            if(n < m){
+                minNum = n;
+            } else {
+                minNum = m;
+            }
+
+            
+            // 최대공약수 구하기
+            for(let i=minNum;i>=1;i--){
+                if(n % i === 0 && m % i === 0){
+                    result[0] = i;
+                    break;
+                }
+            }
+
+            cnt = 1;
+            while(true){
+                if(cnt % n === 0 && cnt % m === 0){
+                    result[1] = cnt;
+                    break;
+                }
+                cnt += 1;
+            }
+            console.log(result);
+            return result
+        }
+        solution4(20,8)
+
+        function solution5(arr){
+            let el = 0;
+            let el2 = "";
+
+            let NumArr = [];
+            for(let i=0;i<arr.length;i++){
+                const item = arr[i];
+
+                NumArr.push(item);
+                if(item === el2){
+                    el +=1;
+                    if(el >= 1){
+                        NumArr.pop();
+                    }
+                } else {
+                    el = 0;
+                }
+                
+
+                el2 = item;
+            }
+            console.log(NumArr)
+        }
+        solution5([4,4,4,3,3,3,5,5,1,2,2,3,3,5,5,7,4,8,4,8,4,4])
+
+        function solution6(n){
+            const three = n.toString(3);
+
+            let result = "";
+            for(let i=three.length-1;i>=0;i--){
+                const num = three[i]
+                result += num;
+            }
+            return parseInt(result, 3);
+        }
+        solution6(125)
+    </script>
+</body>
+</html>
