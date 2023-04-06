@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv1</title>
+</head>
+
+<body>
+    <script>
+        function solution(array, commands) {
+            let result = []
+            for (let i = 0; i < commands.length; i++) {
+                const item = commands[i];
+
+                let arr = array.slice(item[0] - 1, item[1]);
+                arr.sort((a, b) => a - b);
+                console.log(arr, arr[item[2] - 1])
+                result.push(arr[item[2] - 1])
+            }
+            console.log(result)
+            return result
+        }
+        solution([1, 5, 2, 6, 3, 7, 4], [[2, 5, 3], [4, 4, 1], [1, 7, 3]])
+
+        function solution2(t, p) {
+            let arr = [];
+            let str = "";
+            for (let i = 0; i < t.length; i++) {
+
+                // str이 빈 문자열이라면 t의 i번째 문자열을 str에 저장
+                if(p.length === 1){
+                    str += t[i];
+                    arr.push(str);
+                    str = "";
+                } else {
+                    if (str === "") {
+                        str += t[i];
+                    }
+
+                    for (let a = i + 1; a < t.length; a++) {
+                        if (p.length === 1) {
+                            arr.push(str);
+                            str = "";
+                            break;
+                        } else {
+                            str += t[a]
+
+                            if (str.length === p.length) {
+                                arr.push(str);
+                                str = "";
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            console.log(arr);
+
+            let newArr = [];
+            let strNum = "";
+            let bl = false;
+            arr.forEach(num => {
+                for (let i = 0; i < num.length; i++) {
+                    let str = num[i];
+
+                    // "0"이 아닌 다른 수를 만나면 그때부터 strNum에 str 값을 저장한다.
+                    if (p.length === 1) {
+                        strNum += str;
+                        break;
+                    } else {
+                        if (str !== "0") {
+                            bl = true;
+                        }
+                        if (bl) {
+                            strNum += str;
+                        }
+                    }
+                }
+
+                // 위에서 저장한 str 값을 새로운 배열에 푸쉬한다.
+                newArr.push(strNum);
+                strNum = "";
+                bl = false;
+            })
+
+
+            console.log('newArr', newArr)
+
+            let result = newArr.filter(num => Number(num) <= Number(p))
+            console.log(result, result.length)
+            return result.length;
+        }
+        solution2("12", "11")
+
+        function solution3(numbers){
+            let arr = [];
+            for(let i=0;i<numbers.length;i++){
+                for(let a=i+1 ;a<numbers.length;a++){
+                    arr.push(numbers[i] + numbers[a]);
+                }
+            }
+            
+            arr.sort((a,b)=> a - b);
+            let set = new Set(arr);
+            return Array.from(set)
+        }
+        solution3([2,1,3,4,1])
+
+        function solution4(a, b, n){
+            let cola  = 0;
+            let service = n;
+            let remain = 0;
+
+            while(service >= a){
+                if(service % a === 0){
+                    service = (service / a) * b;
+                } else {
+                    remain = service % a;
+                    service = Math.floor(service / a) * b;
+                }
+                cola += service;
+                service += remain;
+                remain = 0;
+                console.log(cola)
+            }
+            console.log(cola)
+        }
+        solution4(2, 1, 20)
+
+        function solution5(food){
+            let arr = []
+            for(let i = 0;i<food.length;i++){
+                const item = food[i];
+                if(i === 0){
+                    continue;
+                }
+                if(item % 2 === 0){
+                    for(let a=0;a<(item/2);a++){
+                        arr.push(i)
+                    }
+                } else {
+                    for(let a=0;a<Math.floor(item / 2);a++){
+                        arr.push(i)
+                    }
+                }
+            }
+            return arr.concat(0).join('') + arr.reverse().join('')
+
+        }
+        solution5([1,3,5,2])
+
+        function solution6(s){
+            let str = "";
+            let result = [];
+            for(const a of s){
+                if(str.indexOf(a) > -1){
+                    let strArr = str.split('').reverse()
+                    result.push(strArr.indexOf(a) + 1)
+                    str += a;
+                } else {
+                    result.push(-1);
+                    str += a;
+                }
+            }
+            console.log(result)
+        }
+        solution6("jinara")
+    </script>
+</body>
+
+</html>
