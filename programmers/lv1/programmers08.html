@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv1</title>
+</head>
+
+<body>
+    <script>
+        function solution(nums){
+            let arr = [];
+            for(let i=0;i<nums.length;i++){
+                const item = nums[i];
+                for(let a=i+1;a<nums.length;a++){
+                    for(let j=a+1;j<nums.length;j++){
+                        console.log(nums[i],nums[a],nums[j])
+                        let = sum = nums[i] + nums[a] + nums[j]
+                        arr.push(sum)
+                    }
+                }
+            }
+            console.log(arr)
+            
+            // let set = new Set(arr);
+            // let newArr = Array.from(set);
+            // console.log(newArr)
+            let chk = 0;
+            let result = 0;
+            for(let i=0;i<arr.length;i++){
+                const item = arr[i];
+                for(let a=item;a>=1;a--){
+                    if(item % a === 0){
+                        chk += 1;
+                    }
+
+                    if(chk >= 3){
+                        break;
+                    }
+                }
+
+                if(chk === 2){
+                    result += 1;
+                }
+                chk = 0;
+            }
+
+            console.log(result)
+            return result
+        }
+
+        solution([1,2,5,3,8,11,21])
+
+        console.log('2번')
+
+        function solution2(k, m, score){
+            let apple = Math.floor(score.length / m);
+            let rest = score.length % m;
+            console.log(rest)
+            score.sort((a,b)=> a-b);
+
+            if(rest !== 0){
+                for(let i=0;i<rest;i++){
+                    score.shift();
+                }
+            }
+            
+
+            let arr = [];
+            let chk = 0;
+            let sum = 0;
+            for(let i=0;i<score.length;i++){
+                chk += 1;
+                arr.push(score[i]);
+                if(chk === m){
+                    sum +=  Math.min.apply(null, arr) * m;
+                    arr = [];
+                    chk = 0;
+                }
+            }
+            console.log(arr, sum)
+        }
+        solution2(4,3,[4, 1, 2, 2, 4, 4, 4, 4, 1, 2, 4, 2])
+
+    </script>
+</body>
+
+</html>
