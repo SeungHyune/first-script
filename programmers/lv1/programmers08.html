@@ -10,38 +10,38 @@
 
 <body>
     <script>
-        function solution(nums){
+        function solution(nums) {
             let arr = [];
-            for(let i=0;i<nums.length;i++){
+            for (let i = 0; i < nums.length; i++) {
                 const item = nums[i];
-                for(let a=i+1;a<nums.length;a++){
-                    for(let j=a+1;j<nums.length;j++){
-                        console.log(nums[i],nums[a],nums[j])
+                for (let a = i + 1; a < nums.length; a++) {
+                    for (let j = a + 1; j < nums.length; j++) {
+                        console.log(nums[i], nums[a], nums[j])
                         let = sum = nums[i] + nums[a] + nums[j]
                         arr.push(sum)
                     }
                 }
             }
             console.log(arr)
-            
+
             // let set = new Set(arr);
             // let newArr = Array.from(set);
             // console.log(newArr)
             let chk = 0;
             let result = 0;
-            for(let i=0;i<arr.length;i++){
+            for (let i = 0; i < arr.length; i++) {
                 const item = arr[i];
-                for(let a=item;a>=1;a--){
-                    if(item % a === 0){
+                for (let a = item; a >= 1; a--) {
+                    if (item % a === 0) {
                         chk += 1;
                     }
 
-                    if(chk >= 3){
+                    if (chk >= 3) {
                         break;
                     }
                 }
 
-                if(chk === 2){
+                if (chk === 2) {
                     result += 1;
                 }
                 chk = 0;
@@ -51,39 +51,229 @@
             return result
         }
 
-        solution([1,2,5,3,8,11,21])
+        solution([1, 2, 5, 3, 8, 11, 21])
 
         console.log('2번')
 
-        function solution2(k, m, score){
+        function solution2(k, m, score) {
             let apple = Math.floor(score.length / m);
             let rest = score.length % m;
             console.log(rest)
-            score.sort((a,b)=> a-b);
+            score.sort((a, b) => a - b);
 
-            if(rest !== 0){
-                for(let i=0;i<rest;i++){
+            if (rest !== 0) {
+                for (let i = 0; i < rest; i++) {
                     score.shift();
                 }
             }
-            
+
 
             let arr = [];
             let chk = 0;
             let sum = 0;
-            for(let i=0;i<score.length;i++){
+            for (let i = 0; i < score.length; i++) {
                 chk += 1;
                 arr.push(score[i]);
-                if(chk === m){
-                    sum +=  Math.min.apply(null, arr) * m;
+                if (chk === m) {
+                    sum += Math.min.apply(null, arr) * m;
                     arr = [];
                     chk = 0;
                 }
             }
             console.log(arr, sum)
         }
-        solution2(4,3,[4, 1, 2, 2, 4, 4, 4, 4, 1, 2, 4, 2])
+        solution2(4, 3, [4, 1, 2, 2, 4, 4, 4, 4, 1, 2, 4, 2])
 
+        function solution3(N, stages) {
+            // let arr = stages.filter(num => num < n)
+            // console.log(arr)
+            let arr = [...stages];
+            arr.sort((a, b) => a - b)
+            console.log(arr)
+
+            let newArr = [];
+            let fails = 0;
+            let participation = 0
+            for (let i = 1; i <= N; i++) {
+                for (let a = 0; a < arr.length; a++) {
+                    const stage = arr[a];
+                    if (i <= stage) {
+                        participation += 1;
+                        if (i >= stage) {
+                            fails += 1;
+                        }
+                    }
+                }
+                console.log('fails', fails / participation, 'stage :', i)
+                newArr.push({ id: i, value: fails / participation });
+                fails = 0;
+                participation = 0;
+            }
+
+
+            newArr.sort((a, b) => b.value - a.value)
+            let result = newArr.reduce((prev, cur) => {
+                prev.push(cur.id);
+                return prev
+            }, [])
+            console.log(result)
+        }
+        solution3(4, [4, 4, 4, 1, 1]);
+
+        function solution4(dartResult) {
+            let number = 0;
+            let score = [];
+
+            // 숫자 기준으로 계산해야 될 점수 끊어서 배열에 저장
+            let arr = [];
+            let num = "";
+            let cnt = 0;
+            for (let i = 0; i < dartResult.length; i++) {
+                const item = dartResult[i];
+                if (cnt === 0) {
+                    if (!isNaN(item)) {
+                        num += item;
+                    } else {
+                        num += item;
+                        cnt = 1;
+                    }
+                } else {
+                    if (isNaN(item)) {
+                        num += item;
+                    } else {
+                        arr.push(num)
+                        num = "";
+                        num += item;
+                        cnt = 0;
+                    }
+                }
+            }
+            arr.push(num)
+            console.log(arr)
+
+            // 배열 단위로 점수 계산
+            for (let i = 0; i < arr.length; i++) {
+                for (let a = 0; a < arr[i].length; a++) {
+                    const item = arr[i][a];
+                    if (!isNaN(item)) {
+                        number += item;
+                    } else {
+                        number = Number(number)
+                        if (item === "S") {
+                            number = Math.pow(number, 1)
+                        } else if (item === "D") {
+                            number = Math.pow(number, 2)
+                        } else if (item === "T") {
+                            number = Math.pow(number, 3)
+                        }
+                    }
+
+                    if (i !== 0) {
+                        if (item === "*") {
+                            score[i - 1] = score[i - 1] * 2;
+                            number = number * 2;
+                        } else if (item === "#") {
+                            number = number * -1;
+                        }
+                    } else if (i === 0) {
+                        if (item === "*") {
+                            number = number * 2;
+                        } else if (item === "#") {
+                            number = number * -1;
+                        }
+                    }
+                }
+                score.push(number)
+                number = "";
+            }
+
+            let result = score.reduce((prev, cur) => {
+                prev += cur;
+                return prev
+            }, 0)
+            return result;
+        }
+        solution4("1D2S3T*")
+
+        function solution5(lottos, win_nums) {
+            const prizes = { "6": 1, "5": 2, "4": 3, "3": 4, "2": 5, "1": 6, "0": 6 }
+            let zero = lottos.filter(num => num === 0).length
+            let prize = win_nums.filter(num => {
+                return lottos.includes(num)
+            }).length
+            console.log([prizes[prize + zero], prizes[prize]])
+            return [prizes[prize + zero], prizes[prize]]
+
+            // win_nums.sort((a,b)=> a-b);
+            // lottos.sort((a,b)=>a-b);
+
+            //     let prize = 0;
+            //     let zero = 0;
+            //     for(let i=0;i<win_nums.length;i++){
+            //         const item = win_nums[i];
+            //         for(let a=0;a<lottos.length;a++){
+            //             if(item === lottos[a]){
+            //                 prize += 1;
+            //             } 
+
+            //             if(lottos[a] === 0){
+            //                 zero += 1;
+            //             }
+            //         }
+            //     }
+
+            //     zero = zero / 6;
+            //     return [prizes[prize + zero], prizes[prize]]
+        }
+        solution5([44, 1, 0, 0, 31, 25], [31, 10, 45, 1, 6, 19])
+
+        function solution6(cards1, cards2, goal) {
+            let newArr = [];
+
+
+            for (let i = 0; i < goal.length; i++) {
+                const item = goal[i];
+                if (cards1.includes(item)) {
+                    for (let a = 0; a < cards1.length; a++) {
+                        if (item === cards1[a]) {
+                            newArr.push({ card: 1, idx: a, value: cards1[a] })
+                        }
+                    }
+                } else if (cards2.includes(item)) {
+                    for (let a = 0; a < cards2.length; a++) {
+                        if (item === cards2[a]) {
+                            newArr.push({ card: 2, idx: a, value: cards2[a] })
+                        }
+                    }
+                }
+            }
+            console.log(newArr)
+
+            let result = "Yes";
+            let turn = "";
+            newArr.forEach((num, index) => {
+                if (index !== newArr.length - 1) {
+                    if (num.idx > newArr[index + 1].idx && num.card === newArr[index + 1].card) {
+                        result = "No";
+                    }
+                }
+            })
+
+            let card1 = newArr.filter(card => card.card === 1)
+            let card2 = newArr.filter(card => card.card === 2)
+            let cardF1 = card1.filter((card, index) => card.idx === index)
+            let cardF2 = card2.filter((card, index) => card.idx === index)
+            console.log(card1, cardF1)
+            console.log(card2, cardF2)
+            if(cardF1.length === card1.length && cardF2.length === card2.length){
+                return result;
+            } else {
+                result = 'No'
+            }
+
+            console.log(result)
+        }
+        solution6(["a", "b", "c"], ["d", "e"], ["b", "c", "d", "e"])
     </script>
 </body>
 
