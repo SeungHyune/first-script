@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script type="text/javascript">
+        function solution(array, commands){
+            let result = []
+            for(let i=0;i<commands.length;i++){
+                const item = commands[i]
+                let arr = array.slice(item[0] - 1, item[1]);
+                arr.sort((a,b)=> a-b);
+                result.push(arr[item[2] - 1])
+            }
+            console.log(result)
+        }
+        solution([1,5,2,6,3,7,4],[[2,5,3],[4,4,1],[1,7,3]])
+
+        function solution2(array, commands){
+            return commands.map(command =>{
+                const [first, second, third] = command;
+                // slice 메서드가 더 실용적으로 보임..
+                let newArray = array.filter((num, idx) => {
+                    return idx >= first - 1 && second - 1 >= idx;
+                })
+                newArray.sort((a,b)=> a - b);
+                return newArray[third - 1]
+            })
+        }
+        solution2([1,5,2,6,3,7,4],[[2,5,3],[4,4,1],[1,7,3]])
+
+        function solution3(t,p){
+            let arr = [];
+            let num = "";
+            let chk = 0;
+
+            for(let i=0;i<t.length;i++){
+                
+                if(chk === 0){
+                    chk += 1;
+                    num += t[i]
+                }
+
+                if(chk === p.length){
+                    arr.push(num);
+                } else {
+                    for(let a=i+1;a<t.length;a++){
+                        const item = t[a];
+                        num += item;
+                        chk += 1;
+
+                        if(chk === p.length){
+                            arr.push(num);
+                            break;
+                        }
+                    }
+                }
+
+                chk = 0;
+                num = "";
+            }
+            console.log(arr)
+
+            const result = arr.filter(num => Number(num) <= Number(p));
+            console.log(result, result.length)
+        }
+        solution3("10203", "15")
+
+        function solution4(numbers) {
+            let  arr = [];
+            for(let i=0;i<numbers.length;i++){
+                for(let a=i+1;a<numbers.length;a++){
+                    arr.push(numbers[i] + numbers[a])
+                }
+            }
+            let set = new Set(arr);
+            let newArr = Array.from(set);
+            return newArr.sort((a,b) => a - b )
+        }
+        solution4([2,1,3,4,1])
+
+        function solution5(a,b,n){
+            let cola = 0;
+            let product = n;
+            let service = 0;
+
+            while(product >= a){
+                service += product % a;
+                product = Math.floor(product / a) * b;
+                cola += product;
+                product += service;
+
+                service = 0;
+            }
+            console.log(cola)
+        }
+        solution5(2,1,20)
+
+        function solution6(food){
+            let arr = [];
+            for(let i=0;i<food.length;i++){
+                const item = food[i];
+                for(let a=0;a<Math.floor(item/2);a++){
+                    if(i !== 0){
+                        arr.push(i);
+                    }
+                }
+            }
+            let newArr = [...arr].reverse()
+            console.log([...arr, 0, ...newArr].join(''))
+            return [...arr, 0, ...newArr].join('')
+        }
+        solution6([1,3,4,6])
+
+        function solution7(s){
+            let arr = s.split('');
+
+            let result = [];
+            let findArr = [];
+            for(let i=0;i<arr.length;i++){
+                const item = arr[i];
+                let find = findArr.findIndex(str => str === item)
+                console.log(find)
+                if(find > -1){
+                    result.push(find+1)
+                } else {
+                    result.push(-1)
+                }
+                findArr.unshift(item);
+            }
+            console.log(result)
+        }   
+        solution7("banana")
+
+        function solution8(a, b) {
+            let month = [31,29,31,30,31,30,31,31,30,31,30,31]
+            let day = ["THU","FRI","SAT","SUN","MON","TUE","WED"]
+            let result = 0;
+            for(let i=0;i<a;i++){
+                if(i !== a - 1){
+                    result += month[i];
+                } else {
+                    result += b;
+                }
+            }
+            return day[result % 7]
+        }
+        solution8(1, 10)
+
+        function solution9(nums){
+            // let set = new Set(nums);
+            // let arr = Array.from(set);
+            // if(arr.length >= nums.length / 2){
+            //     console.log(nums.length / 2)
+            //     return nums.length / 2;
+            // } else {
+            //     console.log(arr.length)
+            //     return arr.length;
+            // }
+
+            let set = new Set(nums)
+            return set.size < nums.length / 2 ? set.size : nums.length / 2
+        }
+        solution9([3,1,2,3])
+
+        function solution10(n){
+            let decimal = [];
+            let chk = 0;
+            let root = Math.sqrt(n);
+            for(let i=2;i<=root;i++){
+                for(let a=i;a>=1;a--){
+                    if(i % a === 0){
+                        chk += 1;
+                    }
+
+                    if(chk >= 3){
+                        break;
+                    }
+                }
+                if(chk === 2){
+                    decimal.push(i)
+                }
+                chk = 0;
+            }
+            console.log(decimal)
+            return decimal;
+        }
+        solution10(10)
+    </script>
+</body>
+</html>
