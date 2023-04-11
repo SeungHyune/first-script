@@ -65,6 +65,38 @@
             console.log(result)
         }
         solution2(10, 3,  2)
+
+        function solution3(X, Y){
+            let arr = [];
+            let xArr = X.split('');
+            let yArr = Y.split('');
+
+            for(let i=0;i<xArr.length;i++){
+                const item = xArr[i];
+                for(let a=0;a<yArr.length;a++){
+                    const item2 = yArr[a];
+                    console.log(item, item2, item === item2)
+                    if(item === item2){
+                        arr.push(item)
+                        let idx = yArr.findIndex(num => num === item);
+                        yArr[idx] = undefined;
+                        break;
+                    }
+                }
+            }
+
+            console.log(arr)
+            
+            arr.sort((a,b) => b - a);
+            if(arr.length === 0){
+                return "-1";
+            } else if (arr[0] === '0'){
+                return "0";
+            } else {
+                return arr.sort((a,b) => b - a).join('')
+            }
+        }
+        solution3("5525", "1255")
     </script>
 </body>
 
