@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>async & await</title>
+</head>
+<body>
+    <script type="text/javascript">
+        function timer(time){
+            return new Promise(function(resolve){
+                setTimeout(function(){
+                    resolve(time)
+                }, time)
+            });
+        }
+
+        console.time('Promise.all')
+        Promise.all([timer(1000), timer(2000), timer(3000)]).then(function(result){
+            console.log('result:', result);
+            console.timeEnd('Promise.all')
+        })
+
+        console.time('Promise.race');
+        Promise.race([timer(1000), timer(2000), timer(3000)]).then(function(result){
+            console.log('result:', result);
+            console.timeEnd('Promise.race')
+        })
+
+        
+        console.log('start');
+        timer(1000).then(function(time){
+            console.log('time:'+time);
+            return timer(time + 1000);
+        }).then(function(time){
+            console.log('time:'+time);
+            return timer(time + 1000);
+        }).then(function(time){
+            console.log('time:'+time);
+            console.log('end');
+        })
+
+        async function run(){
+            console.log('start')
+            let time = await timer(1000);
+            console.log('time:'+time);
+            time = await timer(time+1000);
+            console.log('time:'+time);
+            time = await timer(time+1000);
+            console.log('time:'+time);
+            console.log('end');
+
+            return time;
+        }
+        
+        async function run2(){
+            console.log('parent start');
+            let time = await run();
+            console.log('parent end');
+            return time
+        }
+
+        console.log('parent parent start');
+        run2().then(function(time){
+            console.log(time)
+            console.log('parent parent end')
+        });
+    </script>
+</body>
+</html>
