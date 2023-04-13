@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv1</title>
+</head>
+
+<body>
+    <script>
+        function solution(n, lost, reserve){
+            lost.sort((a,b)=> a-b);
+            reserve.sort((a,b)=> a-b);
+            let arr = new Array(n+1).fill(true);
+            arr[0] = false;
+            
+            // 현재 옷을 가지고 있는 사람 계산
+            for(let i=1;i<=n;i++){
+                const item = arr[i];
+                for(let a = 0; a<lost.length; a++){
+                    if(i === lost[a]){
+                        arr[i] = false;
+                    }
+                }
+            }
+            console.log(arr)
+
+            // reserve한 사람 중에 자기 자신이 체육복을 도난 당했는지 체크하기
+            for(let i=0;i<lost.length;i++){
+                const item = lost[i];
+                if(reserve.indexOf(item) > -1){
+                    arr[item] = true;
+                    reserve.splice(reserve.indexOf(item), 1);
+                }
+            }
+            console.log(reserve)
+
+            for(let i=0;i<reserve.length;i++){
+                const item = reserve[i]
+                if(item === 1){
+                    arr[item+1] = true;
+                } else {
+                    if(arr[item-1] === false){
+                    arr[item-1] = true;
+                    } else{
+                        arr[item+1] = true;
+                    }
+                }
+            }
+            
+            let result = arr.slice(0, n+1);
+            console.log(result)
+            console.log(result.filter(str => str === true).length)
+            
+        }
+        solution(4, [3,1], [2,4]);
+
+        function solution2(participant, completion){
+            let arr = [...participant];
+            let arr2 = [...completion];
+
+            console.log(arr)
+            console.log(arr2)
+
+            arr.sort((a,b) => {
+                if(a > b){
+                    return 1
+                } else {
+                    return -1;
+                }
+            })
+            arr2.sort((a,b) => {
+                if(a > b){
+                    return 1
+                } else {
+                    return -1;
+                }
+            })
+
+            console.log(arr)
+            console.log(arr2)
+            for(let i=0;i<arr.length;i++){
+                if(arr[i] !== arr2[i]){
+                    return arr[i]
+                }
+            }
+
+
+            // for(const item of completion){
+            //     const idx = arr.indexOf(item);
+            //     if(idx > -1){
+            //         arr.splice(idx, 1);
+            //     }
+            // }
+            // console.log(arr)
+
+
+        }
+        solution2(["mislav", "stanko", "mislav", "ana"], ["stanko", "ana", "mislav"])
+
+        function solution3(participant, completion){
+            const map = new Map();
+            for(let i=0;i<participant.length;i++){
+                let a = participant[i];
+                let b = completion[i];
+
+                map.set(a, (map.get(a) || 0) + 1);
+                map.set(b, (map.get(b) || 0) - 1);
+            }
+
+            for(let [x, y] of map){
+                if(y > 0) {console.log(x)}
+            }
+        }
+        solution3(["leo", "kiki", "eden"],	["eden", "kiki"])
+    </script>
+</body>
+
+</html>
