@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv1</title>
+</head>
+
+<body>
+    <script>
+        function solution(k, score){
+            // k번째 갯수까지 어레이에 추가 후 어레이의 가장 낮은 수를 최종 배열에 순서대로 추가해줌
+            let result = [];
+            
+            let chk = 0;
+            let arr = [];
+
+            for(let i=0;i<score.length;i++){
+                const item = score[i];
+                chk += 1;
+                let minNum = Math.min.apply(null, arr);
+                let idx = arr.findIndex(num => num === minNum);
+                if(chk > k){
+                    if(item > minNum){
+                        arr[idx] = item;
+                        minNum = Math.min.apply(null, arr);
+                        result.push(minNum);
+                    } else {
+                        result.push(minNum);
+                    }
+                } else {
+                    arr.push(item);
+                    minNum = Math.min.apply(null, arr);
+                    result.push(minNum);
+                }
+            }
+            console.log(result)
+        }
+        solution(4, [0, 300, 40, 300, 20, 70, 150, 50, 500, 1000])
+
+        function solution2(k, score){
+            let arr = [];
+            score.reduce((prev, cur) => {
+                if(arr.length < k){
+                    prev.push(cur);
+                    prev.sort((a,b)=>a-b);
+                } else {
+                    prev.push(cur);
+                    prev.sort((a,b)=>a-b);
+                    prev.shift();
+                }
+                arr.push(prev[0])
+                return prev
+            }, [])
+            console.log(arr)
+        }
+        solution2(3, [10, 100, 20, 150, 1, 100, 200])
+
+        function solution3(n, m, section){
+            let arr = new Array(n+1).fill(true);
+            for(let i=0;i<section.length;i++){
+                const item = section[i];
+                arr[item] = false;
+            }
+            console.log(arr);
+
+            let chk = 0;
+            let result = false;
+            while(!result){
+                for(let i=section[0];i<(m + section[0]);i++){
+                    chk += 1;
+                    if(i >= arr.length){
+                        break;
+                    } else {
+                        arr[i] = true;
+                        console.log(arr)
+                        if(section[0] <= i){
+                            
+                            section.shift();
+                        }
+                    }
+                }
+
+                result = arr.every(str => str === true);
+                console.log(result);
+            }
+            console.log(Math.ceil(chk / m))
+            return Math.ceil(chk / m)
+        }
+        solution3(4,1,[1,2,3,4])
+    </script>
+</body>
+
+</html>
