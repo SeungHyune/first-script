@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv1</title>
+</head>
+
+<body>
+    <script>
+        function solution(keymap, targets){
+            let result = [];
+            let sum = 0;
+            let cnt = true;
+
+            for(let t of targets){
+                for(let i=0;i<t.length;i++){
+                    let  compare = [];
+                    let chk = 0;
+
+                    for(let a=0;a<keymap.length;a++){
+                        const item = keymap[a];
+                        
+                        if(item.indexOf(t[i]) > -1){
+                            compare.push(item.indexOf(t[i]))
+                        } else {
+                            chk += 1;
+                        }
+
+                        if(chk === keymap.length){
+                            cnt = false;
+                            chk = 0;
+                        }
+                    }
+                    let minNum = Math.min.apply(null, compare);
+
+                    if(minNum >= 0 && minNum !== Infinity){
+                        sum += minNum + 1;
+                    }
+
+                    compare = [];
+                }
+                
+                if(cnt){
+                    result.push(sum);
+                } else {
+                    result.push(-1);
+                }
+                cnt = true;
+                sum = 0;
+            }
+            console.log(result)
+            return result
+        }
+        solution(["AGZ", "BSSS"], ["ASA","BGZ"]	)
+
+        function solution2(ingredient){
+            let arr = [...ingredient];
+            let burger = arr.join('').indexOf('1231');
+            let cnt = 0;
+            
+
+            while(burger > -1){
+               cnt += 1;
+               arr.splice(burger, 4); 
+               burger = arr.join('').indexOf('1231');
+            }
+            console.log(cnt)
+        }
+        solution2([1, 2, 3, 1, 2, 3, 1, 1, 1, 1, 2, 3, 1, 2, 3, 1, 1, 1, 1, 1, 1, 2, 3, 3, 1, 2, 3, 1, 3, 3, 3, 2, 1, 2, 3, 1])
+    </script>
+    
+</body>
+
+</html>
