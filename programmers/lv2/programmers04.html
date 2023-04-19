@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv2</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        function solution(arr){
+            let maxNum = Math.max.apply(null, arr);
+            let cnt = 0;
+            let i = 1;
+
+            let add = 0;
+            while(true){
+                add = maxNum * i;
+                for(let i=0;i<arr.length;i++){
+                    const item = arr[i];
+                    if(add % item === 0){
+                        cnt += 1;
+                    }
+                }
+
+                if(cnt === arr.length){
+                    console.log(add)
+                    return add;
+                }
+                i += 1;
+                cnt = 0;
+            }
+        }   
+        solution([1,2,3])
+
+        function solution2(people, limit){
+            var answer = 0
+            people.sort((a,b) => b-a)
+            let l = 0
+            let r = people.length-1
+            
+            while(l<r){
+                var sum = people[l] + people[r]
+                if(sum>limit){
+                    l++
+                } else {
+                    l++
+                    r--
+                }
+                answer++
+            }
+            
+            if(l == r) answer++
+            return answer
+        }
+        solution2([70,80,50], 100)
+    </script>
+</body>
+
+</html>
