@@ -36,26 +36,17 @@
         solution([1,2,3])
 
         function solution2(people, limit){
-            var answer = 0
-            people.sort((a,b) => b-a)
-            let l = 0
-            let r = people.length-1
-            
-            while(l<r){
-                var sum = people[l] + people[r]
-                if(sum>limit){
-                    l++
-                } else {
-                    l++
-                    r--
-                }
-                answer++
+            people.sort((a,b)=>b-a);
+
+            let cnt = 0;
+            for(let i=0, j=people.length-1;i<=j;i++){
+                if(people[i] + people[j] <= limit) j--;
+                cnt += 1;
             }
-            
-            if(l == r) answer++
-            return answer
+
+            console.log(cnt)
         }
-        solution2([70,80,50], 100)
+        solution2([70,50,80,50], 100)
     </script>
 </body>
 
