@@ -37,16 +37,43 @@
 
         function solution2(people, limit){
             people.sort((a,b)=>b-a);
+            let result = 0;
 
-            let cnt = 0;
-            for(let i=0, j=people.length-1;i<=j;i++){
-                if(people[i] + people[j] <= limit) j--;
-                cnt += 1;
+            let i = 0;
+            let j = people.length - 1;
+            while(i < j){
+                if(people[i] + people[j] <= limit){
+                    j--;
+                }
+                i+=1;
+                result+=1;
             }
-
-            console.log(cnt)
+            console.log(result)
         }
         solution2([70,50,80,50], 100)
+
+        function solution3(brown, yellow){
+            // yellow의 최소값은 1이다 그러므로 가로 세로의 최소 값은 3이다
+            // x - 2 * y - 2 === yellow 값이다.
+            const result = [];
+            const size = brown + yellow;
+            for(let i=3;i<size;i++){
+                let width = size / i;
+                let height = i;
+
+                if(width < height) continue;
+
+                if((width - 2) * (height - 2) === yellow){
+                    result[0] = width;
+                    result[1] = height;
+                }
+            }
+            console.log(result)
+        }
+        solution3(10,2);
+
+        
+
     </script>
 </body>
 
