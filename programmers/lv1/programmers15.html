@@ -35,6 +35,46 @@
         }
         solution(["ayayeayayeaya"])
 
+        function solution2(ingredient){
+            let arr = [];
+            let cnt = 0;
+
+            for(let i=0;i<ingredient.length;i++){
+                const item = ingredient[i];
+                arr.push(item)
+                if(arr.slice(-4).join('') === '1231'){
+                    arr.splice(-4)
+                    cnt += 1;
+                }
+                
+            }
+            console.log(cnt)
+
+
+            // let burger = [...ingredient].join('');
+            // let cnt = 0;
+
+            // while(burger.indexOf('1231') > -1){
+            //     burger = burger.replace('1231', '')
+            //     cnt += 1;
+            // }
+            // return cnt
+
+
+            
+            // let burger = [...ingredient].join('');
+            // let cnt = 0;
+            // while(burger.indexOf('1231') > -1){
+            //     idx = burger.indexOf('1231');
+            //     burger = burger.split('');
+            //     burger.splice(idx, 4)
+            //     burger = burger.join('');
+            //     cnt += 1;
+            // }
+            // console.log(cnt)
+        }
+        solution2([2, 1, 1, 2, 3, 1, 2, 3, 1])
+
         function solution3(today, terms, privacies){
             let arr = [];
             let obj = {};
