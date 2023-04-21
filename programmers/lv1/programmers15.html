@@ -13,27 +13,31 @@
         function solution(babbling){
             let arr = ["aya", "ye", "woo", "ma"];
             let newArr = [...babbling];
-            console.log(newArr)
 
             for(let i=0;i<arr.length;i++){
                 const item = arr[i];
                 for(let a=0;a<newArr.length;a++){
                     const str = newArr[a];
                     let firstIdx = str.indexOf(item);
-                    newArr[a] = str.replace(item, '');
+                    newArr[a] = str.replace(item, ' ');
 
                     let idx = newArr[a].indexOf(item);
-                    while(idx > firstIdx){
-                        newArr[a] = newArr[a].replace(item, '');
+                    while(idx > firstIdx+1){
+                        firstIdx = newArr[a].indexOf(item);
+                        newArr[a] = newArr[a].replace(item, ' ');
                         idx = newArr[a].indexOf(item);
                     }
                     console.log(newArr)
                 }
             }
             console.log(newArr)
+            newArr.forEach((str, idx)=>{
+               return newArr[idx] = str.trim();
+            })
+            console.log(newArr)
             return newArr.filter(find => find === "").length
         }
-        solution(["ayayeayayeaya"])
+        solution(["ayayeayayeayaaya"])
 
         function solution2(ingredient){
             let arr = [];
