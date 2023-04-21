@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv1</title>
+</head>
+
+<body>
+    <script>
+        function solution(babbling){
+            let arr = ["aya", "ye", "woo", "ma"];
+            let newArr = [...babbling];
+            console.log(newArr)
+
+            for(let i=0;i<arr.length;i++){
+                const item = arr[i];
+                for(let a=0;a<newArr.length;a++){
+                    const str = newArr[a];
+                    let firstIdx = str.indexOf(item);
+                    newArr[a] = str.replace(item, '');
+
+                    let idx = newArr[a].indexOf(item);
+                    while(idx > firstIdx){
+                        newArr[a] = newArr[a].replace(item, '');
+                        idx = newArr[a].indexOf(item);
+                    }
+                    console.log(newArr)
+                }
+            }
+            console.log(newArr)
+            return newArr.filter(find => find === "").length
+        }
+        solution(["ayayeayayeaya"])
+
+        function solution3(today, terms, privacies){
+            let arr = [];
+            let obj = {};
+            for(const t of terms){
+                let item = t.split(' ')
+                obj[item[0]] = item[1]
+            }
+            console.log(obj)
+
+            
+                let i = 1;
+                for(const p of privacies){
+                    let item = p.split(' ');
+                    let day = item[0].split('.');
+                    day[1] = String(Number(day[1]) + Number(obj[item[1]]));
+
+                    if(day[1] > 12){
+                        if(Number.isInteger(day[1] / 12)){
+                            year = Math.floor(day[1] / 12) - 1;
+                            month = 12;
+                        } else {
+                            year = Math.floor(day[1] / 12);
+                            month = day[1] % 12;
+                        }
+                        
+                        
+                        day[1] = String(month);
+                        day[0] = String(Number(day[0]) + year);
+                    }
+                    day[1].length === 1 ? day[1] = '0'+day[1] : day[1];
+                    day[2].length === 1 ? day[2] = '0'+day[2] : day[2];
+                    arr.push({value : day, id : i})
+                    i+= 1;
+                }
+
+            console.log(arr)
+            let result = arr.filter(tday => {
+                // console.log(Number(tday.value.join('')))
+                return Number(today.split('.').join('')) >= Number(tday.value.join(''));
+            })
+            console.log(result)
+
+            let resultArr = [];
+            for(let i=0;i<result.length;i++){
+                const item = result[i];
+                resultArr.push(item.id)
+            }
+
+            console.log(resultArr)
+            return resultArr
+
+        }
+        solution3("2021.12.08",["A 18"],["2020.06.08 A"])
+    </script>
+    
+</body>
+
+</html>
