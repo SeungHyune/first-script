@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv1</title>
+</head>
+
+<body>
+    <script>
+        function solution(number, limit, power){
+            let sum = 0;
+            for(let i=1;i<=number;i++){
+                let cnt = 0;
+                for(let a=1;a<=Math.sqrt(i);a++){
+                    if(i % a === 0){
+                        if(i / a === a) cnt += 1;
+                        else cnt += 2
+                    }
+
+                    if(cnt > limit) {
+                        cnt = power;
+                        break;
+                    }
+                    
+                }
+
+                sum += cnt;
+                console.log(cnt)
+            }
+
+            console.log(sum)
+        }
+        solution(10,3,2)
+
+        function solution2(n,m,section){
+            let arr = new Array(n+1).fill(true);
+            for(const r of section){
+                arr[r] = false;
+            }
+
+            let res = arr.every(str => str === true);
+            let result = 0;
+            while(!res){
+                let idx = arr.findIndex(str => str === false);
+                for(let i=idx;i<idx+m;i++){
+                    arr[i] = true;
+                }
+
+                res = arr.every(str => str === true);
+                result += 1;
+            }
+
+            return result;
+        }
+        solution2(8,4,[2,3,6])
+
+        function solution3(s, skip, index){
+            let arr = [...s];
+            let skipStr = [...skip];
+            let idx = index;
+
+            skipStr.forEach((str,i) => {
+                skipStr[i] = str.charCodeAt();
+            })
+            
+
+            let result = "";
+
+            arr.forEach(str => {
+                let fItem = str.charCodeAt();
+                for(let i=0;i<index;i++){
+                    fItem += 1;
+                    if(fItem > 122){
+                        fItem = (fItem - 122) + 96;
+                    }
+
+                    let res = skipStr.some(re => re === fItem);
+                    while(res){
+                        fItem += 1;
+                        if(fItem > 122){
+                            fItem = (fItem - 122) + 96;
+                        }
+                        res = skipStr.some(re => re === fItem);
+                    }
+                }
+
+                
+                if(fItem > 122){
+                    fItem = (fItem - 122) + 96;
+                }
+
+                result += String.fromCharCode(fItem)
+            })
+            console.log(result)
+        }
+        solution3("ybcde", "az", 1)
+    </script>
+    
+</body>
+
+</html>
