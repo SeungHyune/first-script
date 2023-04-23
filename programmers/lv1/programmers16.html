@@ -92,6 +92,63 @@
             console.log(result)
         }
         solution3("ybcde", "az", 1)
+
+        function solution4(survey, choices){
+            const pointer = ['RT', 'CF', 'JM', 'AN'];
+            let arr = [];
+            for(let i=0;i<survey.length;i++){
+                const item= survey[i];
+                let obj = {};
+                for(let a=0;a<item.length;a++){
+                    if(!obj[item[a]]) obj[[item[a]]] = 0;
+                }
+                arr.push(obj)
+            }
+
+            console.log(arr)
+            
+            arr.forEach((mbti, idx) => {
+                for(const key in mbti){
+                    let score = Math.abs(choices[idx] - 4)
+                    if(choices[idx] > 4){
+                        mbti[survey[idx][1]] = score
+                    } else if(choices[idx] < 4){
+                        mbti[survey[idx][0]] = score
+                    }
+                }
+            })
+            console.log(arr)
+
+            let newArr = [];
+            arr.forEach((mbti, idx)=>{
+                for(const key in mbti){
+                    if(!newArr[key]){
+                        newArr[key] = 0;
+                    }
+                    newArr[key] += mbti[key]
+                }
+            })
+            console.log(newArr)
+
+            let result = "";
+            for(let i=0;i<pointer.length;i++){
+                const item = pointer[i];
+                for(let a=0;a<item.length;a++){
+                    if(newArr[item[a]] > newArr[item[a+1]]){
+                        result += item[a];
+                        break;
+                    } else if (newArr[item[a]] < newArr[item[a+1]]){
+                        result += item[a+1];
+                        break;
+                    } else {
+                        result += item[a];
+                        break;
+                    }
+                }
+            }
+            console.log(result)
+        }
+        solution4(["TR", "RT", "TR"],[7,1,3])
     </script>
     
 </body>
