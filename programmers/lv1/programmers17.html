@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv1</title>
+</head>
+
+<body>
+    <script>
+        function solution(survey, choices){
+            let mbti = ['RT', 'CF', 'JM', 'AN'];
+            let arr = [];
+            for(let i=0;i<survey.length;i++){
+                const item = survey[i];
+                let obj = {};
+                for(const n of item){
+                    obj[n] = 0;
+                }
+                arr.push(obj);
+                obj = {};
+            }
+            
+            console.log(arr)
+            
+            survey.forEach((str, idx) => {
+                const score = choices[idx];
+                for(let i=0;i<str.length;i++){
+                    if(score > 4){
+                        arr[idx][str[i+1]] = Math.abs(score - 4);
+                        break;
+                    } else if (score < 4){
+                        arr[idx][str[i]] = Math.abs(score - 4);
+                        break;
+                    }
+                }
+            })
+            
+            let newObj = {};
+            arr.forEach((str, idx) => {
+                for(const key in str) {
+                    if(!newObj[key]) newObj[key] = 0;
+                    newObj[key] += str[key];
+                }
+            })
+            console.log(newObj)
+
+            let result = "";
+            mbti.forEach((item, idx) => {
+                for(let i=0;i<item.length;i++){
+                    if(newObj[item[i]] < newObj[item[i+1]]){
+                        result += item[i+1];
+                        break;
+                    } else {
+                        result += item[i];
+                        break;
+                    }
+                }
+            })
+            console.log(result)
+            return result;
+
+        }
+        solution(["TR", "RT", "TR"], [7,1,3]);
+        
+        function solution2(players, callings){
+            // for(let i=0;i<callings.length;i++){
+            //     const item = callings[i];
+            //     let idx = players.findIndex(name => name === item);
+            //     players.splice(idx-1, 0, item)
+            //     players.splice(idx+1, 1)
+            // }
+            // return players
+
+            let map = new Map();
+            players.forEach((name,idx) => {
+                map.set(name, idx);
+            })
+            
+
+            callings.forEach((name,idx) => {
+                let index = map.get(name);
+                let front = players[index-1];
+
+                [players[index], players[index-1]] = [players[index-1], players[index]]
+
+                map.set(name, map.get(name) - 1);
+                map.set(front, map.get(name) + 1);
+            })
+
+            console.log(players)
+        }
+        solution2(["mumu", "soe", "poe", "kai", "mine"], ["kai", "kai", "mine", "mine"]);
+    </script>
+    
+</body>
+
+</html>
