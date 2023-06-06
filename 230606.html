@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function solution(arr){
+            let answer = [];
+            let map = new Map();
+            for(const a of arr){
+                if(map.has(a)) map.set(a, map.get(a) + 1);
+                else map.set(a, 1);
+            }
+            
+            for(const [key,val] of map){
+                if(val > 1) answer.push(val);
+            }
+
+            if(answer.length === 0) return -1;
+            return answer;
+        }
+        let arr = [3,5,7,9,1];
+
+
+        console.log(solution(arr))
+
+        function solution2(arr){
+            let answer = [];
+            let s = "";
+            let str = "";
+            let newArr = {BOOL:1, SHORT:2, FLOAT:4, INT:8, LONG:16};
+            for(let i=0;i<arr.length;i++){
+                
+                for(let j=0;j<newArr[arr[i]];j++){
+                    str += "#";
+                }
+                if(newArr[arr[i]] === 1){
+                    if(newArr[arr[i+1]] === 2){
+                        str += ".";
+                    } else if(newArr[arr[i+1]] === 4){
+                        str += "...";
+                    } else if(newArr[arr[i+1]] >= 8){
+                        str += ".......";
+                    } else if(newArr[arr[i+1]] === undefined){
+                        for(let a=str.length;a<8;a++){
+                            str += ".";
+                        }
+                    }
+                } else if(newArr[arr[i]] < 8){
+                    if(newArr[arr[i+1]] >= 8){
+                        for(let a=str.length;a<8;a++){
+                            str += ".";
+                        }
+                    } else if(newArr[arr[i]] + newArr[arr[i+1]] < 8 && newArr[arr[i+2]] >= 8){
+                        for(let a=newArr[arr[i]] + newArr[arr[i+1]];a<8;a++){
+                            str += ".";
+                        } 
+                    } else if(newArr[arr[i+1]] === undefined){
+                        for(let a=str.length;a<8;a++){
+                            str += ".";
+                        }
+                    }
+                }
+                if(str.length >= 8){
+                    s += str;
+                    str = "";
+                }
+            }
+            console.log('answer:',answer, 'str:',str);
+            
+            let tmp = "";
+            if(s.length > 128) return 'HALT';
+            else {
+                for(const a of s) {
+                    tmp += a;
+                    if(tmp.length === 8) {
+                        answer.push(tmp);
+                        tmp = "";
+                    }
+                }
+            }
+            // console.log(answer)
+            return answer.join(',');
+        }
+        // let arr2 = ['INT', 'INT', 'BOOL', 'SHORT', 'LONG']; // 1
+        // let arr2 = ['INT', 'SHORT', 'FLOAT', 'INT', 'BOOL']; // 2
+        // let arr2 = ['FLOAT', 'SHORT', 'BOOL', 'BOOL', 'BOOL', 'INT']; // 3
+        let arr2 = ['BOOL', 'LONG', 'SHORT', 'LONG', 'BOOL', 'LONG', 'BOOL', 'LONG', 'SHORT', 'LONG', 'LONG']; //4
+        console.log(solution2(arr2));
+    </script>
+</body>
+</html>
