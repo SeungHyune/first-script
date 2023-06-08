@@ -112,12 +112,34 @@
                             break;
                         } else if(sum > n) break;
                     }
-                    sum = 0;
                 }
                 return answer;
             }
 
-            console.log(solution6(15));
+            // console.log(solution6(15));
+
+            function solution7(n){
+                let binary = n.toString(2);
+                let binaryNum = 0;
+                for(const a of binary){
+                    if(a === '1') binaryNum += 1;
+                }
+                
+                let nextBinary;
+                let nextBinaryNum = 0;
+                while(nextBinaryNum !== binaryNum){
+                    n+=1;
+                    nextBinary = n.toString(2);
+                    nextBinaryNum = 0;
+                    for(const a of nextBinary){
+                        if(a === '1') nextBinaryNum += 1;
+                    }
+
+                    if(nextBinaryNum === binaryNum) return n;
+                }
+            }
+
+            console.log(solution7(15));
         </script>
     </body>
 </html>
