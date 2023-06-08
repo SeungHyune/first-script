@@ -1,0 +1,123 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>출력결과</title>
+    </head>
+    <body>
+        <script>
+            function solution(s){
+                let answer = "";
+                let max = Math.max.apply(null, s.split(" "));
+                let min = Math.min.apply(null, s.split(" "));
+                answer = min + " " + max
+                return answer;
+            }
+            
+            let s = "-1 -2 -3 -4"
+            // console.log(solution(s));
+
+            function solution1(s){
+                let answer = "";
+                for(let i=0;i<s.length;i++){
+                    if(i === 0 || s[i-1] === " ") answer += s[i].toUpperCase();
+                    else answer += s[i].toLowerCase();
+                }
+                return answer;
+            }
+            
+            let s1 = "for the last week"
+            // console.log(solution1(s1));
+
+            function solution2(A,B){
+                let answer = 0;
+                A.sort((a,b)=>a-b);
+                B.sort((a,b)=>b-a);
+                for(let i=0;i<A.length;i++){
+                    answer += A[i] * B[i];
+                }
+                return answer;
+            }
+            // console.log(solution2([1, 2], [3, 4]));
+
+            function solution3(s){
+                let answer = true;
+                let stack = [];
+                for(const a of s){
+                    if(a === '(') stack.push(a);
+                    else {
+                        if(stack.length === 0) return false;
+                        stack.pop();
+                    }
+                }
+                if(stack.length > 0) return false;
+                return answer;
+            }
+
+            let s2 = "()()((()))()"
+            // console.log(solution3(s2));
+
+            function solution4(s){
+                let answer = true;
+                let stack = [];
+                for(const a of s){
+                    if(a === '[' || a === '(' || a === '{') stack.push(a);
+                    else {
+                        const lastChar = stack.pop();
+                        if(a === ']' && lastChar !== '[' ||
+                           a === ')' && lastChar !== '(' ||
+                           a === '}' && lastChar !== '{'){
+                            return false;
+                        }
+                    }
+                }
+                if(stack.length > 0) return false;
+                return answer;
+            }
+
+            let s3 = "()"
+            // console.log(solution4(s3));
+
+            function solution5(s){
+                let answer = [];
+                let zero = 0;
+                let chk = 0;
+                while(s.length !== 1){
+                    let str = "";
+                    for(const a of s){
+                        if(a === '0') zero += 1;
+                        else str += a;
+                    }
+                    let strLen = str.length;
+                    s = strLen.toString(2);
+
+                    chk += 1;
+                }
+
+                answer = [chk, zero];
+                return answer;
+            }
+
+            let s4 = "1111111"
+            // console.log(solution5(s4));
+
+            function solution6(n){
+                let answer = 0;
+                
+                for(let i=n;i>=1;i--){
+                    let sum = 0;
+                    for(let j=i;j>=1;j--){
+                        sum += j;
+                        if(sum === n) {
+                            answer += 1;
+                            break;
+                        } else if(sum > n) break;
+                    }
+                    sum = 0;
+                }
+                return answer;
+            }
+
+            console.log(solution6(15));
+        </script>
+    </body>
+</html>
