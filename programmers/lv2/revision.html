@@ -189,7 +189,23 @@
                 return [idx%n+1, Math.floor(idx/n+1)];
             }
             let arr = ["hello", "one", "even", "never", "now", "world", "draw"]
-            console.log(solution10(2,arr))
+            // console.log(solution10(2,arr))
+
+            function solution11(brown, yellow){
+                let i = 2;
+                if((yellow + 2)*2 + 2 === brown){
+                    return [yellow+2, 3];
+                } else {
+                    while(true){
+                        let y = yellow / i;
+                        let width = (y+2)*2;
+                        let height = i * 2;
+                        if(width+height === brown) return [width/2, i+2]
+                        i++;
+                    }
+                }
+            }
+            console.log(solution11(24,24));
         </script>
     </body>
 </html>
