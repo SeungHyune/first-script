@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function solution(arr){
+            let answer = [];
+            let left = 0;
+            let right = arr[0].length - 1;
+            let top = 0;
+            let bottom = arr.length - 1;
+            while(left<=right && top<=bottom){
+                for(let i=top;i<=right;i++){
+                    answer.push(arr[top][i])
+                }
+                top+=1;
+
+                for(let i=top;i<=bottom;i++){
+                    answer.push(arr[i][right]);
+                }
+                right-=1;
+
+                if(top<=bottom){
+                    for(let i=right;i>=left;i--){
+                        answer.push(arr[bottom][i]);
+                    }
+                }
+                bottom-=1;
+
+                if(left<=right){
+                    for(let i=bottom;i>=top;i--){
+                        answer.push(arr[i][left]);
+                    }
+                }
+                left+=1;
+
+            }
+            return answer;
+        }
+        // let arr = [[1,2,3],[4,5,6],[7,8,9]];
+        // let arr = [[1, 2, 3, 4],[12, 13, 14, 5],[11, 16, 15, 6],[10, 9, 8, 7]]
+        let arr = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]
+
+        // console.log(solution(arr))
+
+
+        function isEqual1(objA, objB){
+            let a = JSON.stringify(objA);
+            let b = JSON.stringify(objB);
+            console.log(a, b)
+            return a.split('').sort().join('') === b.split('').sort().join('');
+        }
+
+        function isEqual2(objA, objB){
+            const checkObjects = objA && objB && typeof objA === "object" && typeof objB === "object";
+            if(checkObjects && Object.keys(objA).length === Object.keys(objB).length){
+                if(Array.isArray(objA) && Array.isArray(objB)){
+                    return JSON.stringify(objA).split("").sort().join("") === JSON.stringify(objB).split("").sort().join("");
+                }
+                return Object.keys(objA).reduce((equal, key) => {
+                    return equal && isEqual2(objA[key], objB[key])
+                }, true);
+            } else {
+                return objA === objB;
+            }
+        }
+
+        const obj1 = {
+            a: "a",
+            b: 1,
+            c: [['a'], [{name:'kim', age:18}]],
+            d: {
+                e: null,
+                f: -1
+            }
+        }
+        const obj2 = {
+            a: "a",
+            b: 1,
+            c: [[{age:18, name:'kim'}], ['a']],
+            d: {
+                f: -1,
+                e: null,
+                
+            }
+        }
+        // console.log(isEqual1(obj1, obj2));
+        console.log(isEqual2(obj1, obj2));
+
+        function permutations(arr){
+            let answer = [];
+            let n = arr.length;
+            let tmp = Array.from({length:n}, ()=>0);
+            let ch = Array.from({length:n}, ()=>0);
+            function DFS(L){
+                if(L===n){
+                    answer.push([...tmp]);
+                } else {
+                    for(let i=0;i<n;i++){
+                        if(ch[i] === 0){
+                            ch[i] = 1;
+                            tmp[L] = arr[i];
+                            DFS(L+1);
+                            ch[i] = 0;
+                        }
+                    }
+                }
+            }
+            DFS(0)
+            return answer;
+        }
+
+        function permutations2(arr){
+            let answer = [];
+            let n = arr.length;
+            function dfs(i){
+                if(i === n){
+                    answer.push([...arr])
+                } else {
+                    for(let j=i;j<n;j++){
+                        [arr[i],arr[j]] = [arr[j],arr[i]];
+                        dfs(i+1,arr);
+                        [arr[i],arr[j]] = [arr[j],arr[i]];
+                    }
+                }
+            }
+            dfs(0)
+            return answer;
+        }
+
+        // let s1 = [1,2];
+        let s1 = ["a","b","c"];
+        // console.log(permutations(s1))
+        console.log(permutations2(s1));
+    </script>
+</body>
+</html>
