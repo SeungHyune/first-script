@@ -139,7 +139,57 @@
                 }
             }
 
-            console.log(solution7(15));
+            // console.log(solution7(15));
+
+            function solution8(n){
+                let stack = [0,1];
+                for(let i=2;i<=n;i++){
+                    stack.push((stack[i-2]+stack[i-1])%1234567);
+                }
+                return stack[n];
+            }
+            // console.log(solution8(100));
+
+            function solution9(s){
+                let str = [];
+                for(const a of s){
+                    str.push(a);
+                    if(str[str.length-2] === str[str.length-1]) {
+                        str.pop();
+                        str.pop();
+                    }
+                }
+                
+                return str.length === 0 ? 1 : 0;
+            }
+            let s5 = "cdcd"
+            // console.log(solution9(s5))
+
+            function solution10(n,arr){
+                let stack = [];
+                let chk = 0;
+                let idx = 0;
+                for(let i=0;i<arr.length;i++){
+                    chk += 1;
+
+                    if(stack.includes(arr[i])) {
+                        idx = i;
+                        break;
+                    };
+                    let str = stack[stack.length-1];
+                    stack.push(arr[i]);
+                    if(i !== 0 && str[str.length-1] !== arr[i][0]){
+                        idx = i;
+                        break;
+                    }
+
+                }
+                if(idx === 0) return [0,0];
+
+                return [idx%n+1, Math.floor(idx/n+1)];
+            }
+            let arr = ["hello", "one", "even", "never", "now", "world", "draw"]
+            console.log(solution10(2,arr))
         </script>
     </body>
 </html>
