@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv2</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        function solution(people, limit){
+            let answer = 0;
+            people.sort((a,b)=>b-a);
+            let i = 0;
+            let j = people.length-1;
+            while(i<=j){
+                if(people[i]+people[j]<=limit) j--;
+                i++;
+                answer++;
+            }
+            return answer;
+        }
+        let people = [40,55,55,60,60,60,70,80]
+        console.log(solution(people, 100));
+    </script>
+</body>
+
+</html>
