@@ -23,7 +23,7 @@
             return answer;
         }
         let people = [40,55,55,60,60,60,70,80]
-        console.log(solution(people, 100));
+        // console.log(solution(people, 100));
 
         function solution1(s) {
             let answer = 0;
@@ -54,7 +54,54 @@
         }
 
         let s1 = "}}}"
-        console.log(solution1(s1))
+        // console.log(solution1(s1));
+
+        function solution2(n){
+            let dp = Array.from({length:n+1}).fill(0);
+            dp[1] = 1;
+            dp[2] = 2;
+
+            for(let i=3;i<=n;i++){
+                dp[i] = dp[i-2] + dp[i-1];
+            }
+            return dp[n];
+        }
+
+        // console.log(solution2(10));
+
+        function solution3(arr){
+            let max = Math.max(...arr);
+            let i = 1;
+            let chk = 0;
+            let m;
+            while(chk !== arr.length){
+                m = max * i;
+                chk = 0;
+                for(const a of arr){
+                    if(m % a === 0){
+                        chk++;
+                    }
+                }
+                i++;
+            }
+            return m
+        }
+
+        let arr = [1,2,3]
+        // console.log(solution3(arr));
+
+        function solution4(n){
+            let answer = 1;
+            while(n > 1){
+                n = n / 2;
+                if(!Number.isInteger(n)){
+                    answer++;
+                    n = Math.floor(n);
+                }
+            }
+            return answer;
+        }
+        console.log(solution4(3545))
     </script>
 </body>
 
