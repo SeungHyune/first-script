@@ -101,7 +101,74 @@
             }
             return answer;
         }
-        console.log(solution4(3545))
+        // console.log(solution4(3545))
+
+        function solution5(n,left,right){
+            let answer = [];
+            let arr = Array.from({length:n}, ()=>Array(n).fill(0));
+
+            for(let i=n-1;i>=0;i--){
+                for(let j=i;j>=0;j--){
+                    arr[j][i] = i+1;
+                    arr[i][j] = i+1;
+                }
+            }
+            console.log(arr)
+
+            let newArr = [];
+            for(const a of arr){
+                if(newArr.length < right){
+                    newArr.push(...a);
+                }
+            }
+
+            console.log(newArr)
+            for(let i=left;i<=right;i++){
+                answer.push(newArr[i]);
+            }
+            return answer;
+        }
+        // console.log(solution5(3,2,5))
+
+        function solution6(cacheSize, cities){
+            let answer = 0;
+            let stack = [];
+            
+            for(let i=0;i<cities.length;i++){
+                cities[i] = cities[i].toUpperCase();
+            }
+
+            
+            cities.forEach(v=>{
+                let cnt = -1;
+                let idx ;
+                for(let i=0;i<stack.length;i++){
+                    if(stack[i] === v && cacheSize !== 0) {
+                        cnt = 1;
+                        idx = i;
+                        break;
+                    }
+                }
+
+                if(cnt === -1){
+                    answer += 5;
+                    for(let i=cacheSize-1;i>=1;i--){
+                        stack[i] = stack[i-1];
+                    }
+                } else {
+                    answer += 1;
+                    for(let i=idx;i>=1;i--){
+                        stack[i] = stack[i-1];
+                    }
+                }
+                stack[0] = v;
+            })
+            return answer;
+        }
+
+        let arr2 = 	["LA", "LA"]
+        console.log(solution6(0, arr2));
+        
     </script>
 </body>
 
