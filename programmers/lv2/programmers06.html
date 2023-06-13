@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv2</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        function solution(n){
+            if(n === 0) return 0;
+
+            let answer = Array.from({length:n+1}).fill(0);
+            answer[1] = 1;
+            answer[2] = 2;
+            for(let i=3;i<=n;i++){
+                answer[i] = answer[i-2] + answer[i-1];
+            }
+
+            return answer[n];
+        }
+        // console.log(solution(10))
+
+        function solution1(k, tangerline){
+            let answer = 0;
+            let sum = 0;
+            let map = new Map();
+            for(const a of tangerline){
+                map.set(a, map.has(a) ? map.get(a) + 1 : 1);
+            }
+            
+            let mapArr = [...map];
+            mapArr.sort((a,b)=>b[1] - a[1]);
+            for(const [key,val] of mapArr){
+                sum += val;
+                answer += 1;
+                if(sum >= k) return answer;
+            }
+            console.log(sum)
+        }
+        // console.log(solution1(8,[1,2,3,4,5,6,7,8]))
+
+        function solution2(clothes){
+            let answer;
+            let map = new Map();
+            for(const [key,val] of clothes){
+                map.set(val, map.has(val) ? map.get(val)+1 : 1);
+            }
+
+            let arr = [];
+            for(const [key,val] of map){
+                arr.push(val+1);
+            }
+
+            answer = arr.reduce((prev,cur)=>prev*cur, 1) - 1;
+            return answer;
+        }
+        let clothes = [["crow_mask", "face"], ["blue_sunglasses", "face"], ["smoky_makeup", "face"]]
+        // let clothes = [["crow_mask", "face"], ["blue_sunglasses", "face"], ["smoky_makeup", "face"]];
+        // console.log(solution2(clothes))
+
+        function solution3(s){
+            let answer = [];
+
+            let strArr = s.split(',');
+            for(let i=0;i<strArr.length;i++){
+                let str = "";
+                for(const a of strArr[i]){
+                    if(!isNaN(a)){
+                        str += a;
+                    }
+                }
+                strArr[i] = str;
+            }
+
+            let map = new Map();
+            for(const a of strArr){
+                if(!isNaN(a)) {
+                    map.set(a, map.has(a) ? map.get(a) + 1 : 1);
+                }
+            }
+            let mapArr = [...map];
+            mapArr.sort((a,b)=>b[1]-a[1]);
+            for(const [key,val] of mapArr){
+                answer.push(Number(key))
+            }
+
+            return answer;
+        }
+        // console.log(solution3("{{20,111},{111}}"));
+    </script>
+</body>
+
+</html>
