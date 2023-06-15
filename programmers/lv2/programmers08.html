@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv2</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        function solution(k, dungeons) {
+            let answer = 0;
+            let n = dungeons.length;
+            let ch = Array.from({length:n},()=>0);
+            let tmp = Array.from({length:n},()=>0);
+            function dfs(L){
+                if(L === n){
+                    let p = k;
+                    let cnt = 0;
+                    for(let i=0;i<tmp.length;i++){
+                        if(p >= tmp[i][0]){
+                            p -= tmp[i][1];
+                            cnt+=1;
+                        }
+                    }
+                    answer = Math.max(answer, cnt);
+                } else {
+                    for(let i=0;i<n;i++){
+                        if(ch[i] === 0){
+                            ch[i] = 1;
+                            tmp[L] = dungeons[i];
+                            dfs(L+1);
+                            ch[i] = 0;
+                        }
+                    }
+                }
+            }
+            dfs(0);
+            return answer;
+        }
+        let dungeons = [[80,20],[50,40],[30,10]];
+        // console.log(solution(80, dungeons));
+
+        function solution1(n,k){
+            let answer = 0;
+            let stack = [];
+            let num = n.toString(k);
+            
+            let str = "";
+            for(let i=0;i<num.length;i++){
+                if(Number(num[i]) !== 0){
+                    str += num[i];
+                } else {
+                    stack.push(Number(str));
+                    str = "";
+                }
+            }
+            stack.push(Number(str));
+            
+            for(let i=0;i<stack.length;i++){
+                if(stack[i] !== 1 && stack[i] !== 0){ 
+                    let cnt = 2;
+                    for(let j=2;j<=Math.sqrt(stack[i]);j++){
+                        if(stack[i] % j === 0) {
+                            cnt += 1;
+                            break;
+                        }
+                    }
+
+                    if(cnt < 3) answer += 1;
+                }
+            }
+            return answer;
+        }
+        console.log(solution1(110011, 10))
+    </script>
+</body>
+
+</html>
