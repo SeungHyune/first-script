@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>algorithms</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        function urlify(s, n){
+            // return s.trim().split(" ").join("%20");
+            let str = "";
+            let sLength = s.length - n; // 공백의 길이
+            let countIdx = 0;
+            for(const a of s){
+                if(a !== " ") break;
+                else countIdx += 1;
+            }
+            
+            for(let i=countIdx;i<countIdx+n;i++){
+                if(s[i] === " "){
+                    str += "%20";
+                } else str += s[i];
+            }
+            console.log(str);
+            return str;
+        }
+        // console.log(
+        //     urlify("Mr John Smith    ", 13) === "Mr%20John%20Smith",
+        //     urlify("  Mr John Smith    ", 13) === "Mr%20John%20Smith",
+        //     urlify(" My Name is SH    ", 13) === "My%20Name%20is%20SH"
+        //     );
+
+        function checkPalinPerm(s){
+            // 글자수 체크 후 , 짝수 이면 모든 문자 쌍 이룸, 홀수 이면 한문자 제외 모두 쌍으로 이루어져야함
+            let str = ""
+            for(const a of s){
+                if(a !== " "){
+                    str += a.toLowerCase();
+                }
+            }
+            
+            let map = new Map();
+            for(const a of str){
+                if(map.has(a)){
+                    map.delete(a);
+                } else {
+                    map.set(a, 1);
+                }
+            }
+
+            if(str.length % 2 === 0){
+                return map.size === 0;
+            } else {
+                return map.size === 1;
+            }
+        }
+        // console.log(
+        //     checkPalinPerm("Tact Coa"),
+        //     checkPalinPerm("Tact Boa"),
+        //     checkPalinPerm("aabbc"),
+        //     checkPalinPerm("aabc")
+        // )
+        function oneAwayChk(str1, str2){
+            let i = 0;
+            let j = 0;
+            let chk = 0;
+            while(i<str2.length){
+                if(str1[i] !== str2[j]) {
+                    j++;
+                    chk += 1;
+                } else {
+                    j++;
+                    i++;
+                }
+
+                if(chk === 2){
+                    answer = false;
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        function oneAwayChange(str1, str2){
+            let chk = 0;
+            for(let i=0;i<str1.length;i++){
+                if(str1[i] !== str2[i]){
+                    chk += 1;
+                }
+            }
+
+            return chk < 2;
+        }
+
+        function oneAway(str1, str2){
+            if(str1.length === str2.length){
+                // 교체
+                return oneAwayChange(str1, str2);
+            } else if(str1.length === str2.length-1){
+                // 삭제
+                return oneAwayChk(str1, str2)
+            } else if(str1.length-1 === str2.length){
+                // 삽입
+                return oneAwayChk(str2, str1)
+            }
+            return false;
+        }
+        console.log(
+            oneAway("apple", "aple"),
+            oneAway("aple", "apple"),
+            oneAway("more", "core"),
+            oneAway("abc", "ade")
+        );
+    </script>
+</body>
+
+</html>
