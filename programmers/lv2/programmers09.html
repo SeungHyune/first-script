@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv2</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        function solution(n,a,b){
+            let answer = 1;
+            let max = Math.max(a,b);
+            let min = Math.min(a,b);
+            let i=1
+            if(min+1 === max && min % 2 === 1 && max % 2 === 0) return answer;
+            while(Math.pow(2, i) < n){
+                answer += 1;
+                max = Math.ceil(max / 2);
+                min = Math.ceil(min / 2);
+                console.log(max, min);
+                if(min+1 === max && min % 2 === 1 && max % 2 === 0) return answer;
+                i++;
+            }
+            return answer;
+        }
+        // console.log(solution(128,63,65));
+
+        function solution1(elements){
+            let arr = [];
+            let n = elements.length;
+            
+            let i=0;
+            let j=0;
+            let p=1;
+            while(i < n){
+                let sum = 0;
+                for(let a=j;a<j+p;a++){
+                    sum += elements[a%n];
+                }
+                arr.push(sum);
+                j++;
+                if(j+p === n+p){
+                    j = 0;
+                    i++;
+                    p++;
+                }
+            }
+            
+            let set = new Set(arr);
+            return set.size;
+        }
+        // console.log(solution1([7,9,1,1,4]));
+
+        function solution2(msg){
+            let answer = [];
+            let arr = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+
+            let i = 0;
+            let str = "";
+            while(i<msg.length){
+                str += msg[i];
+                let idx = arr.indexOf(str);
+                // 찾는 단어가 사전에 등록된 경우
+                let j = i+1;
+                if(idx > -1){
+                    while(true){
+                        str+=msg[j];
+                        j++;
+                        console.log(str, arr.indexOf(str))
+                        if(arr.indexOf(str) > -1) {
+                            idx = arr.indexOf(str);
+                            i+=1;
+                        } else {
+                            arr.push(str);
+                            str = "";
+                            break;
+                        }
+                    }
+                    answer.push(idx+1);
+                } 
+                i++;
+            }
+            console.log(arr)
+
+            return answer;
+        }
+        console.log(solution2("ABABABABABABABAB"));
+    </script>
+</body>
+
+</html>
