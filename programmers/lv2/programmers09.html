@@ -63,7 +63,7 @@
             while(i<msg.length){
                 str += msg[i];
                 let idx = arr.indexOf(str);
-                // 찾는 단어가 사전에 등록된 경우
+
                 let j = i+1;
                 if(idx > -1){
                     while(true){
@@ -83,11 +83,95 @@
                 } 
                 i++;
             }
-            console.log(arr)
 
             return answer;
         }
-        console.log(solution2("ABABABABABABABAB"));
+        // console.log(solution2("ABABABABABABABAB"));
+
+        function solution3(n, left, right){
+            let answer = [];
+            let arr = Array.from({length:n}, ()=>Array(n).fill(n))
+            // console.log(arr)
+            
+            for(let i=n-2;i>=0;i--){
+                for(let j=0;j<=i;j++){
+                    arr[i][j] = i+1;
+                    arr[j][i] = i+1;
+                }
+            }
+            
+
+            let newArr = [];
+            let chk = 1;
+            for(const a of arr){
+                newArr.push(...a);
+                if(n*chk >= right) break;
+                chk++
+            }
+
+            for(let i=left;i<=right;i++){
+                answer.push(newArr[i])
+            }
+            return answer;
+        }
+        // console.log(solution3(3,2,5));
+
+        function solution4(n,t,m,p){
+            let answer = "";
+            let arr = [];
+
+            let i = 0
+            while(arr.length < t*m){
+                let num = i.toString(n).toUpperCase();
+                if(num.length === 1){
+                    arr.push(num);
+                } else {
+                    for(const a of num){
+                        arr.push(a);
+                    }
+                }
+                i++
+            }
+
+            let start = p-1;
+            while(answer.length<t){
+                answer += arr[start];
+                start += m;
+            }
+            return answer;
+        }
+        // console.log(solution4(16,16,2,2));
+
+        function solution5(record){
+            let answer = [];
+            let obj = {};
+            for(const a of record){
+                let s = a.split(" ");
+                if(obj[s[1] === undefined]){
+                    obj[s[1]] = s[2];
+                } else if(s[0] === "Change" || s[0] === "Enter" && obj[s[1]] !== s[2]){
+                    obj[s[1]] = s[2];
+                }
+            }
+
+            for(const a of record){
+                let s = a.split(" ");
+                let info = s[0];
+                let enter = `${obj[s[1]]}님이 들어왔습니다.`;
+                let leave = `${obj[s[1]]}님이 나갔습니다.`;
+                // 입장
+                if(info === "Enter"){
+                    answer.push(enter);
+                } 
+                // 퇴장
+                else if(info === "Leave"){
+                    answer.push(leave);
+                } 
+            }
+            return answer;
+        }
+        let record = ["Enter uid1234 Muzi", "Enter uid4567 Prodo","Leave uid1234","Enter uid1234 Prodo","Change uid4567 Ryan"];
+        console.log(solution5(record));
     </script>
 </body>
 
