@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv1</title>
+</head>
+
+<body>
+    <script>
+        function solution(number,limit,power){
+            let answer = 0;
+            for(let i=1;i<=number;i++){
+                let countSet = new Set();
+                for(let j=1;j<=Math.sqrt(i);j++){
+                    if(i%j===0){
+                        countSet.add(j);
+                        countSet.add(i/j);
+                    }
+                }
+                answer += countSet.size > limit ? power : countSet.size;
+            }
+            return answer;
+        }
+        // console.log(solution(5,3,2));
+
+        function solution1(new_id){
+            let answer = "";
+            new_id = new_id.toLowerCase();
+            let newId = "";
+            for(const a of new_id){
+                let c = a.charCodeAt();
+                if(a === "-" || a === "_" || a === "." || Number(a) >= 0 || (c >= 97 && c <= 122)){
+                    newId += a
+                }
+            }
+            
+            let id = "";
+            let chk = false;
+            for(const a of newId){
+                if(a === '.') chk = true;
+                else if(a !== '.' && chk){
+                    chk = false;
+                    id += '.';
+                    id += a;
+                } else id += a;
+            }
+
+            for(let i=0;i<id.length;i++){
+                if(i === 0 || i === id.length-1 && id[i] === ".") continue;
+                answer += id[i];
+            }
+
+            answer = answer.length === 0 ? 'a' : answer;
+            if(answer.length >= 16){
+                answer = answer.slice(0,15);
+                if(answer[answer.length-1] === '.'){
+                    answer = answer.slice(0,14);
+                }
+            }
+
+            let char = answer[answer.length-1];
+            if(answer.length <= 2){
+                for(let i=answer.length;i<3;i++){
+                    answer += char;
+                }
+            }
+
+            return answer;
+        }
+        // console.log(solution1("...!@BaT#*..y.abcdefghijklm") === "bat.y.abcdefghi");
+        // console.log(solution1("...a....."));
+
+        function solution2(park, routes){
+            let n = park.length // 세로 길이
+            let m = park[0].length // 가로 길이
+            let x,y;
+
+            // 시작점 위치
+            for(let i=0;i<park.length;i++){
+                for(let p=0;p<park[i].length;p++){
+                    if(park[i][p] === 'S'){
+                        x = i;
+                        y = p;
+                    }
+                }
+            }
+
+            // 좌표 이동
+            for(let i=0;i<routes.length;i++){
+                let route = routes[i].split(" ");
+                let l = Number(route[1]);
+                if(route[0] === "E"){
+                    let chk = y;
+                    let flag = true;
+                    if(0 <= y+l && y+l < m){
+                        while(chk<y+l){
+                            chk++;
+                            if(park[x][chk] === "X"){
+                                flag = false;
+                                break;
+                            }
+                        }
+
+                        if(flag) y = y+l;
+                    }
+                } else if(route[0] === "W"){
+                    let chk = y;
+                    let flag = true;
+                    if(0 <= y-l && y-l < m){
+                        while(chk>y-l){
+                            chk--;
+                            if(park[x][chk] === "X"){
+                                flag = false;
+                                break;
+                            }
+                        }
+
+                        if(flag) y = y-l;
+                    }
+                } else if(route[0] === "S"){
+                    let chk = x;
+                    let flag = true;
+                    if(0 <= x+l && x+l < n){
+                        while(chk<x+l){
+                            chk++;
+                            if(park[chk][y] === "X"){
+                                flag = false;
+                                break;
+                            }
+                        }
+
+                        if(flag) x = x+l;
+                    }
+                } else {
+                    let chk = x;
+                    let flag = true;
+                    if(0 <= x-l && x-l < n){
+                        while(chk>x-l){
+                            chk--;
+                            if(park[chk][y] === "X"){
+                                flag = false;
+                                break;
+                            }
+                        }
+
+                        if(flag) x = x-l;
+                    }
+                }
+            }
+            
+            return [x,y];
+        }
+
+        console.log(solution2(["SOO","OOO","OOO"],["E 2","S 2","W 1"])) // [2,1]
+        console.log(solution2(["SOO","OXX","OOO"],["E 2","S 2","W 1"])) // [0,1]
+        console.log(solution2(["OSO","OOO","OXO","OOO"],["E 2","S 2","W 1"])) // [0,0]
+    </script>
+    
+</body>
+
+</html>
