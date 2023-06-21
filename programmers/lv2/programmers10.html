@@ -142,6 +142,37 @@
         }
         console.log(solution2("ULURRDLLU")) // 7
         console.log(solution2("LULLLLLLU")) // 7
+
+        function solution3(skill, skill_trees){
+            let answer = 0;
+            
+            for(const s of skill_trees){
+                let arr = [];
+                let flag = true;
+                for(let i=0;i<s.length;i++){
+                    let idx = skill.indexOf(s[i]);
+                    if(idx > 0){
+                        // console.log(idx)
+                        for(let j=0;j<idx;j++){
+                            if(!arr.includes(skill[j])){
+                                flag = false;
+                                break;
+                            } else {
+                                arr.push(s[1]);
+                            }
+                        }
+                    } else {
+                        arr.push(s[i]);
+                    }
+
+                    if(!flag) break;
+                }
+
+                if(flag) answer++;
+            }
+            return answer;
+        }
+        console.log(solution3("CBD", ["DACDE","CBADF","AECB","BDA"]))
     </script>
 </body>
 
