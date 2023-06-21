@@ -152,13 +152,10 @@
                 for(let i=0;i<s.length;i++){
                     let idx = skill.indexOf(s[i]);
                     if(idx > 0){
-                        // console.log(idx)
                         for(let j=0;j<idx;j++){
                             if(!arr.includes(skill[j])){
                                 flag = false;
                                 break;
-                            } else {
-                                arr.push(s[1]);
                             }
                         }
                     } else {
@@ -166,6 +163,7 @@
                     }
 
                     if(!flag) break;
+                    else arr.push(s[i]);
                 }
 
                 if(flag) answer++;
