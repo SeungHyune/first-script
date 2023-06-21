@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv2</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        function solution(fees, records){
+            let answer = [];
+            let map = new Map();
+            let obj = {};
+            for(const a of records){
+                const item = a.split(" ");
+                let time = item[0].split(":");
+                let t = (Number(time[0]) * 60) + Number(time[1]);
+                
+                if(item[2] === "IN"){
+                    map.set(item[1], t);
+                    if(obj[item[1]] === undefined) obj[item[1]] = 0;
+                } else {
+                    map.set(item[1], t - map.get(item[1]))
+                    obj[item[1]] += map.get(item[1]);
+                    map.delete(item[1]);
+                }
+            }
+            console.log(obj,map)            
+
+            let arr = Object.entries(obj).sort((a,b)=>Number(a[0]) - Number(b[0]))
+
+            for(let [car, time] of arr){
+                console.log(car,time)
+                if(map.has(car)){
+                    time += 23*60+59 - map.get(car)
+                }
+
+                let money = fees[1];
+                if(fees[0] < time){
+                    money += Math.ceil((time - fees[0])/fees[2]) * fees[3]
+                }
+                answer.push(money)
+            }
+
+            return answer;
+        }
+        let fees = [1, 461, 1, 10];
+        let records =  ["00:00 1234 IN"];
+        // console.log(solution(fees, records))
+
+        function solution1(maps){
+            let answer = Number.MAX_SAFE_INTEGER;
+            let flag = true;
+            let n = maps.length;
+            let m = maps[0].length;
+            let nx = [-1,0,1,0];
+            let ny = [0,1,0,-1];
+            function dfs(x,y,sum){
+                if(x === n-1 && y === m-1){
+                    flag = false;
+                    answer = Math.min(answer, sum);
+                } else {
+                    for(let k=0;k<4;k++){
+                        let dx = x+nx[k];
+                        let dy = y+ny[k];
+                        if(0 <= dx && dx <= n && 0 <= dy && dy <= m && maps[dx][dy] === 1){
+                            maps[dx][dy] = 0;
+                            dfs(dx,dy,sum+1);
+                            maps[dx][dy] = 1;
+                        }
+                    }
+                }
+            }
+            maps[0][0] = 0;
+            dfs(0,0,1)
+            
+            return answer
+        }
+        let maps = [[1,0,1,1,1],[1,0,1,0,1],[1,0,1,1,1],[1,1,1,0,1],[0,0,0,0,1]];
+        // console.log(solution1(maps))
+
+        function solution2(dirs){
+            let answer = 0;
+            let x = 0;
+            let y = 0;
+            let arr = [];
+            
+            function locationChk(str1, str2){
+                let tmp = 0;
+                let flag = true;
+                str2 += String(x) + String(y);
+                if(arr.length === 0){
+                    tmp++;
+                    arr.push([str1, str2]);
+                }
+                
+                for(let [prev, cur] of arr){
+                    if((str1 === prev && str2 === cur) || str1 === cur && str2 === prev) {
+                        flag = false;
+                        break;
+                    }
+                }
+
+                if(flag) {
+                    tmp++;
+                    arr.push([str1, str2]);
+                }
+
+                return tmp;
+            }
+
+            for(const a of dirs){
+                let str1 = "";
+                str1 += String(x) + String(y);
+                let str2 = "";
+                if(a === "U"){
+                    if(y+1 <= 5){
+                        y+=1;
+                        answer += locationChk(str1, str2);
+                    }
+                } else if(a === "D"){
+                    if(y-1 >= -5){
+                        y-=1;
+                        answer += locationChk(str1, str2);
+                    }
+                } else if(a === "R"){
+                    if(x+1 <= 5){
+                        x+=1;
+                        answer += locationChk(str1, str2);
+                    }
+                } else {
+                    if(x-1 >= -5){
+                        x-=1;
+                        answer += locationChk(str1, str2);
+                    }
+                }
+            }
+            return answer;
+        }
+        console.log(solution2("ULURRDLLU")) // 7
+        console.log(solution2("LULLLLLLU")) // 7
+    </script>
+</body>
+
+</html>
