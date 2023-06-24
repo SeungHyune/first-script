@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - lv2</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        function solution(n){
+            let answer = 0;
+            let dy = Array.from({length:n+1}, ()=>0);
+            dy[1] = 1;
+            dy[2] = 2;
+            for(let i=3;i<=n;i++){
+                dy[i] = dy[i-2] + dy[i-1];
+            }
+
+            answer = dy[n];
+            return answer;
+        }
+        console.log(solution(4));
+
+        function solution1(numbers) {
+            let answer = [];
+            
+            function binaryChk(b1, b2){
+                let num = 0;
+                for(let i=0;i<b1.length;i++){
+                    if(b1[i] !== b2[i]) num++;
+                }
+                return num;
+            }
+            
+            for(const num of numbers){
+                let binary = num.toString(2);
+                let x = num+1;
+                
+                while(true){
+                    let binary2 = x.toString(2);
+                    while(binary.length !== binary2.length){
+                        binary = "0" + binary;
+                    }
+
+                    if(binaryChk(binary, binary2) <= 2) {
+                        answer.push(x);
+                        break;
+                    }
+                    x++;
+                }
+            }
+            return answer;
+        }
+        console.log(solution1([2,7]));
+
+        function solution2(x, y, n) {
+            let answer = 0;
+            let arr = [2,3,n];
+            let dy = Array.from({length:y+1},()=>0);
+            let ch = Array.from({length:y+1}, ()=>1000000);
+            dy[x] = x;
+            ch[x] = 0;
+            
+            for(let i=x;i<=y;i++){
+                for(let j=0;j<arr.length;j++){
+                    if(j === 0 || j === 1){
+                        dy[i * arr[j]] = dy[i] * arr[j];
+                        ch[i * arr[j]] = Math.min(ch[i * arr[j]], ch[i]+1);
+                    } else {
+                        dy[i + arr[j]] = dy[i] + arr[j];
+                        ch[i + arr[j]] = Math.min(ch[i + arr[j]], ch[i]+1);
+                    }
+                }
+            }
+            
+            answer = ch[y] === 1000000 ? -1 : ch[y]
+            return answer;
+        }
+        console.log(solution2(10,40,5));
+
+        function solution3(bridge_length, weight, truck_weights) {
+            let answer = 0;
+            let queue = [];
+            let ch = [];
+            let t = [...truck_weights];
+            
+            while(t.length || ch.length){
+                let shift = t.shift();
+                let add = queue.reduce((prev,cur)=>prev+cur, 0);
+                if(add+shift <= weight && shift !== undefined){
+                    queue.push(shift);
+                    ch.push(0);
+                } else {
+                    if(shift !== undefined) t.unshift(shift);
+                }
+                
+                for(let i=0;i<ch.length;i++){
+                    ch[i] += 1;
+                }
+                
+                if(ch[0] === bridge_length+1){
+                    ch.shift();
+                }
+                if(ch[0] === bridge_length){
+                    queue.shift();
+                }
+                
+                
+                answer++;
+            }
+            return answer;
+        }
+
+        console.log(solution3(2,10,[7,4,5,6]));
+    </script>
+</body>
+
+</html>
