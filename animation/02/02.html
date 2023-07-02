@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="reset.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <title>02. Project</title>
+</head>
+<body>
+    <div class="bg">
+        <button id="btn1">CLICK</button>
+    </div>
+
+    <script>
+        const btn = document.getElementById("btn1");
+        
+        function onClick(e){
+            const {x, y, width, height} = btn.getBoundingClientRect();
+            const radius = Math.sqrt(width*width + height*height);
+            btn.style.setProperty('--diameter', radius * 2 + 'px');
+            const {offsetX, offsetY} = e;
+            const left = (offsetX - radius) / width * 100 + '%';
+            const top = (offsetY - radius) / height * 100 + '%';
+
+            btn.style.setProperty('--left', left);
+            btn.style.setProperty('--top', top);
+            btn.style.setProperty('--a', '');
+            setTimeout(() => {
+                btn.style.setProperty('--a', 'ripple-effect 500ms linear');
+            })
+        }
+
+        btn.addEventListener('click', onClick)
+
+    </script>
+</body>
+</html>
