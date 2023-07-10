@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lv. 01 (복습)</title>
+</head>
+<body>
+    <script type="text/javascript">
+        // 1. 나머지가 1이 되는 수 찾기
+        function solution(n) {
+            for(let i=2;i<n;i++){
+                if(n % i === 1) return i;
+            }
+        }
+        console.log(solution(12)) // 11;
+
+        // 2. 자릿수 더하기
+        function solution1(n){
+            let answer = 0;
+            let str = String(n)
+            for(const num of str){
+                answer += Number(num);
+            }
+            return answer;
+        }
+        console.log(solution1(123)); // 6;
+
+        // 3. 평균 구하기
+        function solution2(arr){
+            let sum = arr.reduce((prev,cur)=>prev+cur,0);
+            return sum / arr.length
+        }
+        console.log(solution2([-10,-20,-30,50,80])); // 14;
+
+        // 4. 약수의 합
+        function solution3(n){
+            let answer = 0;
+            for(let i=n;i>=1;i--){
+                if(n%i === 0) answer += i;
+            }
+            return answer;
+        }
+        console.log(solution3(12)) // 28;
+
+        // 5. 짝수와 홀수
+        function solution4(num){
+            let answer = "Odd";
+            if(num % 2 === 0) return "Even";
+            return answer;
+        }
+        console.log(solution4(3)) // "Odd";
+
+        // 6. x만큼 간격이 있는 n개의 숫자
+        function solution5(x, n){
+            let answer = [];
+            for(let i=1;i<=n;i++){
+                answer.push(x*i);
+            }
+            return answer;
+        }
+        console.log(solution5(2,5)) // [2,4,6,8,10];
+
+        // 7. 문자열 내 p와 y의 개수
+        function solution6(s){
+            let answer = true;
+            let obj = {};
+            for(const x of s){
+                let str = x.toUpperCase();
+                if(str === 'P' || str === 'Y'){
+                    if(obj[str] === undefined) obj[str] = 0;
+                    obj[str] += 1;
+                }
+            }
+            if(obj['P'] !== obj['Y']) return false;
+            return answer;
+        }
+        console.log(solution6("pPoooyY")) // true;
+
+        // 8. 자연수 뒤집어 배열로 만들기
+        function solution7(n){
+            // 배열 메서드 O
+            // return String(n).split("").map(v => Number(v)).reverse()
+            
+            // 배열 메서드 X
+            let answer = [];
+            let string = String(n);
+            for(let i=string.length-1;i>=0;i--){
+                answer.push(Number(string[i]));
+            }
+            return answer;
+        }
+        console.log(solution7(12345)); // [5,4,3,2,1];
+
+        // 9. 정수 제곱근 판별
+        function solution8(n){
+            let sqrt = Math.sqrt(n);
+            if(Number.isInteger(sqrt)){
+                return Math.pow(sqrt+1, 2);
+            } else return -1
+        }
+        console.log(solution8(121)) // 144;
+
+        // 10. 문자열을 정수로 바꾸기
+        function solution9(s){
+            let answer = "";
+            for(let i=0;i<s.length;i++){
+                if(!isNaN(s[i]) || s[i] === "-") answer += s[i];
+            }
+            return answer;
+        }
+        console.log(solution9("-1234")) // -1234
+    </script>
+</body>
+</html>
