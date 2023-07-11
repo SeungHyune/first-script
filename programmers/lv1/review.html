@@ -111,6 +111,122 @@
             return answer;
         }
         console.log(solution9("-1234")) // -1234
+
+        // 11. 정수 내림차순으로 배치하기
+        function solution10(n){
+            // 배열 sort O
+            // return Number(String(n).split("").sort((a,b)=>b-a).join(""));
+
+            // 배열 sort X
+            let answer = "";
+            let str = String(n).split("");
+            while(str.length){
+                let max = Number.MIN_SAFE_INTEGER;
+                for(const a of str){
+                    if(max < a) max = a;
+                }
+                answer += max;
+                str.splice(str.indexOf(max), 1);
+            }
+            return Number(answer);
+        }
+        console.log(solution10(118372)) // 873211;
+
+        // 12. 하샤드 수
+        function solution11(x){
+            let sum = 0;
+            for(const a of String(x).split("")){
+                sum += Number(a);
+            }
+            
+            return x % sum === 0 ? true : false;
+        }
+        console.log(solution11(10)); // true;
+
+        // 13. 두 정수 사이의 합
+        function solution12(a,b){
+            let answer = 0;
+            let min = Math.min(a,b);
+            let max = Math.max(a,b);
+            for(let i=min;i<=max;i++){
+                answer += i;
+            }
+            return answer;
+        }
+        console.log(solution12(3,5)); // 12;
+
+        // 14. 콜라츠 추측
+        function solution13(num){
+            let answer = 0;
+            while(num !== 1){
+                if(num % 2 === 0){
+                    num /= 2;
+                } else {
+                    num = (num * 3) + 1;
+                }
+                answer++;
+                if(answer >= 500) return -1;
+            }
+            return answer;
+        }
+        console.log(solution13(6)); // 8;
+
+        // 15. 서울에서 김서방 찾기
+        function solution14(seoul){
+            // findIndex 활용
+            let location = seoul.findIndex(v => v === "Kim");
+            return `김서방은 ${location}에 있다`;
+        }
+        console.log(solution14(["Jane", "Kim"])); // 김서방은 1에 있다
+
+        // 16. 나누어 떨어지는 숫자 배열
+        function solution15(arr, divisor){
+            let answer = [];
+            arr.forEach(num => {
+                Number.isInteger(num/divisor) ? answer.push(num) : null;
+            })
+            return answer.length === 0 ? [-1] : answer.sort((a,b)=>a-b);
+        }
+        console.log(solution15([2,36,1,3],1)) // [1,2,3,36];
+
+        // 17. 음양 더하기
+        function solution16(absolutes, signs){
+            let answer = 0;
+            // forEach 활용
+            absolutes.forEach((num,i) => signs[i] ? answer += num : answer -= num);
+            return answer;
+        }
+        console.log(solution16([4,7,12],[true,false,true])) // 9;
+
+        // 18. 핸드폰 번호 가리기
+        function solution17(phone_number){
+            let answer = "";
+            for(let i=0;i<phone_number.length;i++){
+                if(i < phone_number.length-4) answer += "*";
+                else answer += phone_number[i];
+            }
+            // let answer = "*".repeat(phone_number.length-4) + phone_number.slice(-4);
+            return answer;
+        }
+        console.log(solution17("01033334444")) // "*******4444";
+
+        // 19. 없는 숫자 더하기
+        function solution18(numbers){
+            let answer = 0;
+            for(let i=0;i<=9;i++){
+                if(!numbers.includes(i)) answer += i;
+            }
+            return answer;
+        }
+        console.log(solution18([1,2,3,4,6,7,8,0])) // 14;
+
+        // 20. 제일 작은 수 제거하기
+        function solution19(arr){
+            let min = Math.min(...arr);
+            arr.splice(arr.indexOf(min), 1);
+            return arr.length === 0 ? [-1] : arr;
+        }
+        console.log(solution19([4,3,2,1])) // [4,3,2];
     </script>
 </body>
 </html>
