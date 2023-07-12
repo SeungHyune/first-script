@@ -726,6 +726,61 @@
             return map.size >= n ? n : map.size;
         }
         console.log(solution49([3,1,2,3])); // 2;
+
+        // 51. 과일 장수
+        function solution50(k,m,score){
+            let answer = 0;
+            score.sort((a,b)=>a-b);
+            let arr = [];
+            while(score.length > 0){
+                arr.push(score.pop());
+                if(arr.length === m){
+                    answer += Math.min(...arr) * m;
+                    arr = [];
+                }
+            }
+            return answer;
+        }
+        console.log(solution50(3,4,[1,2,3,1,2,3,1])) // 8;
+
+        // 52. 카드 뭉치
+        function solution51(cards1,cards2,goal){
+            let answer = "Yes";
+            while(goal.length > 0){
+                let gol = goal.shift();
+                if(cards1.includes(gol)){
+                    if(cards1.shift() !== gol) return 'No';
+                } else {
+                    if(cards2.shift() !== gol) return 'No';
+                }
+            }
+            return answer;
+        }
+        let cards1 = ["i", "drink", "water"];
+        let cards2 = ["want", "to"];
+        let goal = ["i", "want", "to", "drink", "water"];
+        console.log(solution51(cards1,cards2,goal));
+
+        // 53. 모의고사
+        function solution52(answers){
+            let answer = [];
+            let test1 = [1,2,3,4,5];
+            let test2 = [2,1,2,3,2,4,2,5];
+            let test3 = [3,3,1,1,2,2,4,4,5,5];
+            let arr = [0,0,0];
+            for(let i=0;i<answers.length;i++){
+                if(answers[i] === test1[i%test1.length]) arr[0] += 1;
+                if(answers[i] === test2[i%test2.length]) arr[1] += 1;
+                if(answers[i] === test3[i%test3.length]) arr[2] += 1;
+            }
+            let max = Math.max(...arr);
+            arr.forEach((v,i) => {
+                if(max === v) answer.push(i+1);
+            })
+
+            return answer;
+        }
+        console.log(solution52([1,2,3,4,5])) // [1];
     </script>
 </body>
 </html>
