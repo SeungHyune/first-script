@@ -767,12 +767,14 @@
             let test1 = [1,2,3,4,5];
             let test2 = [2,1,2,3,2,4,2,5];
             let test3 = [3,3,1,1,2,2,4,4,5,5];
+            
             let arr = [0,0,0];
             for(let i=0;i<answers.length;i++){
                 if(answers[i] === test1[i%test1.length]) arr[0] += 1;
                 if(answers[i] === test2[i%test2.length]) arr[1] += 1;
                 if(answers[i] === test3[i%test3.length]) arr[2] += 1;
             }
+
             let max = Math.max(...arr);
             arr.forEach((v,i) => {
                 if(max === v) answer.push(i+1);
@@ -781,6 +783,61 @@
             return answer;
         }
         console.log(solution52([1,2,3,4,5])) // [1];
+
+        // 54. 소수 만들기
+        function solution53(nums){
+            let answer = 0;
+            // for문 중첩
+            // let sumArr = [];
+            // for(let i=0;i<nums.length-2;i++){
+            //     for(let j=i+1;j<nums.length-1;j++){
+            //         for(let k=j+1;k<nums.length;k++){
+            //             sumArr.push(nums[i]+nums[j]+nums[k]);
+            //         }
+            //     }
+            // }
+
+            // for(let i=0;i<sumArr.length;i++){
+            //     let flag = 1;
+            //     for(let j=sumArr[i]-1;j>=2;j--){
+            //         if(sumArr[i] % j === 0){
+            //             flag = 0;
+            //             break;
+            //         }
+            //     }
+            //     if(flag) answer++;
+            // }
+
+            // 재귀 함수
+            let dy = Array.from({length:1000*50+1},()=>0);
+            function dfs(L,s,sum){
+                if(dy[sum] > 0 && L === 3) {
+                    if(dy[sum] === 1) answer++;
+                    return;
+                }
+                if(L === 3){
+                    let flag = 1;
+                    for(let i=sum-1;i>=2;i--){
+                        if(sum%i === 0) {
+                            flag = 0;
+                            dy[sum] = 2;
+                            return;
+                        }
+                    }
+                    if(flag) {
+                        answer++;
+                        dy[sum] = 1;
+                    }
+                } else {
+                    for(let i=s;i<nums.length;i++){
+                        dfs(L+1,i+1,sum+nums[i]);
+                    }
+                }
+            }
+            dfs(0,0,0)
+            return answer;
+        }
+        console.log(solution53([1,2,7,6,4])) // 4;
     </script>
 </body>
 </html>
