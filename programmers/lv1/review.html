@@ -838,6 +838,179 @@
             return answer;
         }
         console.log(solution53([1,2,7,6,4])) // 4;
+
+        // 55. 소수 찾기
+        function solution54(n){
+            // 알고리즘 (에라토스테네스의 체)
+            let arr = Array.from({length:n+1}, ()=>true);
+            arr[0] = false;
+            arr[1] = false;
+
+            for(let i=2;i*i<=n;i++){
+                if(arr[i]){
+                    for(let j=i*i;j<=n;j+=i){
+                        arr[j] = false;
+                    }
+                }
+            }
+
+            return arr.filter(v => v).length
+
+
+            // num의 제곱근까지만 반복하기
+            // let answer = 0;
+            // for(let i=2;i<=n;i++){
+            //     let flag = 1;
+            //     for(let j=2;j<=parseInt(Math.sqrt(i));j++){
+            //         if(i%j===0){
+            //             flag = 0;
+            //             break;
+            //         }
+            //     }
+            //     if(flag) answer++;
+            // }
+            // return answer;
+        }
+        console.log(solution54(10)) // 4;
+
+        // 56. 실패율
+        function solution55(N, stages){
+            let map = new Map();
+            for(const num of stages){
+                if(map.has(num)) map.set(num, map.get(num)+1);
+                else map.set(num,1);
+            }
+            
+            for(let i=1;i<=N;i++){
+                let clear = 0;
+                let fail = 0;
+                for(let [key,val] of map){
+                    if(i <= key) clear += val;
+                    if(i === key) fail = val;
+                }
+                map.set(i, fail/clear);
+            }
+
+            // 정렬
+            let arr = Array.from(map);
+            arr.sort((a,b)=>{
+                if(a[1] === b[1]) return a[0] - b[0];
+                else return b[1] - a[1];
+            })
+
+            let answer = [];
+            for(let [key,val] of arr){
+                if(key <= N) answer.push(key);
+            }
+
+            return answer;
+        }
+        console.log(solution55(5,[2,1,2,6,2,4,3,3])) // [3,4,2,1,5];
+
+        // 57. 덧칠하기
+        function solution56(n, m, section){
+            let answer = 0;
+            while(section.length){
+                let shift = section.shift();
+                for(let i=shift;i<shift+m;i++){
+                    if(section.includes(i)) section.shift();
+                }
+                answer++
+            }
+            return answer;
+        }
+        console.log(solution56(8,4,[2,3,6])); // 2;
+
+        // 58. [1차] 다트 게임
+        function solution57(dartResult){
+            let answer = 0;
+            let sArr = [];
+            let score = "";
+            let index = 0;
+            for(const s of dartResult){
+                if(!isNaN(s)) score += s;
+                else {
+                    if(s === "S"){
+                        answer += Number(score);
+                        sArr.push(Number(score));
+                        index++;
+                    } else if(s === "D"){
+                        answer += Math.pow(Number(score),2);
+                        sArr.push(Math.pow(Number(score),2));
+                        index++;
+                    } else if(s === "T"){
+                        answer += Math.pow(Number(score),3);
+                        sArr.push(Math.pow(Number(score),3));
+                        index++;
+                    } else if(s === "*"){
+                        if(index === 1){
+                            answer += sArr[index-1];
+                            sArr[index-1] += sArr[index-1];
+                        } else {
+                            answer += sArr[index-1];
+                            answer += sArr[index-2];
+                            sArr[index-1] += sArr[index-1];
+                            sArr[index-2] += sArr[index-2]
+                        }
+                    } else {
+                        answer += (sArr[index-1] * -1) * 2
+                        sArr[index-1] *= -1;
+                    }
+
+                    score = 0;
+                } 
+            }
+
+            return answer;
+        }
+        console.log(solution57("1S*2T*3S"));
+
+        // 59. 기사단원의 무기
+        function solution58(number,limit,power){
+            let answer = 0;
+            for(let i=1;i<=number;i++){
+                let count = 0;
+                for(let j=1;j<=Math.sqrt(i);j++){
+                    if(i%j===0) count+=2;
+                    if(i/j===j) count--;
+
+                    if(limit < count){
+                        answer += power;
+                        count = 0;
+                        break;
+                    }
+                }
+                answer += count;
+            }
+            return answer;
+        }
+        console.log(solution58(10,3,2));
+
+        // 60. 로또의 최고 순위와 최저 순위
+        function solution59(lottos, win_nums){
+            let answer = [];
+            let cnt = 0;
+            let zero = 0;
+            for(const num of lottos){
+                if(win_nums.includes(num)) cnt++;
+                else if(num === 0) zero++;
+            }
+
+            let arr = [];
+            arr.push(cnt+zero);
+            arr.push(cnt);
+
+            for(const num of arr){
+                if(num === 6) answer.push(1);
+                else if(num === 5) answer.push(2);
+                else if(num === 4) answer.push(3);
+                else if(num === 3) answer.push(4);
+                else if(num === 2) answer.push(5);
+                else answer.push(6);
+            }
+            return answer;
+        }
+        console.log(solution59([44, 1, 0, 0, 31, 25], [31, 10, 45, 1, 6, 19])); // [3,5];
     </script>
 </body>
 </html>
