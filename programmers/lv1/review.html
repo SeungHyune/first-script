@@ -1148,6 +1148,176 @@
             return answer;
         }
         console.log(solution64("abracadabra")); // 6;
+
+        // 66. 대충 만든 자판
+        function solution65(keymap, targets){
+            let answer = [];
+            let map = new Map();
+            for(const key of keymap){
+                for(let i=0;i<key.length;i++){
+                    if(map.has(key[i])) {
+                        if(map.get(key[i]) > i+1) map.set(key[i], i+1);
+                    } else map.set(key[i], i+1);
+                }
+            }
+            
+            for(let i=0;i<targets.length;i++){
+                let sum = 0;
+                let flag = 1;
+                for(let j=0;j<targets[i].length;j++){
+                    const a = targets[i][j];
+                    if(map.has(a)) sum += map.get(a);
+                    else {
+                        flag = 0;
+                        answer.push(-1);
+                        break;
+                    }
+                }
+
+                if(flag) answer.push(sum);
+            }
+            return answer;
+        }
+        console.log(solution65(["ABACD", "BCEFD"], ["ABCD","AABB"])); // [9,4]
+
+        // 67. 크레인 인형뽑기 게임
+        function solution66(board, moves){
+            let answer = 0;
+            let arr = Array.from({length:board.length},()=>[]);
+            for(const a of board){
+                for(let i=0;i<a.length;i++){
+                    if(a[i] !== 0) arr[i].unshift(a[i])
+                }
+            }
+            
+            let newArr = [];
+            for(const i of moves){
+                let pop1 = arr[i-1].pop();
+                if(newArr.length > 0){
+                    let pop2 = newArr.pop();
+                    if(pop1 === pop2) answer += 2;
+                    else {
+                        newArr.push(pop2);
+                        if(pop1 !== undefined) newArr.push(pop1);
+                    }
+                } else if(pop1 !== undefined) newArr.push(pop1);
+            }
+            return answer;
+        }
+        let board = [[0,0,0,0,0],[0,0,1,0,3],[0,2,5,0,1],[4,2,4,4,2],[3,5,1,3,1]];
+        let moves = [1,5,3,5,1,2,1,4];
+        console.log(solution66(board,moves)); // 4;
+
+        function numChk(phone,left,right,l){
+            let leftN;
+            let rightN;
+            let location;
+            for(let i=0;i<phone.length;i++){
+                for(let j=0;j<phone[i].length;j++){
+                    if(left === phone[i][j]) leftN = [i,j];
+                    if(right === phone[i][j]) rightN = [i,j];
+                    if(l === phone[i][j]) location = [i,j]
+                }
+            }
+
+            left = Math.abs(leftN[0] - location[0]) + Math.abs(leftN[1] - location[1]);
+            right = Math.abs(rightN[0] - location[0]) + Math.abs(rightN[1] - location[1]);
+            if(left > right) return 'right';
+            else if(left === right) return 'draw';
+            else return 'left';
+        }
+
+        // 68. [카카오 인턴] 키패드 누르기
+        function solution67(numbers, hand){
+            let answer = "";
+            let phone = [[1,2,3],[4,5,6],[7,8,9],["*",0,"#"]];
+            
+            let left = "*";
+            let right = "#";
+
+            for(const i of numbers){
+                if(i === 1 || i === 4 || i === 7){
+                    left = i;
+                    answer += 'L';
+                } else if(i === 3 || i === 6 || i === 9){
+                    right = i;
+                    answer += 'R';
+                } else {
+                    if(numChk(phone,left,right,i) === 'right'){
+                        right = i;
+                        answer += 'R';
+                    } else if(numChk(phone,left,right,i) === 'draw'){
+                        if(hand === 'right'){
+                            right = i;
+                            answer += 'R';
+                        } else {
+                            left = i;
+                            answer += 'L';
+                        }
+                    } else {
+                        left = i;
+                        answer += 'L';
+                    }
+                }
+            }
+            return answer;
+        }
+        console.log(solution67([7,0,8,2,8,3,1,5,7,6,2], "left")) // "LRLLRRLLLRR";LLLLLRLLLRL;
+
+        // 69. 둘만의 암호
+        function solution68(s, skip, index){
+            let answer = "";
+            for(const a of s){
+                let char = a.charCodeAt();
+                let cnt = index;
+                let i = 0;
+                while(i<cnt){
+                    i++;
+                    char++;
+                    if(char > 122){
+                        char = 97;
+                    }
+
+                    let string = String.fromCharCode(char);
+                    if(skip.includes(string)) cnt++;
+                    if(i === cnt) answer += string;
+                }
+            }
+            return answer;
+        }
+        console.log(solution68("aukks","wbqd",5)); // "happy";
+
+        // 70. 신규 아이디 추천
+        function solution69(new_id){
+            let id = "";
+            for(let i=0;i<new_id.length;i++){
+                let a = new_id[i];
+                let char = a.charCodeAt();
+                let string = "";
+                if(char >= 65 && char <= 90) string += a.toLowerCase();
+                if(a === '.' && id.length !== 0 && a !== id[id.length-1]){
+                    id += a;
+                } else if(a >= 0 || a === '_' || a === '-' || char >= 97 && char <= 122){
+                    id += a;
+                } else if(string !== undefined) id += string;
+            }
+            
+            if(id.length === 0) id = 'a';
+            else if(id.length >= 16) id = id.slice(0,15);
+
+            let answer = [...id];
+            let pop = answer.pop();
+            while(pop !== '.') {
+                answer.push(pop);
+                break;
+            }
+
+            let lastString = answer[answer.length-1];
+            while(answer.length < 3) answer.push(lastString);
+
+            return answer.join("");
+        }
+        console.log(solution69("abcdefghijklmn.p")); // "bat.y.abcdefghi";
     </script>
 </body>
 </html>
