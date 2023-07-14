@@ -1011,6 +1011,143 @@
             return answer;
         }
         console.log(solution59([44, 1, 0, 0, 31, 25], [31, 10, 45, 1, 6, 19])); // [3,5];
+
+        // 61. 숫자 짝꿍
+        function mapChk(string,map){
+            for(const a of string){
+                if(map.has(a)) map.set(a, map.get(a)+1);
+                else map.set(a, 1);
+            }
+        }
+        
+        function solution60(X,Y){
+            let answer = "";
+            let map1 = new Map();
+            let map2 = new Map();
+            mapChk(X, map1);
+            mapChk(Y, map2);
+
+            for(let [key,val] of map1){
+                for(let i=0;i<val;i++){
+                    if(map2.get(key) > 0){
+                        map2.set(key,map2.get(key)-1);
+                        answer += key;
+                    }
+                }
+            }
+
+            if(answer === "") return "-1";
+            else if(Number(answer) === 0) return "0";
+            else return answer.split("").sort((a,b)=>b-a).join("");
+        }
+        console.log(solution60("12321","42531")); // "321";
+
+        // 62. 옹알이 (2)
+        function solution61(babbling){
+            let answer = 0;
+            let string = ["aya","ye","woo","ma"];
+            for(const str of babbling){
+                let s = "";
+                let prev = "";
+                for(let i=0;i<str.length;i++){
+                    s += str[i]
+                    if(prev === s) break;
+                    if(string.includes(s)){
+                        prev = s;
+                        s = "";
+                    }
+                }
+                if(s === "") answer++;
+            }
+            return answer;
+        }
+        console.log(solution61(["ayaye", "uuu", "yeye", "yemawoo", "ayaayaa"])); // 2;
+
+        // 63. 체육복
+        function solution62(n,lost,reserve){
+            let answer = Array.from({length:n+1}, ()=>true);
+
+            for(const a of lost){
+                answer[a] = false;
+            }
+            reserve.sort((a,b)=>a-b);
+
+            for(const a of reserve){
+                if(answer[a] === false) answer[a] = true;
+                else {
+                    if(reserve.includes(a+2) && answer[a-1] === false && answer[a+1] === false) answer[a-1] = true;
+                    else if(answer[a+1] === false && !reserve.includes(a+1)) answer[a+1] = true;
+                    else if(answer[a-1] === false) answer[a-1] = true;
+                }
+            }
+
+            return answer.filter(v => v).length-1;
+        }
+        console.log(solution62(5,[4,5],[3,4])) // 4;
+
+        function hasMapFn(map,arr){
+            for(const a of arr){
+                if(map.has(a)) map.set(a, map.get(a)+1);
+                else map.set(a,1);
+            }
+        }
+
+        // 64. 완주하지 못한 선수
+        function solution63(participant, completion){
+            // sort 이용해서 풀기..시간복잡도가 더 높음
+            // participant.sort((a,b)=> {
+            //     if(a>b) return 1;
+            //     else return -1
+            // });
+
+            // completion.sort((a,b)=> {
+            //     if(a>b) return 1;
+            //     else return -1
+            // });
+
+            // while(participant.length > 0){
+            //     let shift1 = participant.shift();
+            //     let shift2 = completion.shift();
+            //     if(shift1 !== shift2) return shift1;
+            // }
+
+            // 해시
+            let map1 = new Map();
+            let map2 = new Map();
+            hasMapFn(map1, participant);
+            hasMapFn(map2, completion);
+
+            for(let [key,val] of map1){
+                if(!map2.has(key) || map2.get(key) !== val) return key;
+            }
+        }
+        console.log(solution63(["mislav", "stanko", "mislav", "ana"], ["stanko", "ana", "mislav"])); // "mislav";
+
+        // 65. 문자열 나누기
+        function solution64(s){
+            let answer = 0;
+            s = s.split("");
+            let start = s[0];
+            let prev = 0;
+            let current = 0;
+            while(s.length>0){
+                let shift = s.shift();
+                if(shift === start){
+                    prev++;
+                } else {
+                    current++;
+                }
+
+                if(prev === current && prev > 0){
+                    prev=0;
+                    current=0;
+                    start = s[0];
+                    answer++;
+                } else if(s.length === 0) answer++
+            }
+            return answer;
+        }
+        console.log(solution64("abracadabra")); // 6;
     </script>
 </body>
 </html>
