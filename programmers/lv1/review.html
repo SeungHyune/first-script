@@ -1318,6 +1318,229 @@
             return answer.join("");
         }
         console.log(solution69("abcdefghijklmn.p")); // "bat.y.abcdefghi";
+
+        // 71. 햄버거 만들기
+        function solution70(ingredient){
+            let answer = 0;
+            let arr = [];
+            for(let a of ingredient){
+                arr.push(a);
+                if(arr.slice(-4).join("") === "1231"){
+                    arr.splice(-4,4);
+                    answer++;
+                }
+            }
+            return answer;
+        }
+        console.log(solution70([2,1,1,2,3,1,2,3,1])); // 2;
+
+        // 72. 성격 유형 검사가힉
+        function solution71(survey, choices){
+            let answer = '';
+            let arr = ['RT','CF','JM','AN'];
+            let obj = {R:0,T:0,C:0,F:0,J:0,M:0,A:0,N:0};
+            for(let i=0;i<survey.length;i++){
+                let score = choices[i];
+                if(score < 4) obj[survey[i][0]] += Math.abs(score - 4);
+                else obj[survey[i][1]] += Math.abs(score - 4);
+            }
+            
+            for(let a of arr){
+                if(obj[a[0]] < obj[a[1]]) answer += a[1];
+                else answer += a[0];
+            }
+            return answer;
+        }
+        console.log(solution71(["AN","CF","MJ","RT","NA"],[5,3,2,7,5])); // "TCMA";
+
+        // 73. 바탕화면 정리
+        function solution72(wallpaper){
+            let answer = [51,51,0,0];
+            for(let i=0;i<wallpaper.length;i++){
+                for(let j=0;j<wallpaper[i].length;j++){
+                    if(wallpaper[i][j] === "#"){
+                        if(answer[0] > i) answer[0] = i;
+                        if(answer[1] > j) answer[1] = j;
+                        if(answer[2] < i+1) answer[2] = i+1;
+                        if(answer[3] < j+1) answer[3] = j+1;
+                    }
+                }
+            }
+            return answer;
+        }
+        let wallpaper = [".##...##.", "#..#.#..#", "#...#...#", ".#.....#.", "..#...#..", "...#.#...", "....#...."]
+        console.log(solution72(wallpaper)); // [0,0,7,9];
+
+        // 74. 개인정보 수집 유효기간
+        function solution73(today, terms, privacies){
+            let answer = [];
+            let obj = {};
+            let nowDate = today.split(".").join("");
+            for(let a of terms){
+                let s = a.split(" ");
+                obj[s[0]] = Number(s[1]);
+            }
+            
+            for(let i=0;i<privacies.length;i++){
+                let s = privacies[i].split(" ");
+                let y = s[0].split(".");
+                y[0] = Number(y[0]);
+                y[1] = Number(y[1]) + obj[s[1]];
+                y[2] = Number(y[2]) - 1;
+
+                if(y[2] === 0){
+                    y[1] -= 1;
+                    y[2] = 28;
+                } else if(y[2] < 10) y[2] = '0' + y[2];
+
+                if(y[1] > 12){
+                    y[0] += Math.floor(y[1] / 12);
+                    y[1] = y[1] - (Math.floor(y[1] / 12) * 12);
+                    if(y[1] === 0){
+                        y[0] -= 1;
+                        y[1] = 12;
+                    }
+                }
+
+                if(y[1] < 10) y[1] = '0' + y[1];
+
+                if(Number(y.join("")) < nowDate) answer.push(i+1);
+            }
+            return answer;
+        }
+        let today = "2022.05.19";
+        let terms = ["A 6", "B 12", "C 3"];
+        let privacies = ["2021.05.02 A", "2021.07.01 B", "2022.02.19 C", "2022.02.20 C"];
+
+        console.log(solution73(today, terms, privacies)); // [1,3];
+
+        // 75. 달리기 경주
+        function solution74(players, callings){
+            // 시간 복잡도..
+            // for(const a of callings){
+            //     let idx = players.indexOf(a);
+            //     [players[idx],players[idx-1]] = [players[idx-1],players[idx]];
+            // }
+
+            // 해시
+            let map = new Map();
+            for(let i=0;i<players.length;i++){
+                map.set(players[i], i);
+            }
+
+            for(const a of callings){
+                let idx = map.get(a);
+                let prev = players[idx-1];
+                [players[idx], players[idx-1]] = [players[idx-1], players[idx]];
+                map.set(a, map.get(a) - 1);
+                map.set(prev, map.get(prev) + 1);
+            }
+            return players
+        }
+        let players = ["mumu", "soe", "poe", "kai", "mine"];
+        let callings = ["kai", "kai", "mine", "mine"];
+        console.log(solution74(players, callings)); // ["mumu", "kai", "mine", "soe", "poe"];
+
+        // 76. 공원 산책
+        function solution75(park, routes){
+            let x;
+            let y;
+            let width = park[0].length-1;
+            let height = park.length-1;
+            for(let i=0;i<park.length;i++){
+                for(let j=0;j<park[i].length;j++){
+                    if(park[i][j] === 'S'){
+                        x = i;
+                        y = j;
+                    }
+                }
+            }
+            for(const a of routes){
+                let s = a.split(" ");
+                let n = Number(s[1]);
+                let flag = 1;
+                if(s[0] === "E" && y+n <= width){
+                    let i = y;
+                    while(i <= y+n){
+                        i++;
+                        if(park[x][i] === 'X') {
+                            flag = 0;
+                            break;
+                        }
+                    }
+                    if(flag) y = y+n;
+                } else if(s[0] === "W" && y-n >= 0){
+                    let i = y;
+                    while(i >= y-n){
+                        i--;
+                        if(park[x][i] === 'X') {
+                            flag = 0;
+                            break;
+                        }
+                    }
+                    if(flag) y = y-n;
+                } else if(s[0] === "N" && x-n >= 0){
+                    let i = x;
+                    while(i >= x-n){
+                        i--;
+                        if(park[i][y] === 'X') {
+                            flag = 0;
+                            break;
+                        }
+                    }
+                    if(flag) x = x-n;
+                }  else if(s[0] === "S" && x+n <= height){
+                    let i = x;
+                    while(i < x+n){
+                        i++;
+                        if(park[i][y] === 'X') {
+                            flag = 0;
+                            break;
+                        }
+                    }
+                    if(flag) x = x+n;
+                }
+            }
+            return [x,y]
+        }
+        console.log(solution75(["SOO","OOO","OOO"],["E 2","S 2","W 1"])); // [0,0];
+
+        // 77. 신고 결과 받기
+        function solution76(id_list, report, k){
+            let answer = [];
+            let reportObj = {};
+            let mailObj = {};
+            let map = new Map();
+            for(const a of id_list) {
+                reportObj[a] = 0;
+                mailObj[a] = 0;
+            }
+
+            let setReport = new Set(report);
+            for(const a of setReport){
+                let s = a.split(" ");
+                reportObj[s[1]] += 1;
+                if(map.has(s[1])){
+                    map.get(s[1]).push(s[0]);
+                } else {
+                    map.set(s[1], [s[0]]);
+                }
+            }
+
+            for(let key in reportObj){
+                if(reportObj[key] >= k){
+                    for(const a of map.get(key)){
+                        mailObj[a] += 1;
+                    }
+                }
+            }
+
+            for(let key in mailObj) answer.push(mailObj[key]);
+            return answer;
+        }
+        let id_list = ["muzi", "frodo", "apeach", "neo"];
+        let report = ["muzi frodo","apeach frodo","frodo neo","muzi neo","apeach muzi"];
+        console.log(solution76(id_list,report,2)); // [2,1,1,0];
     </script>
 </body>
 </html>
