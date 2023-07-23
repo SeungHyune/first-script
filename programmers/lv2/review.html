@@ -497,73 +497,47 @@
         console.log(solution27(priorities, 0)); // 1;
 
         // 29. [1차] 뉴스 클러스터링
-        function stringAdd(str) {
-            let arr = [];
-            for (let i = 0; i < str.length - 1; i++) {
-                if (str[i].charCodeAt() >= 65 && str[i].charCodeAt() <= 90 && str[i + 1].charCodeAt() >= 65 && str[i + 1].charCodeAt() <= 90) {
-                    arr.push(str[i] + str[i + 1]);
+        function strMap(str1, map) {
+            for (let i = 0; i < str1.length - 1; i++) {
+                let char1 = str1[i].charCodeAt();
+                let char2 = str1[i + 1].charCodeAt();
+
+                if (char1 >= 65 && char1 <= 90 && char2 >= 65 && char2 <= 90) {
+                    let str = str1[i] + str1[i + 1];
+                    if (map.has(str)) map.set(str, map.get(str) + 1);
+                    else map.set(str, 1);
                 }
             }
-            return arr;
-        }
-
-        function stringChk(str) {
-            let s = str[0];
-            for (const a of str) {
-                if (s !== a) return false;
-            }
-            return true
-        }
-
-        function stringObj(str) {
-            let obj = {};
-            for (const a of str) {
-                if (obj[a] === undefined) obj[a] = 1;
-                else obj[a] += 1;
-            }
-            return obj;
         }
 
         function solution28(str1, str2) {
             str1 = str1.toUpperCase();
             str2 = str2.toUpperCase();
-            let string1 = stringAdd(str1);
-            let string2 = stringAdd(str2);
 
-            let strChk1 = stringChk(string1);
-            let strChk2 = stringChk(string2);
-            if (string1.length === 0 && string2.length === 0) {
-                return 65536;
-            } else if (strChk1 && strChk2) {
-                let min = Math.min(string1.length, string2.length);
-                let max = Math.max(string1.length, string2.length);;
-                return Math.floor((min / max) * 65536);
-            } else {
-                let obj1 = stringObj(string1);
-                let obj2 = stringObj(string2);
+            let map = new Map();
+            let map2 = new Map();
+            strMap(str1, map);
+            strMap(str2, map2);
+            if (map.size === 0 && map2.size === 0) return 65536;
 
-                let tmp2 = 0;
-                let tmp = 0;
-                for (let key in obj1) {
-                    if (obj1[key] !== undefined && obj2[key] !== undefined) {
-                        let min = Math.min(obj1[key], obj2[key]);
-                        let max = Math.max(obj1[key], obj2[key]);
-                        tmp += min;
-                        tmp2 += max;
-                    } else if (obj1[key] !== undefined) {
-                        tmp2 += obj1[key];
-                    }
-                }
-
-                for (let key in obj2) {
-                    if (obj1[key] !== undefined && obj2[key] !== undefined) {
-                        let max = Math.max(obj1[key], obj2[key]);
-                    } else if (obj2[key] !== undefined) {
-                        tmp2 += obj2[key]
-                    }
-                }
-                return Math.floor((tmp / tmp2) * 65536);
+            let common = 0;
+            let sum = 0;
+            for (let [key, val] of map) {
+                if (map2.has(key)) {
+                    let max = Math.max(map2.get(key), val);
+                    let min = Math.min(map2.get(key), val);
+                    common += min;
+                    sum += max;
+                    map.delete(key);
+                    map2.delete(key);
+                } else sum += val;
             }
+
+            for (let [key, val] of map2) {
+                sum += val;
+            }
+
+            return Math.floor((common / sum) * 65536);
         }
         console.log(solution28("FRANCE", "french")); // 16384;
 
@@ -571,16 +545,16 @@
         function solution29(k, dungeons) {
             let answer = 0;
             let n = dungeons.length;
-            let ch = Array.from({ length: n }, () => 0);
+            let ch = Array.from({ length: n + 1 }, () => 0);
             let tmp = Array.from({ length: n }, () => 0);
             function dfs(L) {
                 if (L === n) {
-                    let p = k;
+                    let sum = k;
                     let cnt = 0;
                     for (let i = 0; i < tmp.length; i++) {
-                        if (p >= tmp[i][0]) {
-                            p -= tmp[i][1];
-                            cnt += 1;
+                        if (sum >= dungeons[tmp[i]][0]) {
+                            sum -= dungeons[tmp[i]][1];
+                            cnt++
                         }
                     }
                     answer = Math.max(answer, cnt);
@@ -588,167 +562,157 @@
                     for (let i = 0; i < n; i++) {
                         if (ch[i] === 0) {
                             ch[i] = 1;
-                            tmp[L] = dungeons[i];
+                            tmp[L] = i;
                             dfs(L + 1);
                             ch[i] = 0;
                         }
                     }
                 }
             }
-            dfs(0);
+            dfs(0)
             return answer;
         }
         console.log(solution29(80, [[80, 20], [50, 40], [30, 10]])); // 3;
 
-        // 31. k진수에서 소수 개수 구하기
-        function solution30(n, k) {
+        // 32. k진수에서 소수 개수 구하기
+        function solution31(n, k) {
             let answer = 0;
-            let stack = [];
-            let num = n.toString(k);
+            // Array.split() 메서드 활용해서 쉽게 풀기
+            // let string = n.toString(k).split("0");
+            // for (let i = 0; i < string.length; i++) {
+            //     if (string[i] > 1) {
+            //         let flag = 1;
+            //         for (let j = 2; j <= Math.sqrt(string[i]); j++) {
+            //             if (string[i] % j === 0) {
+            //                 flag = 0;
+            //                 break;
+            //             }
+            //         }
+            //         if (flag) answer++;
+            //     }
+            // }
 
-            let str = "";
-            for (let i = 0; i < num.length; i++) {
-                if (Number(num[i]) !== 0) {
-                    str += num[i];
-                } else {
-                    stack.push(Number(str));
-                    str = "";
-                }
-            }
-            stack.push(Number(str));
-
-            for (let i = 0; i < stack.length; i++) {
-                if (stack[i] !== 1 && stack[i] !== 0) {
-                    let cnt = 2;
-                    for (let j = 2; j <= Math.sqrt(stack[i]); j++) {
-                        if (stack[i] % j === 0) {
-                            cnt += 1;
-                            break;
-                        }
-                    }
-
-                    if (cnt < 3) answer += 1;
-                }
-            }
-            return answer;
-        }
-        console.log(solution30(437674, 3)); // 3;
-
-        // 32. [3차] 압축
-        function solution31(msg) {
-            let answer = [];
-            let arr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
-
-            let i = 0;
-            let str = "";
-            while (i < msg.length) {
-                str += msg[i];
-                let idx = arr.indexOf(str);
-
-                let j = i + 1;
-                if (idx > -1) {
-                    while (true) {
-                        str += msg[j];
-                        j++;
-                        if (arr.indexOf(str) > -1) {
-                            idx = arr.indexOf(str);
-                            i += 1;
-                        } else {
-                            arr.push(str);
-                            str = "";
-                            break;
-                        }
-                    }
-                    answer.push(idx + 1);
-                }
-                i++;
-            }
-
-            return answer;
-        }
-        console.log(solution31('TOBEORNOTTOBEORTOBEORNOT')); // [20, 15, 2, 5, 15, 18, 14, 15, 20, 27, 29, 31, 36, 30, 32, 34];
-
-        // 33. [3차] n진수 게임
-        function solution32(n, t, m, p) {
-            let answer = "";
+            // split 메서드 활용 하지 않고 풀기
+            let string = n.toString(k);
             let arr = [];
-
-            let i = 0
-            while (arr.length < t * m) {
-                let num = i.toString(n).toUpperCase();
-                if (num.length === 1) {
+            let num = "";
+            for (const a of string) {
+                if (a > 0) num += a;
+                else if (a === '0') {
                     arr.push(num);
-                } else {
-                    for (const a of num) {
-                        arr.push(a);
-                    }
+                    num = "";
                 }
-                i++
             }
 
-            let start = p - 1;
-            while (answer.length < t) {
-                answer += arr[start];
-                start += m;
+            if (num.length > 0) arr.push(num);
+
+            for (let i = 0; i < arr.length; i++) {
+                if (arr[i] > 1) {
+                    let flag = 1;
+                    for (let j = 2; j <= Math.sqrt(arr[i]); j++) {
+                        if (arr[i] % j === 0) {
+                            flag = 0;
+                            break;
+                        }
+                    }
+                    if (flag) answer++;
+                }
+            }
+
+            return answer;
+        }
+        console.log(solution31(437674, 3)); // 3;
+
+        // 33. [3차] 압축
+        function solution32(msg) {
+            let answer = [];
+            let arr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+            for (let i = 0; i < msg.length; i++) {
+                let str = msg[i];
+                let idx = arr.indexOf(str);
+                let prevI = arr.indexOf(str);
+                let j = i;
+                while (idx > -1) {
+                    j++;
+                    str += msg[j];
+                    idx = arr.indexOf(str);
+                    if (idx > -1) prevI = idx;
+                }
+
+                arr.push(str);
+                answer.push(prevI + 1);
+                i = j - 1;
             }
             return answer;
         }
-        console.log(solution32(2, 4, 2, 1)); // "0111";
+        console.log(solution32("KAKAO")); // [11,1,27,15];
 
-        // 34. 주차 요금 계산
-        function solution33(fees, records) {
+        // 34. [3차] N진수 게임
+        function solution33(n, t, m, p) {
+            let answer = "";
+            let str = "";
+            let j = 0;
+            while (str.length < t * m) {
+                str += j.toString(n);
+                j++;
+            }
+            for (let i = 0; i < str.length; i++) {
+                if (i % m === p - 1) answer += str[i].toUpperCase();
+            }
+            return answer.slice(0, t)
+        }
+        console.log(solution33(16, 16, 2, 1)); // "02468ACE11111111";
+
+        // 35. 주차 요금 계산
+        function solution34(fees, records) {
             let answer = [];
-            let map = new Map();
+            let map1 = new Map();
             let map2 = new Map();
-            for (let cars of records) {
-                let car = cars.split(" ");
+            for (const cars of records) {
+                let car = cars.split(' ');
                 let outTime = car[0].split(":");
-                let outHours = Number(outTime[0]);
+                let outHour = Number(outTime[0]);
                 let outMin = Number(outTime[1]);
+
                 if (car[2] === 'IN') {
-                    map.set(car[1], [outHours, outMin]);
+                    map1.set(car[1], [outHour, outMin]);
                 } else if (car[2] === 'OUT') {
-                    if (map.has(car[1])) {
-                        let inTime = map.get(car[1]);
-                        let inHours = outHours - inTime[0];
-                        let inMin = outMin - inTime[1];
-                        if (map2.has(car[1])) {
-                            let hours = map2.get(car[1])[0];
-                            let second = map2.get(car[1])[1];
-                            map2.set(car[1], [hours + inHours, second + inMin]);
-                        } else map2.set(car[1], [inHours, inMin])
-                        map.delete(car[1]);
-                    } else return false;
+                    let inTime = map1.get(car[1]);
+                    let inHour = outHour - inTime[0];
+                    let inMin = outMin - inTime[1];
+                    if (map2.has(car[1])) {
+                        map2.set(car[1], [map2.get(car[1])[0] + inHour, map2.get(car[1])[1] + inMin]);
+                    } else map2.set(car[1], [inHour, inMin]);
+                    map1.delete(car[1]);
                 }
             }
 
-            for (let [key, val] of map) {
-                let hours = 23 - val[0];
-                let min = 59 - val[1];
-
+            for (let [key, val] of map1) {
+                let time = val
+                let hour = 23 - time[0];
+                let min = 59 - time[1];
                 if (map2.has(key)) {
-                    map2.set(key, [map2.get(key)[0] + hours, map2.get(key)[1] + min]);
-                } else map2.set(key, [hours, min]);
-                map.delete(key)
+                    map2.set(key, [map2.get(key)[0] + hour, map2.get(key)[1] + min]);
+                } else map2.set(key, [hour, min]);
             }
+
 
             let arr = Array.from(map2);
             arr.sort((a, b) => a[0] - b[0]);
+
             for (let [key, val] of arr) {
                 let hour = val[0] * 60;
                 let min = val[1];
                 if (hour + min <= fees[0]) answer.push(fees[1]);
                 else {
-                    answer.push(Math.ceil(((hour + min - fees[0]) / fees[2])) * fees[3] + fees[1])
+                    answer.push(Math.ceil((hour + min - fees[0]) / fees[2]) * fees[3] + fees[1])
                 }
             }
-
-
             return answer;
         }
-        let fees = [180, 5000, 10, 600];;
+        let fees = [180, 5000, 10, 600];
         let records = ["05:34 5961 IN", "06:00 0000 IN", "06:34 0000 OUT", "07:59 5961 OUT", "07:59 0148 IN", "18:59 0000 IN", "19:09 0148 OUT", "22:59 5961 IN", "23:00 5961 OUT"];
-        console.log(solution33(fees, records)); // [14600, 34400, 5000];
+        console.log(solution34(fees, records)); // [14600,34400,5000];
     </script>
 </body>
 
