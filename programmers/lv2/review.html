@@ -574,6 +574,23 @@
         }
         console.log(solution29(80, [[80, 20], [50, 40], [30, 10]])); // 3;
 
+        // 31. 타겟 넘버
+        function solution30(numbers, target) {
+            let answer = 0;
+            let n = numbers.length;
+            function dfs(L, sum) {
+                if (L === n) {
+                    if (sum === target) answer++;
+                } else {
+                    dfs(L + 1, sum + numbers[L] * -1);
+                    dfs(L + 1, sum + numbers[L]);
+                }
+            }
+            dfs(0, 0)
+            return answer;
+        }
+        console.log(solution30([4, 1, 2, 1], 4)); // 2;
+
         // 32. k진수에서 소수 개수 구하기
         function solution31(n, k) {
             let answer = 0;
