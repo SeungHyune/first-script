@@ -1,0 +1,28 @@
+<script>
+    class Stack {
+        arr = [];
+
+        push(value){
+            return this.arr.push(value);
+        }
+
+        pop(){
+            return this.arr.pop();
+        }
+
+        top(){
+            return this.arr.at(-1);
+        }
+
+        get length(){
+            return this.arr.length;
+        }
+    }
+    const s = new Stack();
+    s.push(1);
+    s.push(3);
+    s.push(5);
+    s.pop();
+    console.log(s.top());
+    console.log(s.length);
+</script>

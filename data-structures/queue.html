@@ -1,0 +1,28 @@
+<script>
+    class Queue {
+        arr = [];
+
+        enqueue(value){
+            return this.arr.push(value);
+        }
+
+        dequeue(){
+            return this.arr.shift();
+        }
+
+        peek(){
+            return this.arr[0];
+        }
+
+        get length(){
+            return this.arr.length;
+        }
+    }
+    const s = new Queue();
+    s.enqueue(1);
+    s.enqueue(3);
+    s.enqueue(5);
+    s.dequeue();
+    console.log(s.peek());
+    console.log(s.length);
+</script>
