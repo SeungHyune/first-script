@@ -730,6 +730,116 @@
         let fees = [180, 5000, 10, 600];
         let records = ["05:34 5961 IN", "06:00 0000 IN", "06:34 0000 OUT", "07:59 5961 OUT", "07:59 0148 IN", "18:59 0000 IN", "19:09 0148 OUT", "22:59 5961 IN", "23:00 5961 OUT"];
         console.log(solution34(fees, records)); // [14600,34400,5000];
+
+        // 36. 오픈채팅방
+        function solution35(record) {
+            let answer = [];
+            let map = new Map();
+            for (const a of record) {
+                let s = a.split(" ");
+                if (s[0] === 'Enter' || s[0] === 'Change') {
+                    map.set(s[1], s[2]);
+                }
+            }
+
+            for (const a of record) {
+                let s = a.split(" ");
+                let enter = `${map.get(s[1])}님이 들어왔습니다.`;
+                let leave = `${map.get(s[1])}님이 나갔습니다.`;
+                if (s[0] === 'Enter') {
+                    answer.push(enter);
+                } else if (s[0] === 'Leave') {
+                    answer.push(leave)
+                }
+            }
+            return answer;
+        }
+        let record = ["Enter uid1234 Muzi", "Enter uid4567 Prodo", "Leave uid1234", "Enter uid1234 Prodo", "Change uid4567 Ryan"];
+        console.log(solution35(record)); // ["Prodo님이 들어왔습니다.", "Ryan님이 들어왔습니다.", "Prodo님이 나갔습니다.", "Prodo님이 들어왔습니다."];
+
+        // 37. 땅따먹기
+        function solution36(land) {
+            let dy = Array.from({ length: land.length }, () => Array(4).fill(0));
+            dy[0] = [...land[0]];
+
+            for (let i = 1; i < land.length; i++) {
+                for (let j = 0; j < land[i].length; j++) {
+                    let num = land[i][j];
+                    for (let k = 0; k < 4; k++) {
+                        if (j !== k) dy[i][j] = Math.max(dy[i][j], dy[i - 1][k] + num)
+                    }
+                }
+            }
+            return Math.max(...dy.at(-1))
+        }
+        let land = [[1, 2, 3, 5], [5, 6, 7, 8], [4, 3, 2, 1]];
+        console.log(solution36(land)); // 16;
+
+        function dirsChk(map, prev, cur) {
+            let flag = 1;
+            if (map.has(prev)) {
+                let val = map.get(prev);
+                if (!val.includes(cur)) {
+                    val.push(cur);
+                    map.set(prev, [...val]);
+                } else flag = 0;
+            } else map.set(prev, [cur]);
+            return flag;
+        }
+
+        // 39. 방문 길이
+        function solution38(dirs) {
+            let answer = 0;
+            let b = { U: 0, R: 1, D: 2, L: 3 };
+            let nx = [-1, 0, 1, 0];
+            let ny = [0, 1, 0, -1];
+            let x = 5, y = 5;
+
+            let map = new Map();
+            for (const a of dirs) {
+                let prev = String(x) + String(y);
+                let dx = x + nx[b[a]];
+                let dy = y + ny[b[a]];
+                let cur = String(dx) + String(dy);
+                if (dx >= 0 && dx <= 10 && dy >= 0 && dy <= 10) {
+                    x = dx;
+                    y = dy;
+                    if (map.has(prev) || map.has(cur)) {
+                        let flag = 1;
+                        if (dirsChk(map, prev, cur) === 0 || dirsChk(map, cur, prev) === 0) flag = 0;
+                        if (flag) answer++;
+                    } else {
+                        answer++;
+                        map.set(prev, [cur]);
+                        map.set(cur, [prev]);
+                    }
+                }
+            }
+            return answer;
+        }
+        console.log(solution38("ULURRDLLU")); // 7;
+
+        // 40. 스킬트리
+        function solution39(skill, skill_trees) {
+            let answer = 0;
+            for (const skills of skill_trees) {
+                let s = skill.split("");
+                let flag = 1;
+                for (const a of skills) {
+                    if (s.includes(a)) {
+                        if (s.shift() !== a) {
+                            flag = 0;
+                            break;
+                        }
+                    }
+                }
+
+                if (flag) answer++;
+            }
+            return answer;
+        }
+        let skill_trees = ["BACDE", "CBADF", "AECB", "BDA"];
+        console.log(solution39("CBD", skill_trees)); // 2;
     </script>
 </body>
 
