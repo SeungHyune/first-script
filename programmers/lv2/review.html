@@ -869,16 +869,24 @@
 
         // 41. 전화번호 목록
         function solution40(phone_book) {
-
-            // 효율성 테스트(3,4 실패)
             let answer = true;
-            for (let i = 0; i < phone_book.length; i++) {
-                const phone = phone_book[i];
-                for (let j = 0; j < phone_book.length; j++) {
-                    const phones = phone_book[j];
-                    if (i !== j && phones.indexOf(phone) === 0) return false;
+            let map = new Map();
+
+            phone_book.sort((a, b) => {
+                if (Number(a) > Number(b)) return -1;
+                else return 1;
+            });
+
+            for (const a of phone_book) {
+                let str = "";
+                for (let i = 0; i < a.length; i++) {
+                    str += a[i];
+                    if (i < a.length - 1) map.set(str, 1);
                 }
+                if (map.has(str)) return false;
+                else map.set(str, 1);
             }
+
             return answer;
         }
         let phone_book = ["119", "97674223", "1195524421"];
