@@ -866,6 +866,41 @@
         }
         let skill_trees = ["BACDE", "CBADF", "AECB", "BDA"];
         console.log(solution39("CBD", skill_trees)); // 2;
+
+        // 41. 전화번호 목록
+        function solution40(phone_book) {
+
+            // 효율성 테스트(3,4 실패)
+            let answer = true;
+            for (let i = 0; i < phone_book.length; i++) {
+                const phone = phone_book[i];
+                for (let j = 0; j < phone_book.length; j++) {
+                    const phones = phone_book[j];
+                    if (i !== j && phones.indexOf(phone) === 0) return false;
+                }
+            }
+            return answer;
+        }
+        let phone_book = ["119", "97674223", "1195524421"];
+        console.log(solution40(phone_book)); // false;
+
+        // 43. 주식가격
+        function solution42(prices) {
+
+            // 효율성 테스트(2,3,4,5 실패)
+            let answer = [];
+            while (prices.length) {
+                let shift = prices.shift();
+                let L = 0;
+                for (let i = 0; i < prices.length; i++) {
+                    L++;
+                    if (shift > prices[i]) break;
+                }
+                answer.push(L)
+            }
+            return answer;
+        }
+        console.log(solution42([1, 2, 3, 2, 3])); // [4,3,1,1,0];
     </script>
 </body>
 
