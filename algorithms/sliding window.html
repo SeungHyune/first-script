@@ -1,0 +1,28 @@
+<script>
+    function solution(arr, k){
+        let windowSum = 0;
+        let maxSum = Number.MIN_SAFE_INTEGER;
+        
+        // Brute Force
+        // for(let i=0;i<arr.length-k;i++){
+        //     let sum = 0;
+        //     for(let j=i;j<i+k;j++){
+        //         sum += arr[j];
+        //     }
+        //     answer = Math.max(answer, sum);
+        // }
+
+        // sliding window
+        for(let i=0;i<arr.length;i++){
+            windowSum += arr[i];
+            if(i >= k - 1){
+                maxSum = Math.max(windowSum, maxSum);
+                windowSum -= arr[i - (k - 1)]
+            }
+        }
+
+        return maxSum;
+    }
+    let arr = [5,7,-1,14,3,12,1,4]
+    console.log(solution(arr, 3)); // 29;
+</script>
