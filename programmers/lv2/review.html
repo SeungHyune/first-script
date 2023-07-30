@@ -1017,7 +1017,7 @@
             answer.sort((a, b) => {
                 let A = Math.abs(a[0] - a[1]);
                 let B = Math.abs(b[0] - b[1]);
-                if (A === B) return a[0] - b[0]
+                if (A === B) return a[0] - b[0];
                 else return A - B
             })
 
@@ -1025,6 +1025,41 @@
         }
         let sequence = [1, 1, 1, 2, 3, 4, 5]
         console.log(solution46(sequence, 5)); // [6,6];
+
+        // 48. 뒤에 있는 큰 수 찾기
+        function solution47(numbers) {
+            let answer = Array.from({ length: numbers.length }, () => -1);
+            for (let i = 1; i < numbers.length; i++) {
+                let j = 1;
+                while (numbers[i - j] < numbers[i] && i - j >= 0) {
+                    if (answer[i - j] === -1) {
+                        answer[i - j] = numbers[i];
+                    }
+                    j++
+                }
+            }
+            return answer;
+        }
+        console.log(solution47([9, 1, 5, 3, 6, 2])); // [-1,5,6,6,-1,-1];
+
+        // 49. 2개 이하로 다른 비트
+        function solution48(numbers) {
+            let answer = [];
+            for (let i = 0; i < numbers.length; i++) {
+                let binary = numbers[i].toString(2);
+                let num = 0;
+                for (let j = binary.length - 1; j >= 0; j--) {
+                    if (binary[j] === '0') {
+                        break;
+                    }
+                    if (binary[j] === '1') num++;
+                }
+                if (num === 0) num = 1;
+                answer.push(numbers[i] + (2 ** (num - 1)))
+            }
+            return answer;
+        }
+        console.log(solution48([2, 7])); // [3,11];
     </script>
 </body>
 
