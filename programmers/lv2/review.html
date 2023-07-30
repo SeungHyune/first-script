@@ -1060,6 +1060,52 @@
             return answer;
         }
         console.log(solution48([2, 7])); // [3,11];
+
+        // 50. 숫자 변환하기
+        function solution49(x, y, n) {
+            let answer = -1;
+            if (x === y) return 0;
+            let dy = Array.from({ length: y + 1 }, () => 1000000);
+            dy[y] = 0;
+            let queue = [y];
+            while (queue.length) {
+                let s = queue.shift();
+                for (let ns of [s - n, s / 2, s / 3]) {
+                    if (ns === x) return dy[s] + 1;
+                    if (1 <= ns && Number.isInteger(ns)) {
+                        queue.push(ns);
+                        dy[ns] = Math.min(dy[ns], dy[s] + 1);
+                    }
+                }
+            }
+            return answer;
+        }
+        console.log(solution49(10, 40, 5)); // 2;
+
+        // 51. 다리를 지나는 트럭
+        function solution50(bridge_length, weight, truck_weights) {
+            let answer = 0;
+            let stack = [];
+            let time = [];
+            while (stack.length || truck_weights.length) {
+                if (time[0] >= bridge_length) {
+                    time.shift();
+                    stack.shift();
+                }
+                let truck = truck_weights.length > 0 ? truck_weights.shift() : null;
+                let sum = stack.reduce((prev, cur) => prev + cur, 0);
+
+                if (sum + truck <= weight && truck !== null) {
+                    stack.push(truck);
+                    time.push(0);
+                } else if (truck !== null) truck_weights.unshift(truck);
+
+                answer++;
+                time = time.map(v => v + 1);
+            }
+            return answer;
+        }
+        console.log(solution50(2, 10, [7, 4, 5, 6])); // 8;
     </script>
 </body>
 
