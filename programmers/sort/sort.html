@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - sort</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        // 가장 큰 수
+        function solution(numbers) {
+            let answer = [];
+            numbers = numbers.map(v => v + '');
+            numbers.sort((a, b) => {
+                return (b + a) - (a + b);
+            });
+            if (numbers[0] === '0') return '0';
+            return numbers.join("");
+        }
+        console.log(solution([3, 30, 34, 5, 9])); // "9534330";
+
+        // K번째수
+        function solution1(array, commands) {
+            let answer = [];
+            for (let i = 0; i < commands.length; i++) {
+                let arr = array.slice(commands[i][0] - 1, commands[i][1]).sort((a, b) => a - b);
+                answer.push(arr[commands[i][2] - 1])
+            }
+            return answer;
+        }
+        let array = [1, 5, 2, 6, 3, 7, 4];
+        let commands = [[2, 5, 3], [4, 4, 1], [1, 7, 3]];
+        console.log(solution1(array, commands)); // [5,6,3];
+
+        // H-Index
+        function solution2(citations) {
+            let answer = 0;
+            for (let i = 1; i <= citations.length; i++) {
+                let cnt = 0;
+                for (const a of citations) {
+                    if (i <= a) cnt++;
+                }
+
+                if (cnt >= i) answer = i;
+            }
+            return answer;
+        }
+        let citations = [3, 0, 6, 1, 5];
+        console.log(solution2(citations)); // 3;
+    </script>
+</body>
+
+</html>
