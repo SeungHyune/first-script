@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>programmers - Stack Queue</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        // 같은 숫자는 싫어
+        function solution(arr) {
+            let answer = [];
+            let stack = [];
+            for (const a of arr) {
+                if (stack[0] !== a) {
+                    answer.push(a);
+                    stack[0] = a;
+                }
+            }
+            return answer;
+        }
+        console.log(solution([1, 1, 3, 3, 0, 1, 1])); // [1,3,0,1];
+
+        // 기능 개발
+        function solution1(progresses, speeds) {
+            let answer = [];
+            while (speeds.length) {
+                for (let i = 0; i < speeds.length; i++) {
+                    progresses[i] += speeds[i];
+                }
+
+                let shift = progresses.shift();
+                let shift2 = speeds.shift();
+                let count = 0;
+                while (shift >= 100) {
+                    count++;
+                    shift = progresses.shift();
+                    shift2 = speeds.shift();
+                }
+                if (shift < 100) {
+                    progresses.unshift(shift);
+                    speeds.unshift(shift2);
+                }
+
+                if (count > 0) answer.push(count);
+            }
+            return answer;
+        }
+        let progresses = [95, 90, 99, 99, 80, 99];
+        let speeds = [1, 1, 1, 1, 1, 1];
+        console.log(solution1(progresses, speeds)); // [2,1];
+
+        // 올바른 괄호
+        function solution2(s) {
+            let answer = true;
+            let stack = [];
+            for (const a of s) {
+                if (a === '(') stack.push(a);
+                else {
+                    if (stack.length === 0) return false;
+                    stack.pop();
+                }
+            }
+            if (stack.length > 0) return false;
+            return answer;
+        }
+        console.log(solution2("(())()")); // true;
+
+        // 괄호 회전하기
+        function solution3(s) {
+            let answer = 0;
+            s = s.split("")
+            for (let i = 0; i < s.length; i++) {
+                let shift = s.shift();
+                s.push(shift);
+
+                let stack = [];
+                let flag = 1;
+                for (const a of s) {
+                    if (a === '(' || a === '{' || a === '[') stack.push(a);
+                    else {
+                        let pop = stack.pop();
+                        if (pop === undefined) {
+                            flag = 0;
+                            break;
+                        }
+                        if ((a === ')' && pop !== '(') || (a === '}' && pop !== '{') || (a === ']' && pop !== '[')) {
+                            flag = 0;
+                            break;
+                        }
+                    }
+                }
+
+                if (stack.length === 0 && flag) answer++;
+            }
+            return answer;
+        }
+        console.log(solution3("}]()[{")); // 2;
+
+        // 다리를 지나는 트럭
+        function solution4(bridge_length, weight, truck_weights) {
+            let answer = 0;
+            let stack = [];
+            let arr = [];
+            while (truck_weights.length || stack.length) {
+                if (arr[0] >= bridge_length) {
+                    stack.shift();
+                    arr.shift();
+                }
+
+                let truck = truck_weights.length === 0 ? null : truck_weights.shift();
+                let sum = stack.reduce((prev, cur) => prev + cur, 0);
+                if (truck + sum <= weight && stack.length <= bridge_length && truck !== null) {
+                    stack.push(truck);
+                    arr.push(0);
+                } else if (truck !== null) truck_weights.unshift(truck);
+
+                arr = arr.map(v => v + 1);
+                answer++;
+            }
+            return answer;
+        }
+        console.log(solution4(100, 100, [10, 10, 10, 10, 10, 10, 10, 10, 10, 10])); // 110;
+
+        // 주식가격
+        function solution5(prices) {
+            let answer = [...prices];
+            let map = new Map();
+            for (let i = 0; i < prices.length; i++) {
+                map.set(i, prices[i]);
+                for (let [key, val] of map) {
+                    if (prices[i] < val) {
+                        answer[key] = i - key;
+                        map.delete(key);
+                    }
+
+                    if (i === prices.length - 1) {
+                        answer[key] = i - key;
+                        map.delete(key);
+                    }
+                }
+            }
+            return answer;
+        }
+        console.log(solution5([1, 2, 3, 2, 3])); // [4,3,1,1,0];
+
+        // 프로세스
+        function solution6(priorities, location) {
+            let arr = [];
+            for (let i = 0; i < priorities.length; i++) {
+                arr.push([String.fromCharCode(i + 65), i]);
+            }
+
+            let find = arr[location][0];
+            let count = 1;
+            while (arr.length) {
+                let a1 = arr.shift();
+                let p1 = priorities.shift();
+                let max = Math.max(...priorities);
+                if (p1 < max) {
+                    arr.push(a1);
+                    priorities.push(p1);
+                    let a2 = arr.shift();
+                    let p2 = priorities.shift();
+                    while (p2 !== max) {
+                        arr.push(a2);
+                        priorities.push(p2);
+                        a2 = arr.shift();
+                        p2 = priorities.shift();
+                    }
+
+                    a1 = [...a2];
+                    p1 = p2;
+                }
+
+                if (find === a1[0]) return count;
+                count++;
+            }
+        }
+        let priorities = [1, 1, 9, 1, 1, 1];
+        console.log(solution6(priorities, 0)); // 5;
+    </script>
+</body>
+
+</html>
