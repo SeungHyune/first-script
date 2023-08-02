@@ -1,0 +1,96 @@
+<script>
+    class MaxHeap {
+        arr = [];
+
+        #reHeapUp(index){
+            if(index > 0){
+                const parentIndex = Math.floor((index - 1) / 2);
+                if(this.arr[parentIndex] < this.arr[index]){
+                    const temp = this.arr[index];
+                    this.arr[index] = this.arr[parentIndex];
+                    this.arr[parentIndex] = temp;
+                    this.#reHeapUp(parentIndex);
+                }
+            }
+        }
+
+        #reHeapDown(index){
+            let left = (index * 2) + 1;
+            if(left < this.arr.length){
+                let right = (index * 2) + 2;
+                let big = (this.arr[left] || 0) < (this.arr[right] || 0) ? right : left;
+                if(this.arr[big] > this.arr[index]){
+                    const temp = this.arr[index];
+                    this.arr[index] = this.arr[big];
+                    this.arr[big] = temp;
+                    this.#reHeapDown(big);
+                }
+            }
+        }
+
+        #heapify(index){
+            let left = (index * 2) + 1;
+            let right = (index * 2) + 2;
+            let big = (this.arr[left] || 0) > (this.arr[right] || 0) ? left : right;
+            if(this.arr[index] < this.arr[big]){
+                const temp = this.arr[index];
+                this.arr[index] = this.arr[big];
+                this.arr[big] = temp;
+            }
+        }
+
+        insert(value){
+            let index = this.arr.length;
+            this.arr[index] = value;
+            this.#reHeapUp(index);
+        }
+        search (value){
+            for(let i=0;i<this.arr.length;i++){
+                if(this.arr[i] === value) return i;
+            }
+            return null;
+        }
+        update(value, newValue){
+            let index = this.search(value);
+            if(index === null) return false;
+            this.arr[index] = newValue;
+            for(let i=Math.floor(this.arr.length / 2 - 1);i>=0;i--){
+                this.#heapify(i);
+            }
+        }
+        removeValue(value){
+            // 특정 값 삭제
+            const index = this.search(value);
+            if(index === null) return false;
+            this.arr.splice(index, 1);
+            for(let i=Math.floor(this.arr.length / 2 - 1);i>=0;i--){
+                this.#heapify(i);
+            }
+        }
+        remove(){
+            if(this.arr.length === 0) return false;
+            if(this.arr.length === 1) return this.arr.pop();
+
+            const root = this.arr[0];
+            this.arr[0] = this.arr.pop();
+            this.#reHeapDown(0);
+            return root;
+        }
+        sort(){
+            const sortedArray = [];
+            while(this.arr.length > 0){
+                sortedArray.push(this.arr.remove());
+            }
+        }
+    }
+
+    const heap = new MaxHeap();
+    heap.insert(8);
+    heap.insert(19);
+    heap.insert(23);
+    heap.insert(32);
+    heap.insert(45);
+    heap.insert(56);
+    heap.insert(78);
+    heap.removeValue(32);
+</script>
