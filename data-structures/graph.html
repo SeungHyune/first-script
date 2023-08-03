@@ -1,0 +1,52 @@
+<script>
+    class Graph {
+        vertices = [];
+        matrix = [];
+
+        insertVertex(name){
+            this.vertices.push(new Vertex(name));
+            this.matrix.push([]);
+        }
+
+        #searchVertex(name){
+            for(let i=0;i<this.vertices.length;i++){
+                if(this.vertices[i].name === name){
+                    return i
+                }
+            }
+            return null;
+        }
+
+        insertArc(from, to, value, capacity){
+            const fromV = this.#searchVertex(from);
+            const toV = this.#searchVertex(to);
+            if(fromV === null || toV === null){
+                throw '찾는 버택스가 없습니다.'
+            }
+            this.matrix[fromV][toV] = new Arc(value, capacity);
+        }
+    }
+
+    class Vertex {
+        constructor(name){
+            this.name = name;
+        }
+    }
+
+    class Arc {
+        constructor(value, capacity){
+            this.value = value;
+            this.capacity = capacity;
+        }
+    }
+
+    const graph = new Graph();
+    graph.insertVertex('a');
+    graph.insertVertex('b');
+    graph.insertVertex('c');
+    graph.insertArc('a','b',3);
+    graph.insertArc('a','c',2);
+    graph.insertArc('c','a',4);
+    graph.insertArc('b','c',1);
+    console.log(graph)
+</script>
