@@ -1,0 +1,36 @@
+<script>
+    // 체육복
+    function solution(n, lost, reserve) {
+        let answer = Array.from({length:n+1}, ()=>true);
+
+        for(const a of lost){
+            answer[a] = false;
+        }
+        reserve.sort((a,b)=>a-b);
+
+        for(const a of reserve){
+            if(answer[a] === false) answer[a] = true;
+            else {
+                if(reserve.includes(a+2) && answer[a-1] === false && answer[a+1] === false) answer[a-1] = true;
+                else if(answer[a+1] === false && !reserve.includes(a+1)) answer[a+1] = true;
+                else if(answer[a-1] === false) answer[a-1] = true;
+            }
+        }
+
+        return answer.filter(v => v).length-1;
+    }
+    console.log(solution(5,[2,4],[1,3,5])); // 5;
+
+    // 구명보트
+    function solution1(people, limit) {
+        let answer = 0;
+        people.sort((a,b)=>a-b);
+        let lt = 0;
+        for(let rt=people.length-1;rt>=lt;rt--){
+            if(people[lt]+people[rt] <= limit) lt++;
+            answer++;
+        }
+        return answer;
+    }
+    console.log(solution1([70,80,50],100)); // 3;
+</script>
