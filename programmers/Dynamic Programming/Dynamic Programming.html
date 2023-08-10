@@ -1,0 +1,18 @@
+<script>
+    // 정수 삼각형
+    function solution(triangle) {
+        let dy = triangle.map(v => [...v]);
+        for (let i = 0; i < triangle.length - 1; i++) {
+            for (let j = 0; j < triangle[i].length; j++) {
+                let cur = dy[i][j]
+                let left = triangle[i + 1][j];
+                let right = triangle[i + 1][j + 1];
+                if (dy[i + 1][j] < cur + left) dy[i + 1][j] = cur + left;
+                if (dy[i + 1][j + 1] < cur + right) dy[i + 1][j + 1] = cur + right;
+            }
+        }
+        return Math.max(...dy[dy.length - 1])
+    }
+    let triangle = [[7], [3, 8], [8, 1, 0], [2, 7, 4, 4], [4, 5, 2, 6, 5]];
+    console.log(solution(triangle)); // 30;
+</script>
