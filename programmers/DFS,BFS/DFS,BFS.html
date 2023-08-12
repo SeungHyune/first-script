@@ -124,4 +124,36 @@
     let target = "cog";
     let words = ["hot", "dot", "dog", "lot", "log", "cog"];
     console.log(solution3(begin, target, words)); // 4;
+
+    // 여행경로
+    function solution4(tickets) {
+        let answer = [];
+        let n = tickets.length;
+        let ch = Array.from({ length: n }, () => 0)
+        let queue = [];
+        queue.push(['', 'ICN', 0, [...ch], ['ICN']]);
+        while (queue.length) {
+            let [x, y, s, c, a] = queue.shift();
+            let arr = [...a];
+            if (s === n) answer.push(a);
+            for (let i = 0; i < tickets.length; i++) {
+                let ch = [...c];
+                if (y === tickets[i][0] && ch[i] === 0) {
+                    ch[i] = 1;
+                    queue.push([y, tickets[i][1], s + 1, [...ch], [...arr, tickets[i][1]]]);
+                }
+            }
+        }
+        answer.sort((a, b) => {
+            let i = 1;
+            while (a[i] === b[i] && (a[i] !== undefined || b[i] !== undefined)) {
+                i++;
+            }
+            if (a[i] < b[i]) return -1
+            else return 1;
+        })
+        return answer[0];
+    }
+    let tickets = [["ICN", "SFO"], ["ICN", "ATL"], ["SFO", "ATL"], ["ATL", "ICN"], ["ATL", "SFO"]];
+    console.log(solution4(tickets)); // ["ICN", "ATL", "ICN", "SFO", "ATL", "SFO"]
 </script>
