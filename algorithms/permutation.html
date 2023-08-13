@@ -1,0 +1,24 @@
+<script>
+    // permutation
+    function permutation(arr){
+        const answer = [];
+        let n = arr.length;
+
+        // DFS
+        function dfs(s, array){
+            if(s === n){
+                return answer.push([...array]);
+            } else {
+                for(let i=s;i<n;i++){
+                    [arr[s], arr[i]] = [arr[i], arr[s]];
+                    dfs(s+1, arr);
+                    [arr[s], arr[i]] = [arr[i], arr[s]];
+                }
+            }
+        }
+        dfs(0, arr);
+        return answer;
+    }
+    console.log(permutation(['a','b','c']));
+
+</script>
