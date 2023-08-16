@@ -1144,65 +1144,100 @@
         console.log(solution51([4, 3, 1, 2, 5])); // 2;
 
         // 53. 가장 큰 수
-        function solution52(numbers){
+        function solution52(numbers) {
             numbers = numbers.map((v => v + ''));
-            numbers.sort((a,b) => (b+a) - (a+b));
-            if(Number(numbers.join("")) === 0) return "0";
+            numbers.sort((a, b) => (b + a) - (a + b));
+            if (Number(numbers.join("")) === 0) return "0";
             return numbers.join("");
         }
         console.log(solution52([3, 30, 34, 5, 9])); // "9534330";
 
         // 54. 소수 찾기
-        function solution53(numbers){
+        function solution53(numbers) {
             let answer = 0;
             let n = numbers.length;
-            let ch = Array.from({length:n},()=>0)
+            let ch = Array.from({ length: n }, () => 0)
             let arr = [];
-            function dfs(L,s){
-                if(L === n){
-                    if(s > 1) arr.push(Number(s));
+            function dfs(L, s) {
+                if (L === n) {
+                    if (s > 1) arr.push(Number(s));
                 } else {
-                    for(let i=0;i<n;i++){
-                        if(ch[i] === 0){
+                    for (let i = 0; i < n; i++) {
+                        if (ch[i] === 0) {
                             ch[i] = 1;
-                            dfs(L+1, s+numbers[i]);
-                            dfs(L+1, s);
+                            dfs(L + 1, s + numbers[i]);
+                            dfs(L + 1, s);
                             ch[i] = 0;
                         }
                     }
                 }
             }
-            dfs(0,'');
+            dfs(0, '');
             let set = [...new Set(arr)];
-            for(const a of set){
+            for (const a of set) {
                 let flag = 1;
-                for(let i=2;i<=Math.sqrt(a);i++){
-                    if(a % i === 0) {
+                for (let i = 2; i <= Math.sqrt(a); i++) {
+                    if (a % i === 0) {
                         flag = 0;
                         break;
                     }
                 }
-                if(flag) answer++;
+                if (flag) answer++;
             }
             return answer;
         }
         console.log(solution53("011")); // 2;
 
         // 55. 큰 수 만들기
-        function solution54(number, k){
+        function solution54(number, k) {
             let stack = [];
             let str = number.split("").reverse();
-            while(str.length && k > 0){
+            while (str.length && k > 0) {
                 stack.push(str.pop());
-                while(stack[stack.length - 1] < str[str.length-1] && k > 0){
+                while (stack[stack.length - 1] < str[str.length - 1] && k > 0) {
                     stack.pop();
-                    k-=1;
+                    k -= 1;
                 }
             }
-            if(k > 0) stack = stack.slice(0, -k);
+            if (k > 0) stack = stack.slice(0, -k);
             return stack.join("") + str.reverse().join("");
         }
-        console.log(solution54("4177252841",4)); // 775841;
+        console.log(solution54("4177252841", 4)); // 775841;
+
+        // 56. 무인도 여행
+        function solution55(maps) {
+            let answer = [];
+            maps = maps.map(v => v.split(""));
+            let n = maps.length;
+            let m = maps[0].length;
+            let nx = [-1, 0, 1, 0];
+            let ny = [0, 1, 0, -1];
+            let sum = 0;
+            function dfs(x, y) {
+                sum += Number(maps[x][y]);
+                maps[x][y] = 0;
+                for (let k = 0; k < 4; k++) {
+                    let dx = x + nx[k];
+                    let dy = y + ny[k];
+                    if (dx >= 0 && dx < n && dy >= 0 && dy < m && maps[dx][dy] > 0) {
+                        dfs(dx, dy);
+                    }
+                }
+            }
+
+            for (let i = 0; i < maps.length; i++) {
+                for (let j = 0; j < maps[i].length; j++) {
+                    if (maps[i][j] > 0) {
+                        dfs(i, j);
+                        if (sum > 0) answer.push(sum);
+                    }
+                    sum = 0;
+                }
+            }
+            if (answer.length === 0) return [-1];
+            return answer.sort((a, b) => a - b);
+        }
+        console.log(solution55(["X591X", "X1X5X", "X231X", "1XXX1"])); // [1,1,27];
     </script>
 </body>
 
