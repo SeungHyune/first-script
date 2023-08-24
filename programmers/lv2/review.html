@@ -1238,6 +1238,61 @@
             return answer.sort((a, b) => a - b);
         }
         console.log(solution55(["X591X", "X1X5X", "X231X", "1XXX1"])); // [1,1,27];
+
+        // 57. 모음 사전
+        function solution56(word) {
+            let arr = ["", "A", "E", "I", "O", "U"];
+            let result = [];
+            function dfs(L, s) {
+                if (L === 5) {
+                    result.push(s);
+                } else {
+                    for (let i = 0; i <= 5; i++) {
+                        dfs(L + 1, s + arr[i]);
+                    }
+                }
+            }
+            dfs(0, '');
+            let set = [...new Set(result.sort())];
+
+            return set.indexOf(word);
+        }
+        console.log(solution56("EIO")); // 1189;
+
+        // 58. 전력망을 둘로 나누기
+        function solution57(n, wires) {
+            let answer = n;
+            let m = wires.length;
+            let arr = Array.from({ length: n + 1 }, () => Array(m + 1).fill(0))
+            for (const a of wires) {
+                arr[a[0]][a[1]] = 1;
+                arr[a[1]][a[0]] = 1;
+            }
+
+            wires.forEach((wire, i) => {
+                let copy = arr.map(v => [...v]);
+                copy[wire[0]][wire[1]] = 0;
+                copy[wire[1]][wire[0]] = 0;
+                let queue = [...wires[(i + 1) % m]];
+                let result = [...wires[(i + 1) % m]];
+
+                while (queue.length) {
+                    let s = queue.shift();
+                    for (let k = 1; k <= n; k++) {
+                        if (copy[s][k] === 1) {
+                            queue.push(k);
+                            result.push(k);
+                            copy[s][k] = 0;
+                            copy[k][s] = 0;
+                        }
+                    }
+                }
+                let set = new Set(result);
+                answer = Math.min(answer, Math.abs(set.size - (n - set.size)));
+            });
+            return answer;
+        }
+        console.log(solution57(7, [[1, 2], [2, 7], [3, 7], [3, 4], [4, 5], [6, 7]])); // 1;
     </script>
 </body>
 
