@@ -80,4 +80,11 @@ calcList.addEventListener('click', (e) => {
 
     console.log('result:',result);
     console.log('arr:',resultArr);
+
+    console.log(calcText.clientWidth)
+    const fs = document.defaultView.getComputedStyle(calcText).getPropertyValue("font-size");
+    if(calcText.clientWidth > 280) {
+        calcText.style.fontSize = `${parseInt(fs) - 2}px`;
+    }
 });
+
