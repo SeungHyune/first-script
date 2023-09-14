@@ -289,3 +289,161 @@ function isKoreaFood(food){
 }
 
 console.log(isKoreaFood('불고기'));
+
+let isKoreanFood = (food) => {
+  if(food === "불고기" || food === "비빔밥" || food === "김치") {
+    return true;
+  }
+  return false;
+}
+
+const food1 = isKoreanFood("불고기");
+const food2 = isKoreanFood("파스타");
+
+console.log(food1); // true;
+console.log(food2); // false;
+
+let isKoreanFood2 = (food) => {
+  if(["불고기", "비빔밥", "김치"].includes(food)) {
+    return true;
+  }
+  return false;
+}
+
+const food3 = isKoreanFood2("불고기");
+const food4 = isKoreanFood2();
+
+console.log(food3); // true;
+console.log(food4); // false; 
+
+const getMeal = (mealType) => {
+  if (mealType === "한식") return "불고기";
+  if (mealType === "중식") return "마라탕";
+  if (mealType === "일식") return "초밥";
+  if (mealType === "양식") return "파스타";
+  return "다른 나라 요리";
+}
+
+const meal1 = getMeal("한식");
+const meal2 = getMeal("일식");
+
+console.log(meal1); // 불고기;
+console.log(meal2); // 초밥;
+
+const meal = {
+  한식: "불고기",
+  중식: "마라탕",
+  일식: "초밥",
+  양식: "파스타",
+  인도식: "카레"
+};
+
+const getMeal2 = (mealType) => {
+  return meal[mealType] || "다른 나라 요리";
+};
+
+console.log(getMeal2("한식")); // 불고기;
+console.log(getMeal2()); // 다른 나라 요리;
+
+// 배열 비구조화 할당
+// const arr = ['one', 'two', 'three'];
+// const one = arr[0];
+// const two = arr[1];
+// const three = arr[2];
+
+// default 값 설정 가능 , 순서에 따른 비구조화 할당이 적용 된다.
+// const [one, two, three, four = 'four'] = ['one', 'two', 'three'];
+// console.log(one, two, three, four);
+
+
+// 값 swap
+let a1 = 10;
+let b1 = 20;
+[a1, b1] = [b1, a1];
+console.log('a1', a1, 'b1', b1);
+
+// 객체 비구조화 할당
+// 배열과 마찬가지로 default 값 설정 가능
+// key 값에 따른 비구조화 할당이 적용 된다. (object의 key값과 동일해야 함)
+// key 값도 변경 가능하다.
+
+let {one1, two1, three1} = { one1: 'one', two1: 'two', three1: 'three' }
+console.log(one1, two1, three1);
+
+// Spread 연산자
+const cookie = {
+  base: "cookie",
+  madeIn: "korea"
+};
+
+const chocochipCookie = {
+  ...cookie,
+  toping: "chocochip"
+}
+
+const blueberryCookie = {
+  base: "cookie",
+  madeIn: "korea",
+  toping: "bluebreey"
+}
+
+const strawberryCookie = {
+  ...cookie,
+  toping: "strawberry"
+}
+
+console.log(chocochipCookie);
+console.log(blueberryCookie);
+console.log(strawberryCookie);
+
+const food5 = ["치킨", "피자", "햄버거"];
+const food6 = ["김치찌개", "부대찌개", "된장찌개"];
+
+// food1 + food2 합치는 방법 (concat 메서드와 Spread 사용가능)
+console.log(food5.concat(food6));
+const allFoods = [...food5,"비빔밥", ...food6]; // 중간에 값 추가하기 유연함
+console.log(allFoods);
+
+
+// 동기 & 비동기
+function taskA(a, b, cb) {
+  setTimeout(() => {
+    const res = a + b;
+    cb(res);
+  }, 3000);
+}
+
+function taskB(a, cb) {
+  setTimeout(() => {
+    const res = a * 2;
+    cb(res);
+  }, 1000);
+}
+
+function taskC(a, cb) {
+  setTimeout(() => {
+    const res = a * -1;
+    cb(res);
+  }, 2000);
+}
+
+// taskA(3, 4, (res) => {
+//   console.log("A TASK RESULT : ", res);
+// });
+// taskB(7, (res) => {
+//   console.log("B TASK RESULT : ", res);
+// });
+// taskC(14, (res) => {
+//   console.log("C TASK RESULT : ", res);
+// });
+
+taskA(3, 4, (res) => {
+  console.log(`A TASK RESULT : ${res}`);
+  taskB(res, (res) => {
+    console.log(`B TASK RESULT : ${res}`);
+    taskC(res, (res) => {
+      console.log(`C TASK RESULT : ${res}`);
+    })
+  })
+});
+console.log("코드 끝");
