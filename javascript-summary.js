@@ -404,28 +404,47 @@ console.log(food5.concat(food6));
 const allFoods = [...food5,"비빔밥", ...food6]; // 중간에 값 추가하기 유연함
 console.log(allFoods);
 
-
-// 동기 & 비동기
-function taskA(a, b, cb) {
-  setTimeout(() => {
-    const res = a + b;
-    cb(res);
-  }, 3000);
+// Promise
+function taskA(a, b) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const res = a + b;
+      resolve(res);
+    }, 3000);
+  });
 }
 
-function taskB(a, cb) {
-  setTimeout(() => {
-    const res = a * 2;
-    cb(res);
-  }, 1000);
+function taskB(a) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const res = a * 2;
+      resolve(res);
+    }, 1000);
+  });
 }
 
-function taskC(a, cb) {
-  setTimeout(() => {
-    const res = a * -1;
-    cb(res);
-  }, 2000);
+function taskC(a) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const res = a * -1;
+      resolve(res);
+    }, 2000);
+  });
 }
+
+// const result = taskA(3,4);
+// const taskAResult = result.then(a_res => {
+//   console.log(a_res);
+//   return taskB(a_res);
+// });
+
+// console.log(taskAResult); 
+// taskAResult.then(b_res => {
+//   console.log(b_res);
+//   return taskC(b_res);
+// }).then(c_res => {
+//   console.log(c_res);
+// }); 
 
 // taskA(3, 4, (res) => {
 //   console.log("A TASK RESULT : ", res);
@@ -437,13 +456,68 @@ function taskC(a, cb) {
 //   console.log("C TASK RESULT : ", res);
 // });
 
-taskA(3, 4, (res) => {
-  console.log(`A TASK RESULT : ${res}`);
-  taskB(res, (res) => {
-    console.log(`B TASK RESULT : ${res}`);
-    taskC(res, (res) => {
-      console.log(`C TASK RESULT : ${res}`);
-    })
+// taskA(3, 4, (res) => {
+//   console.log(`A TASK RESULT : ${res}`);
+//   taskB(res, (res) => {
+//     console.log(`B TASK RESULT : ${res}`);
+//     taskC(res, (res) => {
+//       console.log(`C TASK RESULT : ${res}`);
+//     })
+//   })
+// });
+// console.log("코드 끝");
+
+// function isPositive(number){
+//   const executor = (resolve, reject) => {
+//       setTimeout(() => {
+//       if(typeof number === "number") {
+//         // 성공 -> resolve
+//         resolve(number >= 0 ? "양수" : "음수");
+//       } else {
+//         // 실패 -> reject
+//         reject("숫자가 아닙니다");
+//       }
+//     }, 2000);
+//   };
+
+//   const asyncTask = new Promise(executor);
+//   return asyncTask
+// }
+
+// const result = isPositive([]);
+// result.then(res => {
+//   console.log(res);
+// }).catch(err => {
+//   console.log(err);
+// });
+
+// await
+
+function delay(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
   })
+}
+
+async function helloAsync() {
+  await delay(3000);
+  return "hello async";
+}
+
+async function main() {
+  const res = await helloAsync();
+  console.log(res);
+}
+
+main();
+
+// API & fetch
+async function getDate() {
+  let getRes = await fetch("https://jsonplaceholder.typicode.com/posts");
+  let jsonRes = await getRes.json();
+  return jsonRes;
+}
+
+getDate().then(res => {
+  console.log(res);
 });
-console.log("코드 끝");
