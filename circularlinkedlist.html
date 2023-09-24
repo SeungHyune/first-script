@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>day03 - Linked List</title>
+</head>
+<body>
+    <script>
+        class Node {
+            constructor(value) {
+                this.value = value;
+                this.next = null;
+                this.prev = null;
+            }
+        }
+
+        class CircularLinkedList {
+            constructor() {
+                this.head = null;
+                this.tail = null;
+            }
+
+            append(value) {
+                let newNode = new Node(value);
+
+                // head Node 존재유무 체크
+                if(!this.head) {
+                    // 없다면 생성한 노드를 head, tail로 설정
+                    this.head = newNode;
+                    this.tail = newNode;
+                } else {
+                    this.tail.next = newNode;
+                    newNode.prev = this.tail;
+                    this.tail = newNode;
+
+                    // head, tail 연결;
+                    this.tail.next = this.head;
+                    this.head.prev = this.tail;
+                }
+
+                return value;
+            }
+
+            size() {
+                let currNode = this.head;
+                let count = 0;
+                while(currNode) {
+                    count++;
+                    if(currNode === this.tail) return count;
+                    currNode = currNode.next;
+                }
+                return count;
+            }
+
+            find(value) {
+                let currNode = this.head;
+                while(currNode && currNode.value !== value) {
+                    if(currNode.next !== this.head) {
+                        currNode = currNode.next;
+                    } else {
+                        console.log('찾는 결과를 조회할 수 없습니다.')
+                        return;
+                    }
+                }
+                return currNode;
+            }
+
+            findIndex(value) {
+                let currNode = this.head;
+                let index = 0;
+                while(currNode && currNode.value !== value) {
+                    if(currNode.next !== this.head) {
+                        currNode = currNode.next;
+                        index++;
+                    } else {
+                        console.log('찾는 결과를 조회할 수 없습니다.')
+                        return -1;
+                    }
+                }
+                return index;
+            }
+
+            remove(value) {
+                let currNode = this.head;
+                // 노드가 하나 인 경우
+                if(currNode && currNode === this.tail && currNode.value === value) {
+                    this.head = null;
+                    this.tail = null;
+                    return currNode;
+                }
+
+                while(currNode && currNode.value !== value) {
+                    if(currNode.next === this.head) {
+                        return '제거할 값이 없습니다.';
+                    }
+                    currNode = currNode.next;
+                }
+
+                // 제거할 값이 없는 경우 체크
+                if(!currNode) return '제거할 값이 없습니다.';
+
+                // currNode head, tail 체크해보기
+                if(currNode === this.head) {
+                    // head 인지 체크
+                    this.head = currNode.next;
+                    if(this.head !== this.tail) {
+                        // 변경한 head 값이 tail 값이 아니라면
+                        this.head.prev = this.tail;
+                        this.tail.next = this.head;
+                    } else {
+                        // 변경한 head와 tail이 같다면 (값은 현재 하나 있다는 소리이니..next, prev 제거)
+                        this.head.next = null;
+                        this.head.prev = null;
+                    }
+                } else if(currNode === this.tail) {
+                    // tail 인지 체크
+                    this.tail = currNode.prev;
+                    if(this.tail !== this.head) {
+                        this.tail.next = this.head;
+                        this.head.prev = this.tail;
+                    } else {
+                        this.tail.next = null;
+                        this.tail.prev = null;
+                    }
+                } else {
+                    // head, tail 아닌 경우 & length 3 이상
+                    currNode.prev.next = currNode.next;
+                    currNode.next.prev = currNode.prev;
+                }
+            }
+
+            insert(node, newValue) {
+                let currNode = this.head;
+                let newNode = new Node(newValue);
+                if(!node) {
+                    console.log('없는 node 입니다.');
+                    return;
+                }
+                while(node && node.value !== currNode.value) {
+                    if(currNode.next === this.head) {
+                        return console.log('없는 node 입니다.');
+                    };
+                    currNode = currNode.next;
+                }
+                
+                if(currNode) {
+                    if(currNode === this.head && currNode === this.tail) {
+                        this.tail = newNode;
+                        this.tail.prev = currNode;
+                        this.tail.next = this.head;
+                        currNode.next = newNode;
+                        this.head.prev = this.tail;
+                    } else {
+                        newNode.next = currNode.next;
+                        newNode.prev = currNode;
+                        currNode.next.prev = newNode;
+                        currNode.next = newNode;
+                        if(currNode === this.tail) {
+                            this.tail = newNode;
+                        }
+                    }
+                }
+            }
+
+            display() {
+                let currNode = this.head;
+                let list = '[';
+
+                while(currNode) {
+                    list += `${currNode.value}, `;
+                    if(currNode.next === this.head) {
+                        list = list.substr(0, list.length - 2);
+                        list += ']';
+                        return list;
+                    }
+                    currNode = currNode.next;
+                }
+            }
+        }
+
+        const LinkedList = new CircularLinkedList();
+        LinkedList.append(1);
+        LinkedList.append(5);
+        LinkedList.append(7);
+        // LinkedList.append(10);
+        // LinkedList.append(14);
+        // console.log(LinkedList.find(11));
+        // console.log(LinkedList.findIndex(1));
+        // console.log(LinkedList.size());
+        // console.log(LinkedList.remove(3));
+        // console.log(LinkedList.remove(1));
+        LinkedList.remove(5);
+        console.log(LinkedList.insert(LinkedList.find(1), 5));
+        console.log(LinkedList);
+        console.log(LinkedList.display());
+        console.log(LinkedList.size());
+    </script>
+</body>
+</html>
