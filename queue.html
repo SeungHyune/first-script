@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>day04. Queue</title>
+</head>
+<body>
+    <script>
+        // Linear Queue
+        // array로 구현
+        class Queue {
+            constructor() {
+                this.queue = [];
+                this.front = 0;
+                this.rear = 0;
+            }
+
+            enqueue(value) {
+                this.queue[this.rear++] = value;
+            }
+
+            dequeue() {
+                const value = this.queue[this.front];
+                delete this.queue[this.front++]
+                return value;
+            }
+
+            peek() {
+                return this.queue[this.front];
+            }
+
+            size() {
+                return this.rear - this.front;
+            }
+        }
+
+        const queue = new Queue();
+        queue.enqueue(1);
+        queue.enqueue(3);
+        queue.enqueue(5);
+        console.log(queue.dequeue()); // 1
+        console.log(queue.dequeue()); // 3
+        console.log(queue);
+        console.log(queue.size()); // 1
+
+
+        /**/
+        console.clear();
+
+        // Linked List로 구현
+        class Node {
+            constructor(value) {
+                this.next = null;
+                this.value = value;
+            }
+        }
+
+        class LinkedListQueue {
+            constructor() {
+                this.head = null;
+                this.tail = null;
+                this.size = 0;
+            }
+
+            enqueue(value) {
+                const newNode = new Node(value);
+                if(!this.head) {
+                    this.head = newNode;
+                    this.tail = newNode;
+                } else {
+                    this.tail.next = newNode;
+                    this.tail = newNode;
+                }
+                this.size++;
+            }
+
+            dequeue() {
+                const value = this.head.value;
+                this.head =this.head.next;
+                this.size--;
+                return value;
+            }
+
+            peek() {
+                return this.head.value;
+            }
+        }
+
+        const LQueue = new LinkedListQueue();
+        LQueue.enqueue(1);
+        LQueue.enqueue(3);
+        LQueue.enqueue(5);
+        console.log(LQueue.dequeue());
+        console.log(LQueue.size);
+        console.log(LQueue.peek());
+        console.log(LQueue);
+
+        // circular Linked List
+        class CircularQueue {
+            constructor(maxSize) {
+                this.maxSize = maxSize;                
+                this.queue = [];
+                this.front = 0;
+                this.rear = 0;
+                this.size = 0;
+            }
+
+            enqueue(value) {
+                if(this.isFull()) {
+                    console.log('Queue if Full');
+                    return;
+                }
+                this.queue[this.rear] = value;
+                this.rear = (this.rear + 1) % this.maxSize
+                this.size += 1;
+            }
+
+            dequeue() {
+                const value = this.queue[this.front];
+                delete this.queue[this.front];
+                this.front = (this.front + 1) % this.maxSize;
+                this.size -= 1;
+                return value;
+            }
+
+            isFull() {
+                return this.size === this.maxSize;
+            }
+
+            peek() {
+                return this.queue[this.front];
+            }
+        }
+        const cqueue = new CircularQueue();
+    </script>
+</body>
+</html>
