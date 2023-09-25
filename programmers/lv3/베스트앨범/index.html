@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lv3. 베스트앨범</title>
+</head>
+<body>
+    <script>
+        // 최초 풀이법
+        //1. 가장 많이 재생된 장르를 먼저 수록한다. 
+        //2. 각 장르를 Hash Key 값으로 설정 후 play 수를 합산하여 저장한다.(이후 재생 순 장르로 정렬한다.)
+        //3. 장르(Key) 별로 [play 수, 고유 번호(index)]를 해당하는 Key에 배열로 저장한다.
+        //4. 가장 많이 재생된 장르 순으로 정렬 된 map을 for문으로 [key,value] 형태로 순회하며 key값으로 map2를 저장한다. map2.get(key) 값을 각 장르 별 play 순으로 sort() 한 후, 장르 별로 최대 2곡씩 answer 배열 고유 번호(index)를 push한다.
+        function solution(genres, plays) {
+            let answer = [];
+            let map = new Map();
+            let map2 = new Map();
+            for(let i=0;i<plays.length;i++) {
+                let cd = genres[i];
+                if(map.has(cd)) {
+                    map.set(cd, map.get(cd) + plays[i]);
+                    let value = map2.get(cd);
+                    value.push([plays[i], i]);
+                    map2.set(cd, value);
+                } else {
+                    map.set(cd, plays[i]);
+                    map2.set(cd, [[plays[i], i]])
+                }
+            }
+            
+            let mapArr = Array.from(map).sort((a,b) => b[1] - a[1]);
+            
+            for(let [key,value] of mapArr) {
+                let sorted = map2.get(key).sort((a,b)=>b[0] - a[0]);
+                let count = 0;
+                while(count < 2 && sorted[count]) {
+                    answer.push(sorted[count][1]);
+                    count++;
+                }
+            }
+            
+            return answer;
+        }
+
+        // 수정 풀이법 (강의 참고)
+        // 1. 같은 장르끼리 묶기
+        // 2. 묶인 노래들을 재생 순으로 정렬을 한다.
+        // 3. 노래를 2개까지는 자르는 작업을 한다.
+        function solution(genres, plays) {
+            const genreMap = new Map();
+            genres.map((genre, index) => [genre, plays[index]])
+                        .forEach(([genre,play], index) => {
+                        const data = genreMap.get(genre) || { total: 0, songs: [] };
+                        genreMap.set(genre,{
+                            total : data.total + play,
+                            songs: [...data.songs, {play, index}]
+                            .sort((a,b) => b.play - a.play)
+                            .slice(0,2)
+                        }
+                )
+            })
+
+            return [...genreMap.entries()]
+            .sort((a,b) => b[1].total - a[1].total)
+            .flatMap(item => item[1].songs)
+            .map(song => song.index)
+        }
+    </script>
+</body>
+</html>
