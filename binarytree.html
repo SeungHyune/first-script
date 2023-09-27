@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이진 트리 (Linked List)</title>
+</head>
+<body>
+    <script>
+        class Queue {
+            constructor() {
+                this.queue = [];
+                this.front = 0;
+                this.rear = 0;
+                this.size = 0;
+            }
+
+            enqueue(newVlaue) {
+                this.queue[this.front++] = newValue;
+                this.size++;
+            }
+
+            dequeue() {
+                const value = this.queue[this.front];
+                delete this.queue[this.front];
+                this.front += 1;
+                this.size--;
+                return value;
+            }
+
+            isEmpty() {
+                return this.front === this.rear;
+            }
+        }
+
+        class Node {
+            constructor(value) {
+                this.value = value;
+                this.right = null;
+                this.left = null;
+            }
+        }
+
+        class Tree {
+            constructor(node) {
+                this.root = node;
+            }
+
+            display() {
+                const queue = new Queue();
+                queue.enqueue(this.root);
+                while(queue.size) {
+                    const currentNode = queue.dequeue();
+                    console.log(currentNode.value);
+                    if(currentNode.left) queue.enqueue(currentNode.left);
+                    if(currentNode.right) queue.enqueue(currentNode.right);
+                }
+            }
+        }
+
+        const tree = new Tree(new Node(9));
+        tree.root.left = new Node(3);
+        tree.root.right = new Node(8);
+        tree.root.left.left = new Node(2);
+        tree.root.left.right = new Node(5);
+        tree.root.right.right = new Node(7);
+        tree.root.left.right.right = new Node(4);
+        console.log(tree);
+    </script>
+</body>
+</html>
