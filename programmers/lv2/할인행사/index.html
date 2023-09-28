@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lv2. 할인 행사</title>
+</head>
+<body>
+    <script>
+        // 최초 풀이법
+        //1. 10일 동안 연속으로 일치할 경우를 따지면 되기 때문에 (discount.length - 10) + 1(인덱스 0부터 시작하여) 만큼만 반복문을 순회하면 된다고 판단하고 변수 n에 저장하였습니다.
+        //2. 저는 Map을 만들어 구입해야하는 과일과 과일 수를 미리 저장하였습니다.
+        //3. 반복문을 통해 0 ≤ n과 같을때까지 반복하여 순회하도록 반복문을 사용하였습니다. (여기서 ≤ 로 표현한 이유는 length는 1부터 세기 때문입니다.)
+        //4. 그렇게 반복할때마다 기존에 만들어둔 Map을 복사하여 복사된 Map 데이터에 순회하는 discount[j] 값이 있으면 기존 데이터 - 1 처리 했습니다.
+        //5. 순회를 완료한 후 배열로 변환해주었고, filter로 모든 과일의 수가 0보다 작거나 같은 과일의 수와 찾아야하는 과일의 종류의 수가 맞으면 answer에 += 1 처리해주며 문제를 풀어봤습니다.
+        function solution(want, number, discount) {
+            let answer = 0;
+            let n = discount.length - 10;
+            let map = new Map();
+            want.forEach((fruit, index) => map.set(fruit, number[index]));
+            
+            for(let i=0;i<=n;i++) {
+                let fruitMap = new Map(map);
+                for(let j=i;j<i+10;j++) {
+                    let fruit = discount[j];
+                    if(fruitMap.has(fruit)) {
+                        fruitMap.set(fruit, fruitMap.get(fruit) - 1)
+                    }
+                }
+                let arr = [...fruitMap];
+                if(arr.filter(item => item[1] <= 0).length 
+                === number.length) {
+                    answer++;
+                }
+            }
+            return answer;
+        }
+        let want = ["banana", "apple", "rice", "pork", "pot"];
+        let number = [3, 2, 2, 2, 1];
+        let discount = ["chicken", "apple", "apple", "banana", "rice", "apple", "pork", "banana", "pork", "rice", "pot", "banana", "apple", "banana"];
+        console.log(solution(want, number, discount));
+    </script>
+</body>
+</html>
