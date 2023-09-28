@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lv2. 더 맵게</title>
+</head>
+<body>
+    <script>
+        class MinHeap {
+            constructor() {
+                this.heap = [null];
+            }
+            
+            push(value){
+                this.heap.push(value);
+                
+                let currentIndex = this.heap.length - 1;
+                let parentIndex = Math.floor(currentIndex / 2);
+                while(parentIndex !== 0 && value < this.heap[parentIndex]) {
+                    const temp = this.heap[parentIndex];
+                    this.heap[parentIndex] = this.heap[currentIndex];
+                    this.heap[currentIndex] = temp;
+                    currentIndex = parentIndex;
+                    parentIndex = Math.floor(currentIndex / 2);
+                }
+            }
+            
+            pop() {
+                const value = this.heap[1];
+                if(this.heap.length === 2) return this.heap.pop();
+                this.heap[1] = this.heap.pop();
+                
+                let currentIndex = 1;
+                let leftChild = 2;
+                let rightChild = 3;
+                while(this.heap[currentIndex] > this.heap[leftChild] ||
+                    this.heap[currentIndex] > this.heap[rightChild]) {
+                    const temp = this.heap[currentIndex];
+                    if(this.heap[leftChild] > this.heap[rightChild]) {
+                        this.heap[currentIndex] = this.heap[rightChild];
+                        this.heap[rightChild] = temp;
+                        currentIndex = rightChild;
+                    } else {
+                        this.heap[currentIndex] = this.heap[leftChild];
+                        this.heap[leftChild] = temp;
+                        currentIndex = leftChild;
+                    }
+                    
+                    leftChild = currentIndex * 2;
+                    rightChild = currentIndex * 2 + 1;
+                }
+                return value;
+            }
+        }
+
+        function solution(scoville, K) {
+            let answer = 0;
+            const heap = new MinHeap();
+            for(const a of scoville) {
+                heap.push(a);
+            }
+            let pop = 0;
+            while(heap.heap[1] < K) {
+                let pop1 = heap.pop();
+                let pop2 = heap.pop();
+                pop = pop1 + (pop2 * 2);
+                heap.push(pop);
+                answer++;
+                if(heap.heap.length === 2) break;
+            }
+            return heap.heap[1] < K ? -1 : answer;
+        }
+        console.log(solution([1,2,3,9,10,12],7)); // 2
+        console.log(solution([1,1,1,1],9)); // 3
+        console.log(solution([1,1,1,1,1],10000)); // -1
+    </script>
+</body>
+</html>
