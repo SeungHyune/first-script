@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lv3. 여행경로</title>
+</head>
+<body>
+    <script>
+        // 최초 풀이법
+        //1. 출발 경로가 ICN인 tickets 배열의 요소들을 queue에 담기 (담을 때 담긴 경로는 ch 배열에 체크)
+        //2. 반복문을 통해 queue를 shift하여 해당 경로의 도착 지점과 출발지가 같은 배열을 obj에 추가하여 다시 푸쉬 (매 순회마다 체크 되어 있지 않은 배열만 찾기)
+        //3. 모든 경로를 방문한 경우 answer에 푸쉬
+        //4. 갈 수 있는 경로가 같은 경우 알파벳 순서가 앞서는 경로로 이동해야 하기 때문에 담은 answer 배열을 오름차순으로 정렬
+        //5. 정렬 된 answer[0]을 리턴
+        function solution(tickets) {
+            let answer = [];
+            let queue = [];
+            for(let i=0;i<tickets.length;i++) {
+                const ch = Array.from(Array(tickets.length), ()=>0);
+                if(tickets[i][0] === 'ICN') {
+                    ch[i] = 1;
+                    let obj = {ticket:[...tickets[i]], ch};
+                    queue.push(obj)
+                }
+            }
+            
+            while(queue.length) {
+                let start = queue.shift();
+                for(let i=0;i<tickets.length;i++) {
+                    if(start.ticket[start.ticket.length - 1] === tickets[i][0] 
+                    && start.ch[i] === 0) {
+                        let chh = [...start.ch];
+                        chh[i] = 1;
+                        let obj = {ticket:[...start.ticket, tickets[i][1]], ch: chh}
+                        queue.push(obj);
+                    }
+                }
+                if(start.ch.filter(item => item === 1).length === tickets.length) {
+                answer.push(start.ticket); 
+                }
+            }
+            answer.sort();
+            return answer[0];
+        }
+
+        
+        // 수정 풀이법
+        function solution(tickets) {
+            // 인접 리스트로 그래프를 구성합니다.
+            const graph = {}
+            for (const [src, dest] of tickets) {
+                if (graph[src] === undefined) {
+                    graph[src] = [];
+                }
+                graph[src].push(dest);
+            }
+            
+            for (const key in graph) {
+                // 역순으로 문자열들을 정렬합니다.
+                graph[key].sort((a, b) => a > b ? -1 : 1);
+            }
+            
+            const stack = ['ICN']; // DFS를 위한 스택
+            const answer = []; // 경로를 저장하기 위한 리스트
+            while (stack.length > 0) { // DFS 시작
+                const src = stack[stack.length - 1]; // Top 요소를 확인합니다.
+                
+                // 갈 수 있는 경로가 있다면
+                if (graph[src] && graph[src].length > 0) {
+                    // 갈 수 있는 경로 중 알파벳 순으로 앞선 것을 먼저 방문합니다.
+                    // 역순으로 정렬했기에 pop을 하면 알파벳 순입니다.
+                    stack.push(graph[src].pop());
+                } else { // 더 이상 갈 수 있는 경로가 없다면
+                    // 경로를 추가합니다.
+                    answer.push(stack.pop());
+                }
+            }
+            
+            // 스택 결과를 넣은 것이기 때문에 역순으로 결과를 반환합니다.
+            return answer.reverse();
+        }
+    </script>
+</body>
+</html>
