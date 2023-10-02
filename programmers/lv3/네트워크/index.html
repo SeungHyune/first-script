@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lv3. 네트워크</title>
+</head>
+<body>
+    <script>
+        // 문제 풀이
+        // 1. ch 배열을 만들어 연결된 네트워크들을 모두 1로 체크하였습니다.
+        // 2. computers 배열을 순회하며 1로 네트워크가 연결되어 있는 값들의 computers[i]로 들어가 1인 값들을 계속해서 탐색하여 모두 ch[i]에 1로 체크하여 하나의 네트워크로 만들었습니다.
+        // 3. 아직 ch[i] 값이 0(연결되지 않은 네트워크) && computers 값이 1인 네트워크들을 계속해서 돌며 모두 체크 될 때까지 순회했습니다.
+        // 4. 매 순회마다 answer(네트워크 수)를 += 1 해주어 네트워크 개수를 파악하였고, ch 값이 모두 체크되면 자동으로 while문을 나오도록 조건을 설정해두었습니다.
+        // 5. 반복문이 끝나면 네트워크 망 개수를 리턴해주었습니다.
+        function solution(n, computers) {
+            let answer = 0;
+            let ch = Array.from(Array(n), ()=>0);
+            for(let i=0;i<computers.length;i++) {
+                for(let j=0;j<computers[i].length;j++) {
+                    if(ch[i] === 0) {
+                        answer++;
+                        ch[i] = 1;
+                        let stack = [i];
+                        while(stack.length){
+                            let shift = stack.shift();
+                            for(let k=0;k<computers[shift].length;k++) {
+                                if(computers[shift][k] === 1 && ch[k] === 0) {
+                                    ch[k] = 1;
+                                    stack.push(k);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return answer;
+        }
+        const computers = [[1,1,0],[1,1,1],[0,1,1]]; // 1
+        console.log(solution(3,computers))
+    </script>
+</body>
+</html>
